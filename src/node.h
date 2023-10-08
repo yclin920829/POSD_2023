@@ -7,19 +7,20 @@ using namespace std;
 
 class Node {
 public:
+
     virtual string name() const = 0;
     
     virtual string path() const = 0;
     
-    void add(Node * node);
+    virtual void add(Node * node) {};
 
-    void remove(string path);
+    virtual void remove(string path) {};
     
-    Node * getChildByName(const char * name) const;
+    virtual Node * getChildByName(const char * name) const { return nullptr; };
 
-    Node * find(string path);
+    virtual Node * find(string path) { return nullptr; };
 
-    int numberOfFiles() const;
+    virtual int numberOfFiles() const { return 0; };
     
     // Iterator * createIterator();
 };
