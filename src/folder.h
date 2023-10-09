@@ -3,6 +3,8 @@
 
 #pragma once 
 #include "./node.h"
+#include "./iterator.h"
+#include "./null_iterator.h"
 
 #include <string>
 #include <vector>
@@ -12,11 +14,9 @@
 using namespace std;
 
 class Folder: public Node {
+    friend class FolderIterator;
 public:
-    Folder(string path):_path(path){
-        _nodes = new vector<Node *>();
-
-    };
+    Folder(string path):_path(path){};
 
     string name() const override{
         return _path.substr(_path.find_last_of("/") + 1);
@@ -27,18 +27,18 @@ public:
     };
 
     void add(Node * node) override{
-        _nodes->push_back(node);
+        _nodes.push_back(node);
     };
 
     void remove(string path) override{
-        auto it = remove_if(_nodes->begin(), _nodes->end(), [&](Node* node) {
+        auto it = remove_if(_nodes.begin(), _nodes.end(), [&](Node* node) {
             return node->path() == path;
         });
-        _nodes->erase(it, _nodes->end());
+        _nodes.erase(it, _nodes.end());
     }
 
     Node * getChildByName(const char * name) const override{
-        for (auto node: *_nodes){
+        for (auto node: _nodes){
             if (node->name() == name){
                 return node;
             }
@@ -47,7 +47,7 @@ public:
     };
 
     Node * find(string path) override{
-        for (auto node: *_nodes){
+        for (auto node: _nodes){
             if (node->path() == path){
                 return node;
             }
@@ -57,7 +57,7 @@ public:
 
     int numberOfFiles() const override{
         int count = 0;
-        for (auto node: *_nodes){
+        for (auto node: _nodes){
             if (typeid(*node) == typeid(Folder)){
                 count += node->numberOfFiles();
             }else{
@@ -67,9 +67,18 @@ public:
         return count;
     };
 
-private: 
-    string _path;
-    vector<Node *>* _nodes;
+    Iterator * createIterator() override{
+        if (typeid(*this) == typeid(Folder)){
+            return new FolderIterator(this);
+        }else
+        {
+            return new NullIterator();
+        }
+    };
+
+    private: 
+        string _path;
+        vector<Node *> _nodes;
 
 };
 

@@ -3,6 +3,7 @@
 
 #pragma once 
 #include "./node.h"
+#include "./null_iterator.h"
 
 using namespace std;
 
@@ -21,7 +22,11 @@ public:
     string path() const override{
         return _path;
     };
-    
+
+    Iterator * createIterator() override{
+        return new NullIterator();
+    };
+  
 };
 
 #endif // FILE_H

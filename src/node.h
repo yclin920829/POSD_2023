@@ -2,6 +2,7 @@
 #define NODE_H
 
 #include<string>
+#include "./iterator.h"
 
 using namespace std;
 
@@ -22,8 +23,10 @@ public:
 
     virtual int numberOfFiles() const { return 0; };
     
-    // Iterator * createIterator();
+    // virtual Iterator * createIterator() { return nullptr; };
+    virtual Iterator * createIterator() = 0;
 };
 
 
 #endif // NODE_H
+
