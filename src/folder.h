@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 #include <typeinfo>
-
+#include <algorithm>
 
 using namespace std;
 
