@@ -50,6 +50,11 @@ public:
         for (auto node: _nodes){
             if (node->path() == path){
                 return node;
+            }else if (typeid(*node) == typeid(Folder)){
+                Node * result = node->find(path);
+                if (result != nullptr){
+                    return result;
+                }
             }
         }
         return nullptr;
