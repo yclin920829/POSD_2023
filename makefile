@@ -12,3 +12,9 @@ clean:
 
 dirs:
 	mkdir -p bin obj
+
+run: clean dirs clear bin/ut_all
+	./bin/ut_all
+
+clear:
+	clear

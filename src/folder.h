@@ -3,6 +3,7 @@
 
 #pragma once 
 #include "./node.h"
+#include "./file.h"
 #include "./iterator.h"
 #include "./null_iterator.h"
 
@@ -10,6 +11,7 @@
 #include <vector>
 #include <typeinfo>
 #include <algorithm>
+#include <iostream>
 
 using namespace std;
 
@@ -27,19 +29,28 @@ public:
     };
 
     void add(Node * node) override{
+        if (typeid(*node) == typeid(File)){
+            string folder = _path.substr(0, _path.find_last_of("/"));
+            if (folder != node->path().substr(0, node->path().find_last_of("/"))){
+                throw string("error");
+            }
+        }
         _nodes.push_back(node);
     };
 
     void remove(string path) override{
-        auto it = remove_if(_nodes.begin(), _nodes.end(), [&](Node* node) {
-            return node->path() == path;
-        });
-        _nodes.erase(it, _nodes.end());
+        for (auto it = _nodes.begin(); it != _nodes.end(); ++it){
+            if ((*it)->path() == path){
+                _nodes.erase(it);
+                break;
+            }
+        }
     }
 
     Node * getChildByName(const char * name) const override{
         for (auto node: _nodes){
             if (node->name() == name){
+                // cout << "found" << endl;
                 return node;
             }
         }
