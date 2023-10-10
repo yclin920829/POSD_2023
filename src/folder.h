@@ -29,16 +29,12 @@ public:
     };
 
     void add(Node * node) override{
-        // cout << "node->path(): " << node->path() << endl;
         string folder = node->path().substr(0, node->path().find_last_of("/"));
-        // cout << "folder: " << folder << endl;
-        // cout << "this->path(): " << this->path() << endl;
         if (folder != this->path()){
             throw string("error");
         }else{
             _nodes.push_back(node);
         }
-        // cout << "--------------------------\n";
     };
 
     void remove(string path) override{
@@ -59,7 +55,6 @@ public:
     Node * getChildByName(const char * name) const override{
         for (auto node: _nodes){
             if (node->name() == name){
-                // cout << "found" << endl;
                 return node;
             }
         }
@@ -108,6 +103,5 @@ public:
         vector<Node *> _nodes;
 
 };
-
 
 #endif // FOLDER

@@ -52,7 +52,6 @@ public:
 private:
     Node * _node;
     Iterator * it;
-    std::vector<Node *>::iterator _it;
     std::vector<Iterator *> _it_stack;
 };
 
@@ -93,7 +92,6 @@ public:
     bool isDone() const override{
         return it->isDone();
     };
-
 
 private:
     Node * _node;

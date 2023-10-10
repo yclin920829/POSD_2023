@@ -4,14 +4,14 @@ TEST(FileSuite, Ping) {
     ASSERT_TRUE(true);
 }
 
-TEST(FileSuite, File_name) {
+TEST(FileSuite, get_file_name) {
 
     File * file = new File("/Users/user/books/design-pattern.pdf");
 
     ASSERT_EQ("design-pattern.pdf", file->name());
 }
 
-TEST(FileSuite, File_Path) {
+TEST(FileSuite, get_file_Path) {
 
     File * file = new File("/Users/user/books/design-pattern.pdf");
 

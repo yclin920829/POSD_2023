@@ -27,6 +27,5 @@ public:
     virtual Iterator * createIterator() = 0;
 };
 
-
 #endif // NODE_H
 

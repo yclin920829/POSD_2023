@@ -33,5 +33,4 @@ private:
     std::vector<Node *>::iterator _it;
 };
 
-
 #endif // ITERATOR_H

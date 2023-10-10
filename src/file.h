@@ -15,7 +15,6 @@ public:
     File(string path):_path(path){};
 
     string name() const override{
-        // cout << "File name: " << _path.substr(_path.find_last_of("/") + 1) << endl;
         return _path.substr(_path.find_last_of("/") + 1);
     };
 
@@ -26,7 +25,7 @@ public:
     Iterator * createIterator() override{
         return new NullIterator();
     };
-  
+
 };
 
 #endif // FILE_H

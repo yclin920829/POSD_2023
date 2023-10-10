@@ -6,10 +6,13 @@
 class NullIterator : public Iterator {
 public:
     void first() override{};
+
     Node * currentItem() const override{
         return nullptr;
     };
+
     void next() override{};
+    
     bool isDone() const override{
         return true;
     };

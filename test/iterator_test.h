@@ -9,7 +9,7 @@ TEST(IteratorSuite, Ping) {
     ASSERT_TRUE(true);
 }
 
-TEST(IteratorSuite, FolderIterator01) {
+TEST(IteratorSuite, Basis_folderIterator_for_one_layer) {
     
     Folder * folder = new Folder("/Users/user/books");
     File * file01 = new File("/Users/user/books/001.pdf");
@@ -34,13 +34,12 @@ TEST(IteratorSuite, FolderIterator01) {
     delete it;
 }
 
-TEST(IteratorSuite, FolderIterator02) {
+TEST(IteratorSuite, Basis_folderIterator_for_multilayer) {
     
     Folder * folder01 = new Folder("/Users/user/folder01");
     Folder * folder02 = new Folder("/Users/user/folder01/folder02");
     Folder * folder03 = new Folder("/Users/user/folder01/folder02/folder03");
     Folder * folder04 = new Folder("/Users/user/folder01/folder02/folder04");
-
 
     File * file1_1 = new File("/Users/user/folder01/file1_1.pdf");
     File * file1_2 = new File("/Users/user/folder01/file1_2.pdf");
@@ -110,7 +109,6 @@ TEST(IteratorSuite, DFS_iterator) {
     Folder * folder03 = new Folder("/Users/user/folder01/folder02/folder03");
     Folder * folder04 = new Folder("/Users/user/folder01/folder02/folder04");
 
-
     File * file1_1 = new File("/Users/user/folder01/file1_1.pdf");
     File * file1_2 = new File("/Users/user/folder01/file1_2.pdf");
     File * file1_3 = new File("/Users/user/folder01/file1_3.pdf");
@@ -149,15 +147,6 @@ TEST(IteratorSuite, DFS_iterator) {
     ASSERT_EQ(11, folder01->numberOfFiles());
 
     Iterator* it = new DfsIterator(folder01);
-
-    // it->first();
-    // while (true)
-    // {
-    //     if (it->isDone())
-    //         break;
-    //     cout << "item: " << it->currentItem()->name() << endl;
-    //     it->next();
-    // }
 
     it->first();
     ASSERT_FALSE(it->isDone());
@@ -223,7 +212,6 @@ TEST(IteratorSuite, DFS_iterator) {
     ASSERT_TRUE(it->isDone());
 
     delete it;
-
 }
 
 TEST(IteratorSuite, BFS_iterator) {
@@ -232,7 +220,6 @@ TEST(IteratorSuite, BFS_iterator) {
     Folder * folder02 = new Folder("/Users/user/folder01/folder02");
     Folder * folder03 = new Folder("/Users/user/folder01/folder02/folder03");
     Folder * folder04 = new Folder("/Users/user/folder01/folder02/folder04");
-
 
     File * file1_1 = new File("/Users/user/folder01/file1_1.pdf");
     File * file1_2 = new File("/Users/user/folder01/file1_2.pdf");
@@ -272,15 +259,6 @@ TEST(IteratorSuite, BFS_iterator) {
     ASSERT_EQ(11, folder01->numberOfFiles());
 
     Iterator* it = new BfsIterator(folder01);
-
-    // it->first();
-    // while (true)
-    // {
-    //     if (it->isDone())
-    //         break;
-    //     cout << "item: " << it->currentItem()->name() << endl;
-    //     it->next();
-    // }
 
     it->first();
     ASSERT_FALSE(it->isDone());
@@ -346,7 +324,6 @@ TEST(IteratorSuite, BFS_iterator) {
     ASSERT_TRUE(it->isDone());
 
     delete it;
-
 }
 
 

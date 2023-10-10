@@ -15,7 +15,7 @@ TEST(FolderSuite, get_folder_path) {
     ASSERT_EQ("/Users/user/books", folder->path());
 }
 
-TEST(FolderSuite, add_file_to_folder) {
+TEST(FolderSuite, add_a_file) {
 
     Folder * folder = new Folder("/Users/user/books");
     File * file01 = new File("/Users/user/books/001.pdf");
@@ -58,7 +58,7 @@ TEST(FolderSuite, add_incorrect_path_file_to_folder) {
     ASSERT_EQ(file03, folder->find("/Users/user/books/003.pdf"));
 }
 
-TEST(FolderSuite, remove_file_from_folder) {
+TEST(FolderSuite, delete_a_file) {
 
     Folder * folder = new Folder("/Users/user/books");
     File * file01 = new File("/Users/user/books/001.pdf");
@@ -80,7 +80,7 @@ TEST(FolderSuite, remove_file_from_folder) {
     ASSERT_EQ(nullptr, folder->find("/Users/user/books/003.pdf"));
 }
 
-TEST(FolderSuite, delete_a_file) {
+TEST(FolderSuite, delete_a_file_TA) {
 
     Folder * folder = new Folder("/Users/user/books");
     File * file01 = new File("/Users/user/books/001.pdf");
@@ -107,7 +107,7 @@ TEST(FolderSuite, delete_a_file) {
     ASSERT_EQ(file04, folder->find("/Users/user/books/004.pdf"));
 }
 
-TEST(FolderSuite, delete_a_folder) {
+TEST(FolderSuite, delete_a_folder_TA) {
     Folder * folder01 = new Folder("/Users/user/books01");
     Folder * folder02 = new Folder("/Users/user/books01/books02");
     
@@ -144,7 +144,7 @@ TEST(FolderSuite, delete_a_folder) {
     ASSERT_EQ(nullptr, folder01->find("/Users/user/books01/books02/008.pdf"));
 }
 
-TEST(FolderSuite, delete_a_file_under_next_folder) {
+TEST(FolderSuite, delete_a_file_on_multilayer) {
 
     Folder * folder01 = new Folder("/Users/user/books01");
     Folder * folder02 = new Folder("/Users/user/books01/books02");
@@ -175,18 +175,17 @@ TEST(FolderSuite, delete_a_file_under_next_folder) {
 
     folder01->add(folder02);
 
-
     ASSERT_EQ(10, folder01->numberOfFiles());
     ASSERT_EQ(file03, folder01->getChildByName("003.pdf"));
 
     folder01 -> remove("/Users/user/books01/books02/008.pdf");
 
-    // ASSERT_EQ(9, folder01->numberOfFiles());
+    ASSERT_EQ(9, folder01->numberOfFiles());
     ASSERT_EQ(nullptr, folder02->getChildByName("008.pdf"));
     ASSERT_EQ(nullptr, folder01->find("/Users/user/books01/books02/008.pdf"));
 }
 
-TEST(FolderSuite, get_child_by_name) {
+TEST(FolderSuite, get_node_by_name) {
 
     Folder * folder = new Folder("/Users/user/books");
     File * file01 = new File("/Users/user/books/001.pdf");
@@ -205,7 +204,7 @@ TEST(FolderSuite, get_child_by_name) {
 
 }
 
-TEST(FolderSuite, find_path_one_layer_folder) {
+TEST(FolderSuite, find_node_by_path_for_one_layer) {
 
     Folder * folder01 = new Folder("/Users/user/books01");
     Folder * folder02 = new Folder("/Users/user/books01/books02");
@@ -239,10 +238,9 @@ TEST(FolderSuite, find_path_one_layer_folder) {
     ASSERT_EQ(file03, folder01->find("/Users/user/books01/003.pdf"));
     ASSERT_EQ(file08, folder01->find("/Users/user/books01/books02/008.pdf"));
     ASSERT_EQ(file06, folder01->find("/Users/user/books01/books02/006.pdf"));
-
 }
 
-TEST(FolderSuite, numbers_of_files_two_layer_folder) {
+TEST(FolderSuite, numbers_of_files_on_multilayer) {
 
     Folder * folder01 = new Folder("/Users/user/books01");
     Folder * folder02 = new Folder("/Users/user/books01/books02");
@@ -276,5 +274,4 @@ TEST(FolderSuite, numbers_of_files_two_layer_folder) {
     ASSERT_EQ(5, folder02->numberOfFiles());    
     ASSERT_EQ(5, folder02->numberOfFiles());
     ASSERT_EQ(10, folder01->numberOfFiles());
-    
 }
