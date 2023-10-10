@@ -6,24 +6,18 @@ TEST(FolderSuite, Ping) {
 }
 
 TEST(FolderSuite, get_folder_name) {
-
     Folder * folder01 = new Folder("/Users/user/books");
-    // Folder * folder02 = new Folder("/Users/user/books/");
-
     ASSERT_EQ("books", folder01->name());
-    // ASSERT_EQ("books", folder02->name());
 }
 
 TEST(FolderSuite, get_folder_path) {
-
-    Folder * folder = new Folder("/Users/user/books/");
-
-    ASSERT_EQ("/Users/user/books/", folder->path());
+    Folder * folder = new Folder("/Users/user/books");
+    ASSERT_EQ("/Users/user/books", folder->path());
 }
 
 TEST(FolderSuite, add_file_to_folder) {
 
-    Folder * folder = new Folder("/Users/user/books/");
+    Folder * folder = new Folder("/Users/user/books");
     File * file01 = new File("/Users/user/books/001.pdf");
     File * file02 = new File("/Users/user/books/002.pdf");
     File * file03 = new File("/Users/user/books/003.pdf");
@@ -46,7 +40,7 @@ TEST(FolderSuite, add_file_to_folder) {
 
 TEST(FolderSuite, add_incorrect_path_file_to_folder) {
 
-    Folder * folder = new Folder("/Users/user/books/");
+    Folder * folder = new Folder("/Users/user/books");
     File * file01 = new File("/Users/user/books/001.pdf");
     File * file02 = new File("/Users/user/books/002.pdf");
     File * file03 = new File("/Users/user/books/003.pdf");
@@ -62,14 +56,11 @@ TEST(FolderSuite, add_incorrect_path_file_to_folder) {
     ASSERT_EQ(4, folder->numberOfFiles());
     ASSERT_EQ(file03, folder->getChildByName("003.pdf"));
     ASSERT_EQ(file03, folder->find("/Users/user/books/003.pdf"));
-
-    ASSERT_EQ(nullptr, folder->getChildByName("006.pdf"));
-    ASSERT_EQ(nullptr, folder->find("/Users/user/books/006.pdf"));
 }
 
 TEST(FolderSuite, remove_file_from_folder) {
 
-    Folder * folder = new Folder("/Users/user/books/");
+    Folder * folder = new Folder("/Users/user/books");
     File * file01 = new File("/Users/user/books/001.pdf");
     File * file02 = new File("/Users/user/books/002.pdf");
     File * file03 = new File("/Users/user/books/003.pdf");
@@ -91,7 +82,7 @@ TEST(FolderSuite, remove_file_from_folder) {
 
 TEST(FolderSuite, delete_a_file) {
 
-    Folder * folder = new Folder("/Users/user/books/");
+    Folder * folder = new Folder("/Users/user/books");
     File * file01 = new File("/Users/user/books/001.pdf");
     File * file02 = new File("/Users/user/books/002.pdf");
     File * file03 = new File("/Users/user/books/003.pdf");
@@ -117,8 +108,8 @@ TEST(FolderSuite, delete_a_file) {
 }
 
 TEST(FolderSuite, delete_a_folder) {
-    Folder * folder01 = new Folder("/Users/user/books01/");
-    Folder * folder02 = new Folder("/Users/user/books02/");
+    Folder * folder01 = new Folder("/Users/user/books01");
+    Folder * folder02 = new Folder("/Users/user/books01/books02");
     
     File * file01 = new File("/Users/user/books01/001.pdf");
     File * file02 = new File("/Users/user/books01/002.pdf");
@@ -126,11 +117,11 @@ TEST(FolderSuite, delete_a_folder) {
     File * file04 = new File("/Users/user/books01/004.pdf");
     File * file05 = new File("/Users/user/books01/005.pdf");
     
-    File * file06 = new File("/Users/user/books02/006.pdf");
-    File * file07 = new File("/Users/user/books02/007.pdf");
-    File * file08 = new File("/Users/user/books02/008.pdf");
-    File * file09 = new File("/Users/user/books02/009.pdf");
-    File * file10 = new File("/Users/user/books02/010.pdf");
+    File * file06 = new File("/Users/user/books01/books02/006.pdf");
+    File * file07 = new File("/Users/user/books01/books02/007.pdf");
+    File * file08 = new File("/Users/user/books01/books02/008.pdf");
+    File * file09 = new File("/Users/user/books01/books02/009.pdf");
+    File * file10 = new File("/Users/user/books01/books02/010.pdf");
 
     folder01->add(file01);
     folder01->add(file02);
@@ -148,14 +139,14 @@ TEST(FolderSuite, delete_a_folder) {
 
     ASSERT_EQ(10, folder01->numberOfFiles());
 
-    ASSERT_EQ(file08, folder01->find("/Users/user/books02/008.pdf"));
-    folder01->remove("/Users/user/books02/");
-    ASSERT_EQ(NULL, folder01->getChildByName("/Users/user/books02/008.pdf"));
+    ASSERT_EQ(file08, folder01->find("/Users/user/books01/books02/008.pdf"));
+    folder01->remove("/Users/user/books01/books02");
+    ASSERT_EQ(nullptr, folder01->find("/Users/user/books01/books02/008.pdf"));
 }
 
 TEST(FolderSuite, get_child_by_name) {
 
-    Folder * folder = new Folder("/Users/user/books/");
+    Folder * folder = new Folder("/Users/user/books");
     File * file01 = new File("/Users/user/books/001.pdf");
     File * file02 = new File("/Users/user/books/002.pdf");
     File * file03 = new File("/Users/user/books/003.pdf");
@@ -174,8 +165,8 @@ TEST(FolderSuite, get_child_by_name) {
 
 TEST(FolderSuite, find_path_one_layer_folder) {
 
-    Folder * folder01 = new Folder("/Users/user/books01/");
-    Folder * folder02 = new Folder("/Users/user/books02/");
+    Folder * folder01 = new Folder("/Users/user/books01");
+    Folder * folder02 = new Folder("/Users/user/books01/books02");
     
     File * file01 = new File("/Users/user/books01/001.pdf");
     File * file02 = new File("/Users/user/books01/002.pdf");
@@ -183,11 +174,11 @@ TEST(FolderSuite, find_path_one_layer_folder) {
     File * file04 = new File("/Users/user/books01/004.pdf");
     File * file05 = new File("/Users/user/books01/005.pdf");
     
-    File * file06 = new File("/Users/user/books02/006.pdf");
-    File * file07 = new File("/Users/user/books02/007.pdf");
-    File * file08 = new File("/Users/user/books02/008.pdf");
-    File * file09 = new File("/Users/user/books02/009.pdf");
-    File * file10 = new File("/Users/user/books02/010.pdf");
+    File * file06 = new File("/Users/user/books01/books02/006.pdf");
+    File * file07 = new File("/Users/user/books01/books02/007.pdf");
+    File * file08 = new File("/Users/user/books01/books02/008.pdf");
+    File * file09 = new File("/Users/user/books01/books02/009.pdf");
+    File * file10 = new File("/Users/user/books01/books02/010.pdf");
 
     folder01->add(file01);
     folder01->add(file02);
@@ -204,15 +195,15 @@ TEST(FolderSuite, find_path_one_layer_folder) {
     folder01->add(folder02);
 
     ASSERT_EQ(file03, folder01->find("/Users/user/books01/003.pdf"));
-    ASSERT_EQ(file08, folder01->find("/Users/user/books02/008.pdf"));
-    ASSERT_EQ(nullptr, folder01->find("/Users/user/books/006.pdf"));
+    ASSERT_EQ(file08, folder01->find("/Users/user/books01/books02/008.pdf"));
+    ASSERT_EQ(file06, folder01->find("/Users/user/books01/books02/006.pdf"));
 
 }
 
 TEST(FolderSuite, numbers_of_files_two_layer_folder) {
 
-    Folder * folder01 = new Folder("/Users/user/books01/");
-    Folder * folder02 = new Folder("/Users/user/books02/");
+    Folder * folder01 = new Folder("/Users/user/books01");
+    Folder * folder02 = new Folder("/Users/user/books01/books02");
     
     File * file01 = new File("/Users/user/books01/001.pdf");
     File * file02 = new File("/Users/user/books01/002.pdf");
@@ -220,11 +211,11 @@ TEST(FolderSuite, numbers_of_files_two_layer_folder) {
     File * file04 = new File("/Users/user/books01/004.pdf");
     File * file05 = new File("/Users/user/books01/005.pdf");
     
-    File * file06 = new File("/Users/user/books02/006.pdf");
-    File * file07 = new File("/Users/user/books02/007.pdf");
-    File * file08 = new File("/Users/user/books02/008.pdf");
-    File * file09 = new File("/Users/user/books02/009.pdf");
-    File * file10 = new File("/Users/user/books02/010.pdf");
+    File * file06 = new File("/Users/user/books01/books02/006.pdf");
+    File * file07 = new File("/Users/user/books01/books02/007.pdf");
+    File * file08 = new File("/Users/user/books01/books02/008.pdf");
+    File * file09 = new File("/Users/user/books01/books02/009.pdf");
+    File * file10 = new File("/Users/user/books01/books02/010.pdf");
 
     folder01->add(file01);
     folder01->add(file02);

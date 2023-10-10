@@ -11,7 +11,7 @@ TEST(IteratorSuite, Ping) {
 
 TEST(IteratorSuite, FolderIterator01) {
     
-    Folder * folder = new Folder("/Users/user/books/");
+    Folder * folder = new Folder("/Users/user/books");
     File * file01 = new File("/Users/user/books/001.pdf");
     File * file02 = new File("/Users/user/books/002.pdf");
 
@@ -37,25 +37,26 @@ TEST(IteratorSuite, FolderIterator01) {
 TEST(IteratorSuite, FolderIterator02) {
     
     Folder * folder01 = new Folder("/Users/user/folder01");
-    Folder * folder02 = new Folder("/Users/user/folder02");
-    Folder * folder03 = new Folder("/Users/user/folder03");
-    Folder * folder04 = new Folder("/Users/user/folder04");
+    Folder * folder02 = new Folder("/Users/user/folder01/folder02");
+    Folder * folder03 = new Folder("/Users/user/folder01/folder02/folder03");
+    Folder * folder04 = new Folder("/Users/user/folder01/folder02/folder04");
+
 
     File * file1_1 = new File("/Users/user/folder01/file1_1.pdf");
     File * file1_2 = new File("/Users/user/folder01/file1_2.pdf");
-    File * file1_3 = new File("/Users/user/folder02/file1_3.pdf");
+    File * file1_3 = new File("/Users/user/folder01/file1_3.pdf");
 
-    File * file2_1 = new File("/Users/user/folder02/file2_1.pdf");
+    File * file2_1 = new File("/Users/user/folder01/folder02/file2_1.pdf");
 
-    File * file3_1 = new File("/Users/user/folder03/file3_1.pdf");
-    File * file3_2 = new File("/Users/user/folder03/file3_2.pdf");
-    File * file3_3 = new File("/Users/user/folder03/file3_3.pdf");
-    File * file3_4 = new File("/Users/user/folder03/file3_4.pdf");
+    File * file3_1 = new File("/Users/user/folder01/folder02/folder03/file3_1.pdf");
+    File * file3_2 = new File("/Users/user/folder01/folder02/folder03/file3_2.pdf");
+    File * file3_3 = new File("/Users/user/folder01/folder02/folder03/file3_3.pdf");
+    File * file3_4 = new File("/Users/user/folder01/folder02/folder03/file3_4.pdf");
 
-    File * file4_1 = new File("/Users/user/folder04/file4_1.pdf");
-    File * file4_2 = new File("/Users/user/folder04/file4_2.pdf");
-    File * file4_3 = new File("/Users/user/folder04/file4_3.pdf");
-    File * file4_4 = new File("/Users/user/folder04/file4_4.pdf");
+    File * file4_1 = new File("/Users/user/folder01/folder02/folder04/file4_1.pdf");
+    File * file4_2 = new File("/Users/user/folder01/folder02/folder04/file4_2.pdf");
+    File * file4_3 = new File("/Users/user/folder01/folder02/folder04/file4_3.pdf");
+    File * file4_4 = new File("/Users/user/folder01/folder02/folder04/file4_4.pdf");
 
     folder01->add(file1_1);
     folder01->add(file1_2);
@@ -105,25 +106,26 @@ TEST(IteratorSuite, FolderIterator02) {
 TEST(IteratorSuite, DFS_iterator) {
     
     Folder * folder01 = new Folder("/Users/user/folder01");
-    Folder * folder02 = new Folder("/Users/user/folder02");
-    Folder * folder03 = new Folder("/Users/user/folder03");
-    Folder * folder04 = new Folder("/Users/user/folder04");
+    Folder * folder02 = new Folder("/Users/user/folder01/folder02");
+    Folder * folder03 = new Folder("/Users/user/folder01/folder02/folder03");
+    Folder * folder04 = new Folder("/Users/user/folder01/folder02/folder04");
+
 
     File * file1_1 = new File("/Users/user/folder01/file1_1.pdf");
     File * file1_2 = new File("/Users/user/folder01/file1_2.pdf");
-    File * file1_3 = new File("/Users/user/folder02/file1_3.pdf");
+    File * file1_3 = new File("/Users/user/folder01/file1_3.pdf");
 
-    File * file2_1 = new File("/Users/user/folder02/file2_1.pdf");
+    File * file2_1 = new File("/Users/user/folder01/folder02/file2_1.pdf");
 
-    File * file3_1 = new File("/Users/user/folder03/file3_1.pdf");
-    File * file3_2 = new File("/Users/user/folder03/file3_2.pdf");
-    File * file3_3 = new File("/Users/user/folder03/file3_3.pdf");
-    Folder * folder05 = new Folder("/Users/user/folder05");
+    File * file3_1 = new File("/Users/user/folder01/folder02/folder03/file3_1.pdf");
+    File * file3_2 = new File("/Users/user/folder01/folder02/folder03/file3_2.pdf");
+    File * file3_3 = new File("/Users/user/folder01/folder02/folder03/file3_3.pdf");
+    Folder * folder05 = new Folder("/Users/user/folder01/folder02/folder03/folder05");
 
-    File * file4_1 = new File("/Users/user/folder04/file4_1.pdf");
-    File * file4_2 = new File("/Users/user/folder04/file4_2.pdf");
-    File * file4_3 = new File("/Users/user/folder04/file4_3.pdf");
-    File * file4_4 = new File("/Users/user/folder04/file4_4.pdf");
+    File * file4_1 = new File("/Users/user/folder01/folder02/folder04/file4_1.pdf");
+    File * file4_2 = new File("/Users/user/folder01/folder02/folder04/file4_2.pdf");
+    File * file4_3 = new File("/Users/user/folder01/folder02/folder04/file4_3.pdf");
+    File * file4_4 = new File("/Users/user/folder01/folder02/folder04/file4_4.pdf");
 
     folder01->add(file1_1);
     folder01->add(file1_2);
@@ -227,25 +229,26 @@ TEST(IteratorSuite, DFS_iterator) {
 TEST(IteratorSuite, BFS_iterator) {
     
     Folder * folder01 = new Folder("/Users/user/folder01");
-    Folder * folder02 = new Folder("/Users/user/folder02");
-    Folder * folder03 = new Folder("/Users/user/folder03");
-    Folder * folder04 = new Folder("/Users/user/folder04");
+    Folder * folder02 = new Folder("/Users/user/folder01/folder02");
+    Folder * folder03 = new Folder("/Users/user/folder01/folder02/folder03");
+    Folder * folder04 = new Folder("/Users/user/folder01/folder02/folder04");
+
 
     File * file1_1 = new File("/Users/user/folder01/file1_1.pdf");
     File * file1_2 = new File("/Users/user/folder01/file1_2.pdf");
-    File * file1_3 = new File("/Users/user/folder02/file1_3.pdf");
+    File * file1_3 = new File("/Users/user/folder01/file1_3.pdf");
 
-    File * file2_1 = new File("/Users/user/folder02/file2_1.pdf");
+    File * file2_1 = new File("/Users/user/folder01/folder02/file2_1.pdf");
 
-    File * file3_1 = new File("/Users/user/folder03/file3_1.pdf");
-    File * file3_2 = new File("/Users/user/folder03/file3_2.pdf");
-    File * file3_3 = new File("/Users/user/folder03/file3_3.pdf");
-    Folder * folder05 = new Folder("/Users/user/folder05");
+    File * file3_1 = new File("/Users/user/folder01/folder02/folder03/file3_1.pdf");
+    File * file3_2 = new File("/Users/user/folder01/folder02/folder03/file3_2.pdf");
+    File * file3_3 = new File("/Users/user/folder01/folder02/folder03/file3_3.pdf");
+    Folder * folder05 = new Folder("/Users/user/folder01/folder02/folder03/folder05");
 
-    File * file4_1 = new File("/Users/user/folder04/file4_1.pdf");
-    File * file4_2 = new File("/Users/user/folder04/file4_2.pdf");
-    File * file4_3 = new File("/Users/user/folder04/file4_3.pdf");
-    File * file4_4 = new File("/Users/user/folder04/file4_4.pdf");
+    File * file4_1 = new File("/Users/user/folder01/folder02/folder04/file4_1.pdf");
+    File * file4_2 = new File("/Users/user/folder01/folder02/folder04/file4_2.pdf");
+    File * file4_3 = new File("/Users/user/folder01/folder02/folder04/file4_3.pdf");
+    File * file4_4 = new File("/Users/user/folder01/folder02/folder04/file4_4.pdf");
 
     folder01->add(file1_1);
     folder01->add(file1_2);
