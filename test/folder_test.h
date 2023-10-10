@@ -144,6 +144,48 @@ TEST(FolderSuite, delete_a_folder) {
     ASSERT_EQ(nullptr, folder01->find("/Users/user/books01/books02/008.pdf"));
 }
 
+TEST(FolderSuite, delete_a_file_under_next_folder) {
+
+    Folder * folder01 = new Folder("/Users/user/books01");
+    Folder * folder02 = new Folder("/Users/user/books01/books02");
+    
+    File * file01 = new File("/Users/user/books01/001.pdf");
+    File * file02 = new File("/Users/user/books01/002.pdf");
+    File * file03 = new File("/Users/user/books01/003.pdf");
+    File * file04 = new File("/Users/user/books01/004.pdf");
+    File * file05 = new File("/Users/user/books01/005.pdf");
+    
+    File * file06 = new File("/Users/user/books01/books02/006.pdf");
+    File * file07 = new File("/Users/user/books01/books02/007.pdf");
+    File * file08 = new File("/Users/user/books01/books02/008.pdf");
+    File * file09 = new File("/Users/user/books01/books02/009.pdf");
+    File * file10 = new File("/Users/user/books01/books02/010.pdf");
+
+    folder01->add(file01);
+    folder01->add(file02);
+    folder01->add(file03);
+    folder01->add(file04);
+    folder01->add(file05);
+
+    folder02->add(file06);
+    folder02->add(file07);
+    folder02->add(file08);
+    folder02->add(file09);
+    folder02->add(file10);
+
+    folder01->add(folder02);
+
+
+    ASSERT_EQ(10, folder01->numberOfFiles());
+    ASSERT_EQ(file03, folder01->getChildByName("003.pdf"));
+
+    folder01 -> remove("/Users/user/books01/books02/008.pdf");
+
+    // ASSERT_EQ(9, folder01->numberOfFiles());
+    ASSERT_EQ(nullptr, folder02->getChildByName("008.pdf"));
+    ASSERT_EQ(nullptr, folder01->find("/Users/user/books01/books02/008.pdf"));
+}
+
 TEST(FolderSuite, get_child_by_name) {
 
     Folder * folder = new Folder("/Users/user/books");

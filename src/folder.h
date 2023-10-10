@@ -46,6 +46,12 @@ public:
             if ((*it)->path() == path){
                 _nodes.erase(it);
                 break;
+            }else
+            {
+                auto& r = **it;
+                if (typeid(r) == typeid(Folder)){
+                    (*it)->remove(path);
+                }
             }
         }
     }
