@@ -1,36 +1,33 @@
-#if !defined(ITERATOR_H)
-#define ITERATOR_H
-
 #pragma once 
 
 #include<list>
-#include<vector>
-
-#pragma once 
 
 class Node;
 class Folder;
 
 class Iterator {
 public:
-    virtual ~Iterator() = default;
-    virtual void first() = 0;
-    virtual Node * currentItem() const = 0;
-    virtual void next() = 0;
-    virtual bool isDone() const = 0;
+    virtual ~Iterator() {}
+    virtual void first() {}
+    virtual Node * currentItem() const {
+        return nullptr;
+    }
+    virtual void next() {}
+    virtual bool isDone() const {
+        return true;
+    }
 };
 
 class FolderIterator : public Iterator {
 public:
     FolderIterator(Folder* composite);
-    void first() override;
-    Node * currentItem() const override;
-    void next() override;
-    bool isDone() const override;
+    ~FolderIterator() {}
+    void first();
+    Node * currentItem() const;
+    void next();
+    bool isDone() const;
 
 private:
-    Folder * _folder;
-    std::vector<Node *>::iterator _it;
+    Folder* const _host;
+    std::list<Node *>::iterator _current;
 };
-
-#endif // ITERATOR_H

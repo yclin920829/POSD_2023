@@ -1,102 +1,91 @@
-#if !defined(DFS_ITERATOR_H)
-#define DFS_ITERATOR_H
+#pragma once
+
+#include <stack>
+#include <list>
 
 #include "iterator.h"
-#include "file.h"
-#include <iostream>
-#include <typeinfo>
-#include <queue>
-#include <vector>
-
-using namespace std;
 
 class DfsIterator: public Iterator {
 public:
-    DfsIterator(Node* composite) {
-        _node = composite;
-        it = _node->createIterator();
-    };
+    DfsIterator(Node* composite) : _root(composite) {}
 
-    void first() override {
-        it->first();
-    };
-
-    Node * currentItem() const override {
-        return it->currentItem();
-    };
-
-    void next() override{
-        auto& r = *it->currentItem();
-        if (typeid(r) != typeid(File)){
-            Iterator * child = it->currentItem()->createIterator();
-            _it_stack.push_back(it);
-            child->first();
-            it = child;
-        }else
-        {
-            it->next();
-        }        
-        while (it->isDone()){
-            if (_it_stack.empty())
-                break;
-            it = _it_stack.back();
-            _it_stack.pop_back();
-            it->next();
+    void first() {
+        while(!_stack.empty()){
+            _stack.pop();
         }
-    };
-    
-    bool isDone() const override{
-        return it->isDone();
-    };
 
+        _curr = _root;
+        _pushCurrIter();
+        next();
+    }
+
+    Node * currentItem() const {
+        return _curr;
+    }
+
+    void next() {
+        while(!_stack.empty() && _stack.top()->isDone()){
+            _stack.pop();
+        }
+        if(_stack.empty()){
+            return;
+        }
+        if(!_stack.top()->isDone()){
+            _curr = _stack.top()->currentItem();
+            _stack.top()->next();
+            _pushCurrIter();
+        }
+    }
+    
+    bool isDone() const {
+        return _stack.empty();
+    }
 private:
-    Node * _node;
-    Iterator * it;
-    std::vector<Iterator *> _it_stack;
+    Node * _root;
+    Node * _curr;
+    std::stack<Iterator *> _stack;
+
+    void _pushCurrIter() {
+        Iterator * it = _curr->createIterator();
+        it->first();
+        _stack.push(it);
+    }
 };
 
 class BfsIterator: public Iterator {
 public:
-    BfsIterator(Node* composite){
-        _node = composite;
-        it = _node->createIterator();
-    };
+    BfsIterator(Node* composite) : _root(composite) {}
 
-    void first() override {
-        it->first();
-    };
+    void first(){
+        if(!_nextLevel.empty())
+            _nextLevel.clear();
 
-    Node * currentItem() const override {
-        return it->currentItem();
-    };
+        _curr = _root;
+        _nextLevel.push_back(_curr);
+        next();
+    }
 
-    void next() override{
-        auto& r = *it->currentItem();
-        if (typeid(r) != typeid(File)){
-            Iterator * child = it->currentItem()->createIterator();
-            child->first();
-            _it_queue.push(child);
-            it->next();
-        }else
-        {
-            it->next();
-        }        
-        while (it->isDone()){
-            if (_it_queue.empty())
-                break;
-            it = _it_queue.front();
-            _it_queue.pop();
+    Node * currentItem() const {
+        return _curr;
+    }
+
+    void next() {
+        Iterator * it = _curr->createIterator();
+        for(it->first(); !it->isDone(); it->next()){
+            _nextLevel.push_back(it->currentItem());
         }
-    };
-    
-    bool isDone() const override{
-        return it->isDone();
-    };
 
+        _nextLevel.pop_front();
+        _curr = _nextLevel.front();
+        return;
+    }
+    
+    bool isDone() const {
+        return _nextLevel.empty();
+    }
 private:
-    Node * _node;
-    Iterator * it;
-    std::queue<Iterator *> _it_queue;
+    Node * _root;
+    Node * _curr;
+    std::list<Node *> _nextLevel;
 };
 
-#endif // DFS_ITERATOR_H

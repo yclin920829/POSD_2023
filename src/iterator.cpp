@@ -1,23 +1,21 @@
 #include "iterator.h"
 #include "folder.h"
-#include "file.h"
 
-#include <iostream>
-
-FolderIterator::FolderIterator(Folder * compound): _folder(compound) {}
+FolderIterator::FolderIterator(Folder* composite)
+    :_host(composite) {}
 
 void FolderIterator::first() {
-    _it = _folder->_nodes.begin();
-}
-
-bool FolderIterator::isDone() const {
-    return _it == _folder->_nodes.end();
+    _current = _host->_nodes.begin();
 }
 
 Node * FolderIterator::currentItem() const {
-    return *_it;
+    return *_current;
 }
 
 void FolderIterator::next() {
-    _it++;
+    _current++;
+}
+
+bool FolderIterator::isDone() const {
+    return _current == _host->_nodes.end();
 }

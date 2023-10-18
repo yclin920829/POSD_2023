@@ -1,31 +1,27 @@
-#if !defined(FILE_H)
-#define FILE_H
+#pragma once
 
-#pragma once 
-#include "./node.h"
-#include "./null_iterator.h"
-
-using namespace std;
+#include "node.h"
 
 class File: public Node {
-private:
-    string _path;
-
 public:
-    File(string path):_path(path){};
+    File(string path): Node(path) {}
 
-    string name() const override{
-        return _path.substr(_path.find_last_of("/") + 1);
-    };
+    int numberOfFiles() const {
+        return 1;
+    }
 
-    string path() const override{
-        return _path;
-    };
+    Node * find(string path) {
+        if (this->path() == path) {
+            return this;
+        }
+        return nullptr;
+    }
 
-    Iterator * createIterator() override{
-        return new NullIterator();
-    };
-
+    std::list<string> findByName(string name) override {
+        std::list<string> pathList;
+        if (this->name() == name) {
+            pathList.push_back(this->path());
+        }
+        return pathList;
+    }
 };
-
-#endif // FILE_H
