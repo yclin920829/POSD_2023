@@ -1,16 +1,19 @@
 #pragma once
 
+#include <string>
+#include <iostream>
+
 #include "node.h"
 
 class File: public Node {
 public:
     File(string path): Node(path) {}
 
-    int numberOfFiles() const {
+    int numberOfFiles() const override {
         return 1;
     }
 
-    Node * find(string path) {
+    Node * find(string path) override {
         if (this->path() == path) {
             return this;
         }
@@ -23,5 +26,10 @@ public:
             pathList.push_back(this->path());
         }
         return pathList;
+    }
+
+    void accept(Visitor * visitor) override {
+        // std::cout << "file accept to visit" << std::endl;
+        visitor->visitFile(this);
     }
 };
