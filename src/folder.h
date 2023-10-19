@@ -3,11 +3,11 @@
 #include <list>
 #include <string>
 #include <iostream>
+#include <sys/stat.h>
 
 #include "node.h"
 #include "iterator.h"
 #include "dfs_iterator.h"
-
 
 using namespace std;
 
@@ -43,10 +43,18 @@ protected:
     }
 
 public:
-    Folder(string path): Node(path) {}
+    Folder(string path): Node(path) {
+        struct stat sb;
+        stat(this->path().c_str(), &sb);
+        if (!S_ISDIR(sb.st_mode)) {
+            // cout << "Not a directory." << endl;
+            throw string("Not a directory.");
+        }
+    }
 
     void add(Node * node) override {
         if (node->path() != this->path() + "/" + node->name()) {
+            // cout << "Incorrect path of node: " << node -> path() << endl;
             throw string("Incorrect path of node: " + node -> path());
         }
         _nodes.push_back(node);

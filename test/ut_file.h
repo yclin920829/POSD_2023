@@ -15,5 +15,5 @@ TEST(File, invalid_file) {
 }
 
 TEST(File, invalid_file_2) {
-    ASSERT_ANY_THROW(File file03("./folder01/folder02/"));
+    ASSERT_ANY_THROW(File file03("./folder01/folder02"));
 }
