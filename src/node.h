@@ -69,14 +69,4 @@ public:
 
     virtual void accept(Visitor * visitor) = 0;
 
-    string type() const {
-        struct stat sb;
-        stat(this->path().c_str(), &sb);
-        if (S_ISDIR(sb.st_mode)) {
-            return "folder";
-        }else if (S_ISREG(sb.st_mode)) {
-            return "file";
-        }
-        return "";
-    }
 };

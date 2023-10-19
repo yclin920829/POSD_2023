@@ -9,8 +9,10 @@
 class File: public Node {
 public:
     File(string path): Node(path) {
-        if ( "file" != type()) {
-            // cout << "Not a directory." << endl;
+        struct stat sb;
+        stat(this->path().c_str(), &sb);
+        if (!S_ISREG(sb.st_mode)) {
+            // cout << "Not a file." << endl;
             throw string("Not a file.");
         }
     }

@@ -38,16 +38,19 @@ public:
         _it = folder->createIterator();
         for (_it->first(); !_it->isDone(); _it->next()) {
             // _result << _it->currentItem()->path() << "\n";
-            if (_it->currentItem()->type() == "file") {
+            struct stat sb;
+            stat(_it->currentItem()->path().c_str(), &sb);
+            if (S_ISREG(sb.st_mode)) {
                 _it->currentItem()->accept(this);
                 _result << "\n";
-            }else if (_it->currentItem()->type() == "folder")
-            {
+            }else{
                 StreamOutVisitor * streamOutVisitor = new StreamOutVisitor();
                 _it->currentItem()->accept(streamOutVisitor);
                 _result << streamOutVisitor->getResult();
+                // _it->currentItem()->accept(this);
             }
         }
+        
     };     
 
     string getResult() const {

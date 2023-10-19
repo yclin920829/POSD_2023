@@ -3,6 +3,7 @@
 #include <list>
 #include <string>
 #include <iostream>
+#include <sys/stat.h>
 
 #include "node.h"
 #include "iterator.h"
@@ -43,8 +44,10 @@ protected:
 
 public:
     Folder(string path): Node(path) {
-        if ( "folder" != type()) {
-            // cout << "Not a directory." << endl;
+        struct stat sb;
+        stat(this->path().c_str(), &sb);
+        if (!S_ISDIR(sb.st_mode)) {
+            // cout << "Not a folder." << endl;
             throw string("Not a folder.");
         }
     }
