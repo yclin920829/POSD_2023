@@ -1,5 +1,7 @@
 #pragma once 
 
+#include <gtest/gtest.h>
+
 #include "../src/node.h"
 #include "../src/file.h"
 #include "../src/folder.h"

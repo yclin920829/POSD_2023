@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <sys/stat.h>
 
 using namespace std;
 
@@ -34,17 +35,23 @@ public:
         // cout << "visitorStream had visited a folder" << endl;
         _path = folder->path();
 
-        _it = folder->dfsIterator();
+        _it = folder->createIterator();
         for (_it->first(); !_it->isDone(); _it->next()) {
-            // cout << "path: " << _it->currentItem()->path() << endl;
-            _it->currentItem()->accept(this);
+            // _result << _it->currentItem()->path() << "\n";
+            if (_it->currentItem()->type() == "file") {
+                _it->currentItem()->accept(this);
+                _result << "\n";
+            }else if (_it->currentItem()->type() == "folder")
+            {
+                StreamOutVisitor * streamOutVisitor = new StreamOutVisitor();
+                _it->currentItem()->accept(streamOutVisitor);
+                _result << streamOutVisitor->getResult();
+            }
         }
-    };
+    };     
 
     string getResult() const {
-        // std::cout << "result:\n" << _result.str() << std::endl;
         return _result.str();
-        // return "";
     }
 
 private:
