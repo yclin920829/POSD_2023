@@ -1,4 +1,4 @@
-#include "iterator.h"
+// #include "iterator.h"
 #include "folder.h"
 
 Folder::FolderIterator::FolderIterator(Folder* composite)

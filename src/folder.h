@@ -65,8 +65,7 @@ public:
     }
 
     Iterator * createIterator() override {
-        return new FolderIterator(this);
-        return new NullIterator();
+        return new Folder::FolderIterator(this);
     }
 
     Iterator * dfsIterator() override {
