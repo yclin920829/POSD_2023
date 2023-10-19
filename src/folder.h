@@ -23,7 +23,7 @@ private:
         void next();
         bool isDone() const;
 
-    private:
+    // private:
         Folder* const _host;
         std::list<Node *>::iterator _current;
     };
