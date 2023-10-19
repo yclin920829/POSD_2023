@@ -8,6 +8,7 @@
 #include "iterator.h"
 #include "dfs_iterator.h"
 
+
 using namespace std;
 
 class Folder: public Node {
@@ -16,14 +17,22 @@ private:
 
     class FolderIterator : public Iterator {
     public:
-        FolderIterator(Folder* composite);
+        FolderIterator(Folder* composite):_host(composite) {};
         ~FolderIterator() {}
-        void first();
-        Node * currentItem() const;
-        void next();
-        bool isDone() const;
+        void first() {
+            _current = _host->_nodes.begin();
+        };
+        Node * currentItem() const {
+            return *_current;
+        };
+        void next() {
+            _current++;
+        };
+        bool isDone() const {
+            return _current == _host->_nodes.end();
+        };
 
-    // private:
+    private:
         Folder* const _host;
         std::list<Node *>::iterator _current;
     };
