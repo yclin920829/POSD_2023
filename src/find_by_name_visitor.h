@@ -13,12 +13,12 @@ public:
     FindByNameVisitor(string name): _name(name) {};
 
     void visitFile(File * file) override {
-        // std::cout << "visitor had visited a file" << std::endl;
+        // std::cout << "visitorFind had visited a file" << std::endl;
         _paths = file->findByName(_name);
     };
 
     void visitFolder(Folder * folder) override {
-        // std::cout << "visitor had has visited a folder" << std::endl;
+        // std::cout << "visitorFind had has visited a folder" << std::endl;
         _paths = folder->findByName(_name);
     }
 
