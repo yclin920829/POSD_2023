@@ -4,6 +4,7 @@
 #include <list>
 
 #include "iterator.h"
+#include "folder.h"
 
 class DfsIterator: public Iterator {
 public:

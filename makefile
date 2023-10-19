@@ -28,6 +28,11 @@ clear:
 me: clear clean all
 	./bin/ut_all
 
+git:
+	git add .
+	git commit -m "bug fixing for FolderIterator inner class."
+	git push
+
 state:
 	g++  -std=c++11 -Wfatal-errors -Wall ./src/Istate.cpp -o ./bin/istate 
 	./bin/istate /Users/yu-chiaolin/Documents/大三/大三上/樣式導向軟體設計/posd2023f_110820059_hw/src/node.h
