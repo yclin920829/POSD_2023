@@ -2,12 +2,20 @@
 
 #include <string>
 #include <iostream>
+#include <sys/stat.h>
 
 #include "node.h"
 
 class File: public Node {
 public:
-    File(string path): Node(path) {}
+    File(string path): Node(path) {
+        struct stat sb;
+        stat(this->path().c_str(), &sb);
+        if (!S_ISREG(sb.st_mode)) {
+            // cout << "Not a file." << endl;
+            throw string("Not a file.");
+        }
+    }
 
     int numberOfFiles() const override {
         return 1;
