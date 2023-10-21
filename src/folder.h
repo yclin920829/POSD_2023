@@ -23,7 +23,7 @@ private:
         ~FolderIterator() {}
         void first() {
             _current = _host->_nodes.begin();
-            if (currentItem()->parent()->numberOfFiles() != _filesNumber) {
+            if (_host->numberOfFiles() != _filesNumber) {
                 throw string ("folder has been changed.");
             }
         };
@@ -31,12 +31,13 @@ private:
             return *_current;
         };
         void next() {
-            if (currentItem()->parent()->numberOfFiles() != _filesNumber) {
-                _current++;
+            _current++;
+            if (_host->numberOfFiles() != _filesNumber) {
+                // _current++;
                 throw string ("folder has been changed.");
             }
             // cout << "folder iterator next" << endl;
-            _current++;
+            // _current++;
         };
         bool isDone() const {
             return _current == _host->_nodes.end();
