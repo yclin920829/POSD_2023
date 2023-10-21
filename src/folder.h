@@ -17,15 +17,23 @@ private:
 
     class FolderIterator : public Iterator {
     public:
-        FolderIterator(Folder* composite):_host(composite) {};
+        FolderIterator(Folder* composite):_host(composite) {
+            _filesNumber = _host->numberOfFiles();
+        };
         ~FolderIterator() {}
         void first() {
             _current = _host->_nodes.begin();
+            if (currentItem()->parent()->numberOfFiles() != _filesNumber) {
+                throw string ("folder has been changed.");
+            }
         };
         Node * currentItem() const {
             return *_current;
         };
         void next() {
+            if (currentItem()->parent()->numberOfFiles() != _filesNumber) {
+                throw string ("folder has been changed.");
+            }
             _current++;
         };
         bool isDone() const {
@@ -33,6 +41,7 @@ private:
         };
 
     private:
+        int _filesNumber;
         Folder* const _host;
         std::list<Node *>::iterator _current;
     };
@@ -82,7 +91,7 @@ public:
     }
 
     Iterator * createIterator() override {
-        return new Folder::FolderIterator(this);
+        return new FolderIterator(this);
     }
 
     Iterator * dfsIterator() override {
