@@ -1,0 +1,4 @@
+Hello,
+This is a file call hello.txt and it is under the folder of Documents.
+
+It is a txt file.
