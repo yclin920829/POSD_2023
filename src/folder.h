@@ -18,29 +18,33 @@ private:
     class FolderIterator : public Iterator {
     public:
         FolderIterator(Folder* composite):_host(composite) {
+            // cout << "constructor num: " << _host->numberOfFiles() << endl;
             _filesNumber = _host->numberOfFiles();
         };
         ~FolderIterator() {}
         void first() {
-            _current = _host->_nodes.begin();
+            // cout << "original num: " << _filesNumber << endl; 
+            // cout << "first num: " << _host->numberOfFiles() << endl;
             if (_host->numberOfFiles() != _filesNumber) {
+                // cout << "throw exception" << endl;
                 throw string ("folder has been changed.");
             }
+            // cout << "do first" << endl;
+            _current = _host->_nodes.begin();
         };
         Node * currentItem() const {
             return *_current;
         };
         void next() {
-            // _current++;
+            // cout << "original num: " << _filesNumber << endl;
+            // cout << "next num: " << _host->numberOfFiles() << endl;
             if (_host->numberOfFiles() != _filesNumber) {
-                // _current++;
+                // cout << "throw exception" << endl;
                 throw string ("folder has been changed.");
-            }else{
-                // cout << "folder iterator next" << endl;
-                _current++;
             }
-            // cout << "folder iterator next" << endl;
-            // _current++;
+            // cout << "do next" << endl;
+            _current++;
+           
         };
         bool isDone() const {
             return _current == _host->_nodes.end();
