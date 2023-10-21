@@ -3,8 +3,8 @@
 #include <gtest/gtest.h>
 
 #include "../src/node.h"
-#include "../src/folder.h"
 #include "../src/file.h"
+#include "../src/folder.h"
 #include "../src/iterator.h"
 #include "../src/dfs_iterator.h"
 

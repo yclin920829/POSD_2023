@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <iostream>
 #include <gtest/gtest.h>
 
 #include "../src/node.h"
@@ -61,14 +60,12 @@ TEST(Visitor, visit_a_file_under_a_folder){
     folder03->add(file05);
 
     FindByNameVisitor * findByNameVisitor = new FindByNameVisitor("file03.txt");
-    // FindByNameVisitor * findByNameVisitor = new FindByNameVisitor("file05.txt");
 
 
     folder01->accept(findByNameVisitor);
 
     ASSERT_EQ(1, findByNameVisitor->getPaths().size());
     ASSERT_EQ("./folder01/folder02/file03.txt", findByNameVisitor->getPaths().front());
-    // ASSERT_EQ("./folder01/folder02/folder03/file05.txt", findByNameVisitor->getPaths().front());
 }
 
 TEST(Visitor, stream_out_a_file){
@@ -80,8 +77,6 @@ TEST(Visitor, stream_out_a_file){
 
     file01->accept(streamOutVisitor);
 
-    // std:: cout << streamOutVisitor->getResult() << std::endl;
-
     std::string content = "_____________________________________________\n"
                           "./folder01/file01.txt\n"
                           "---------------------------------------------\n"
@@ -90,8 +85,6 @@ TEST(Visitor, stream_out_a_file){
                           "\n"
                           "see you soon\n"
                           "_____________________________________________\n";
-
-    // std::cout << "content:\n" << content << std::endl;
 
     ASSERT_EQ(content, streamOutVisitor->getResult()); 
 }
@@ -114,8 +107,6 @@ TEST(Visitor, stream_out_a_folder){
     folder02->add(file04);
     folder02->add(folder03);
     folder03->add(file05);
-
-    // cout << "folder01->numberOfFiles(): " << folder01->numberOfFiles() << endl;
 
     StreamOutVisitor * streamOutVisitor = new StreamOutVisitor();
 
@@ -167,12 +158,5 @@ TEST(Visitor, stream_out_a_folder){
                           "_____________________________________________\n"
                           "\n";
 
-
-
-    // std::cout << "content:\n" << content << std::endl;
-    // std:: cout << streamOutVisitor->getResult() << std::endl;
-
-
-
-    // ASSERT_EQ(content, streamOutVisitor->getResult()); 
+    ASSERT_EQ(content, streamOutVisitor->getResult()); 
 }

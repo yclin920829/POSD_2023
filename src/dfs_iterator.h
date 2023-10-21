@@ -1,10 +1,10 @@
 #pragma once
 
-#include <stack>
 #include <list>
+#include <stack>
 
-#include "iterator.h"
 #include "folder.h"
+#include "iterator.h"
 
 class DfsIterator: public Iterator {
 public:

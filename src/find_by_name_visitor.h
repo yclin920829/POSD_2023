@@ -2,7 +2,6 @@
 
 #include <list>
 #include <string>
-#include <iostream>
 
 #include "file.h"
 #include "folder.h"
@@ -13,12 +12,10 @@ public:
     FindByNameVisitor(string name): _name(name) {};
 
     void visitFile(File * file) override {
-        // std::cout << "visitorFind had visited a file" << std::endl;
         _paths = file->findByName(_name);
     };
 
     void visitFolder(Folder * folder) override {
-        // std::cout << "visitorFind had has visited a folder" << std::endl;
         _paths = folder->findByName(_name);
     }
 

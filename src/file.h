@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <iostream>
 #include <sys/stat.h>
 
 #include "node.h"
@@ -12,7 +11,6 @@ public:
         struct stat sb;
         stat(this->path().c_str(), &sb);
         if (!S_ISREG(sb.st_mode)) {
-            // cout << "Not a file." << endl;
             throw string("Not a file.");
         }
     }
@@ -37,7 +35,6 @@ public:
     }
 
     void accept(Visitor * visitor) override {
-        // std::cout << "file accept to visit" << std::endl;
         visitor->visitFile(this);
     }
 };

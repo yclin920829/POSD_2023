@@ -2,14 +2,11 @@
 
 #include <list>
 #include <string>
-#include <iostream>
 #include <sys/stat.h>
 
 #include "node.h"
 #include "iterator.h"
 #include "dfs_iterator.h"
-
-using namespace std;
 
 class Folder: public Node {
 private:
@@ -18,34 +15,30 @@ private:
     class FolderIterator : public Iterator {
     public:
         FolderIterator(Folder* composite):_host(composite) {
-            // cout << "constructor num: " << _host->numberOfFiles() << endl;
             _filesNumber = _host->numberOfFiles();
         };
+
         ~FolderIterator() {}
+
         void first() {
-            // cout << "original num: " << _filesNumber << endl; 
-            // cout << "first num: " << _host->numberOfFiles() << endl;
             if (_host->numberOfFiles() != _filesNumber) {
-                // cout << "throw exception" << endl;
                 throw string ("folder has been changed.");
             }
-            // cout << "do first" << endl;
             _current = _host->_nodes.begin();
         };
+
         Node * currentItem() const {
             return *_current;
         };
+
         void next() {
-            // cout << "original num: " << _filesNumber << endl;
-            // cout << "next num: " << _host->numberOfFiles() << endl;
             if (_host->numberOfFiles() != _filesNumber) {
-                // cout << "throw exception" << endl;
                 throw string ("folder has been changed.");
             }
-            // cout << "do next" << endl;
             _current++;
            
         };
+
         bool isDone() const {
             return _current == _host->_nodes.end();
         };
@@ -66,14 +59,12 @@ public:
         struct stat sb;
         stat(this->path().c_str(), &sb);
         if (!S_ISDIR(sb.st_mode)) {
-            // cout << "Not a folder." << endl;
             throw string("Not a folder.");
         }
     }
 
     void add(Node * node) override {
         if (node->path() != this->path() + "/" + node->name()) {
-            // cout << "Incorrect path of node: " << node -> path() << endl;
             throw string("Incorrect path of node: " + node -> path());
         }
         _nodes.push_back(node);
@@ -153,7 +144,6 @@ public:
     }
 
     void accept(Visitor * visitor) override {
-        // std::cout << "folder accept to visit" << std::endl;
         visitor->visitFolder(this);
     }
 };
