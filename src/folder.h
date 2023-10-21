@@ -31,10 +31,13 @@ private:
             return *_current;
         };
         void next() {
-            _current++;
+            // _current++;
             if (_host->numberOfFiles() != _filesNumber) {
                 // _current++;
                 throw string ("folder has been changed.");
+            }else{
+                // cout << "folder iterator next" << endl;
+                _current++;
             }
             // cout << "folder iterator next" << endl;
             // _current++;
