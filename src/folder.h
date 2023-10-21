@@ -32,8 +32,10 @@ private:
         };
         void next() {
             if (currentItem()->parent()->numberOfFiles() != _filesNumber) {
+                _current++;
                 throw string ("folder has been changed.");
             }
+            // cout << "folder iterator next" << endl;
             _current++;
         };
         bool isDone() const {
