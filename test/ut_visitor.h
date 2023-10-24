@@ -23,6 +23,9 @@ TEST(Visitor, visit_a_file){
 
     ASSERT_EQ(1, findByNameVisitor->getPaths().size());
     ASSERT_EQ("./folder01/file01.txt", findByNameVisitor->getPaths().front());
+
+    delete file01;
+    delete findByNameVisitor;
     
 }
 
@@ -36,6 +39,9 @@ TEST(Visitor, visit_a_folder){
 
     ASSERT_EQ(1, findByNameVisitor->getPaths().size());
     ASSERT_EQ("./folder01", findByNameVisitor->getPaths().front());
+
+    delete folder01;
+    delete findByNameVisitor;
 }
 
 TEST(Visitor, visit_a_file_under_a_folder){
@@ -66,6 +72,16 @@ TEST(Visitor, visit_a_file_under_a_folder){
 
     ASSERT_EQ(1, findByNameVisitor->getPaths().size());
     ASSERT_EQ("./folder01/folder02/file03.txt", findByNameVisitor->getPaths().front());
+
+    delete folder01;
+    delete folder02;
+    delete folder03;
+    delete file01;
+    delete file02;
+    delete file03;
+    delete file04;
+    delete file05;
+    delete findByNameVisitor;
 }
 
 TEST(Visitor, stream_out_a_file){
@@ -87,6 +103,9 @@ TEST(Visitor, stream_out_a_file){
                           "_____________________________________________\n";
 
     ASSERT_EQ(content, streamOutVisitor->getResult()); 
+
+    delete file01;
+    delete streamOutVisitor;
 }
 
 TEST(Visitor, stream_out_a_folder){
@@ -159,4 +178,14 @@ TEST(Visitor, stream_out_a_folder){
                           "\n";
 
     ASSERT_EQ(content, streamOutVisitor->getResult()); 
+
+    delete folder01;
+    delete folder02;
+    delete folder03;
+    delete file01;
+    delete file02;
+    delete file03;
+    delete file04;
+    delete file05;
+    delete streamOutVisitor;
 }
