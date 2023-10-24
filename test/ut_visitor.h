@@ -25,8 +25,6 @@ TEST(Visitor, visit_a_file){
     ASSERT_EQ("./folder01/file01.txt", findByNameVisitor->getPaths().front());
 
     delete file01;
-    delete findByNameVisitor;
-    
 }
 
 TEST(Visitor, visit_a_folder){
@@ -41,7 +39,6 @@ TEST(Visitor, visit_a_folder){
     ASSERT_EQ("./folder01", findByNameVisitor->getPaths().front());
 
     delete folder01;
-    delete findByNameVisitor;
 }
 
 TEST(Visitor, visit_a_file_under_a_folder){
@@ -81,7 +78,6 @@ TEST(Visitor, visit_a_file_under_a_folder){
     delete file03;
     delete file04;
     delete file05;
-    delete findByNameVisitor;
 }
 
 TEST(Visitor, stream_out_a_file){
@@ -105,7 +101,6 @@ TEST(Visitor, stream_out_a_file){
     ASSERT_EQ(content, streamOutVisitor->getResult()); 
 
     delete file01;
-    delete streamOutVisitor;
 }
 
 TEST(Visitor, stream_out_a_folder){
@@ -187,5 +182,4 @@ TEST(Visitor, stream_out_a_folder){
     delete file03;
     delete file04;
     delete file05;
-    delete streamOutVisitor;
 }
