@@ -1,56 +1,41 @@
 #pragma once
 
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <sys/stat.h>
-
 #include "file.h"
 #include "folder.h"
 #include "visitor.h"
+#include <fstream>
+#include <iostream>
+#include <sstream>
 
 class StreamOutVisitor : public Visitor {
 public:
     void visitFile(File * file) override {
+        std::ifstream t(file->path());
+        std::stringstream buffer;
 
-        _path = file->path();
+        buffer << t.rdbuf(); 
 
-        _result << "_____________________________________________\n";
-        _result << _path << "\n";
-        _result << "---------------------------------------------\n";
-
-        ifstream inputFile (_path);
-        string text = "";
-        while (getline (inputFile, text)) {
-            _result << text << "\n";
-        }
-        _result << "_____________________________________________\n";
-    };
+        _result += "_____________________________________________\n";
+        _result += file->path() + "\n";
+        _result += "---------------------------------------------\n";
+        _result += buffer.str() + "\n";
+        _result += "_____________________________________________\n";
+    }
 
     void visitFolder(Folder * folder) override {
-        _path = folder->path();
+        Iterator * it = folder->createIterator();
 
-        _it = folder->createIterator();
-        for (_it->first(); !_it->isDone(); _it->next()) {
-            struct stat sb;
-            stat(_it->currentItem()->path().c_str(), &sb);
-            if (S_ISREG(sb.st_mode)) {
-                _it->currentItem()->accept(this);
-                _result << "\n";
-            }else{
-                StreamOutVisitor * streamOutVisitor = new StreamOutVisitor();
-                _it->currentItem()->accept(streamOutVisitor);
-                _result << streamOutVisitor->getResult();
-            }
+        for(it->first(); !it->isDone(); it->next()) {
+            it->currentItem()->accept(this);
+            if(dynamic_cast<File *>(it->currentItem()))
+                _result += "\n";
         }
-    };     
+    }
 
     string getResult() const {
-        return _result.str();
+        return _result;
     }
 
 private:
-    string _path;
-    stringstream _result;
-    Iterator * _it;
+    string _result;
 };

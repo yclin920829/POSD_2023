@@ -1,4 +1,0 @@
-Hello,
-This is a file call hello.txt and it is under the folder of home.
-
-It is a txt file.

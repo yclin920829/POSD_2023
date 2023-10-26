@@ -1,38 +1,20 @@
 .PHONY: clean dirs
 
+CFLAGS = -std=c++11 -Wfatal-errors -Wall 
+LIBS = -lgtest -lpthread
+
 UT_ALL = test/ut_all.cpp
 TEST_HEADERS = test/ut_iterator.h test/ut_file.h test/ut_folder.h test/ut_node.h test/ut_visitor.h
 
-SRC_HEADERS = src/file.h src/folder.h src/node.h src/iterator.h src/null_iterator.h src/dfs_iterator.h src/visitor.h src/find_by_name_visitor.h src/stream_out_visitor.h
-
-ITERATOR_OBJ = obj/iterator.o
-ITERATOR_SRC = src/iterator.cpp src/iterator.h
+SRC_HEADERS = src/file.h src/folder.h src/node.h src/iterator.h src/null_iterator.h src/dfs_iterator.h src/visitor.h src/find_by_name_visitor.h src/stream_out_visitor.h 
 
 all: dirs bin/ut_all
 
 bin/ut_all: $(UT_ALL) $(TEST_HEADERS) $(SRC_HEADERS)
-	g++  -std=c++11 -Wfatal-errors -Wall -o bin/ut_all $(UT_ALL) -lgtest -lpthread
-
-$(ITERATOR_OBJ): $(ITERATOR_SRC)
-	g++  -std=c++11 -Wfatal-errors -Wall -c $< -o $@
+	g++ $(CFLAGS) -o $@ $<  $(LIBS) 
 
 clean:
 	rm -rf bin obj
 
 dirs:
 	mkdir -p bin obj
-
-clear:
-	clear
-
-me: clear clean all
-	./bin/ut_all
-
-git:
-	git add .
-	git commit -m "bug fixing for FolderIterator inner class."
-	git push
-
-state:
-	g++  -std=c++11 -Wfatal-errors -Wall ./src/Istate.cpp -o ./bin/istate 
-	./bin/istate /Users/yu-chiaolin/Documents/大三/大三上/樣式導向軟體設計/posd2023f_110820059_hw/src/node.h

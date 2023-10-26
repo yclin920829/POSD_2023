@@ -1,40 +1,36 @@
-#pragma once 
-
-#include <gtest/gtest.h>
-
 #include "../src/node.h"
-#include "../src/file.h"
 #include "../src/folder.h"
+#include "../src/file.h"
 #include "../src/iterator.h"
 #include "../src/dfs_iterator.h"
 
 class IteratorTest: public ::testing::Test {
 protected:
     virtual void SetUp() {
-        home = new Folder("./Users/user/home");
+        home = new Folder("structure/home");
 
-        profile = new File("./Users/user/home/my_profile");
+        profile = new File("structure/home/my_profile");
         home->add(profile);
 
-        document = new Folder("./Users/user/home/Documents");
+        document = new Folder("structure/home/Documents");
         home->add(document);
 
-        favorite = new Folder("./Users/user/home/Documents/favorites");
+        favorite = new Folder("structure/home/Documents/favorites");
         document->add(favorite);
-        ddd = new File("./Users/user/home/Documents/favorites/domain-driven-design.pdf");
+        ddd = new File("structure/home/Documents/favorites/domain-driven-design.pdf");
         favorite->add(ddd);
-        ca = new File("./Users/user/home/Documents/favorites/clean-architecture.pdf");
+        ca = new File("structure/home/Documents/favorites/clean-architecture.pdf");
         favorite->add(ca);
-        cqrs = new File("./Users/user/home/Documents/favorites/cqrs.pdf");
+        cqrs = new File("structure/home/Documents/favorites/cqrs.pdf");
         favorite->add(cqrs);
 
-        note = new File("./Users/user/home/Documents/note.txt");
+        note = new File("structure/home/Documents/note.txt");
         document->add(note);
 
-        download = new Folder("./Users/user/home/Downloads");
+        download = new Folder("structure/home/Downloads");
         home->add(download);
 
-        funny = new File("./Users/user/home/Downloads/funny.png");
+        funny = new File("structure/home/Downloads/funny.png");
         download->add(funny);
     }
 
@@ -65,9 +61,9 @@ protected:
 
 TEST_F(IteratorTest, Normal) {
     Iterator * it = home->createIterator();
-
     it->first();
     ASSERT_FALSE(it->isDone());
+    
     ASSERT_EQ("my_profile", it->currentItem()->name());
     
     it->next();
@@ -78,6 +74,24 @@ TEST_F(IteratorTest, Normal) {
 
     it->next();
     ASSERT_TRUE(it->isDone());
+}
+
+TEST_F(IteratorTest, NotAvaliableIterator) {
+    Iterator * it = home->createIterator();
+    it->first();
+    ASSERT_FALSE(it->isDone());
+    
+    ASSERT_EQ("my_profile", it->currentItem()->name());
+    
+    it->next();
+    ASSERT_EQ("Documents", it->currentItem()->name());
+    
+    home->add(new File("structure/home/hello.txt"));
+    std::cout << "1" << std::endl;
+    ASSERT_ANY_THROW(it->next());
+    ASSERT_ANY_THROW(it->first());
+    ASSERT_EQ("Documents", it->currentItem()->name());
+    ASSERT_FALSE(it->isDone());
 }
 
 TEST_F(IteratorTest, DFS) {
@@ -147,31 +161,4 @@ TEST_F(IteratorTest, BFS) {
 
     bfsIt->next();
     ASSERT_TRUE(bfsIt->isDone());
-}
-
-TEST_F(IteratorTest, my_NotAvaliableIterator_first) {
-
-    Iterator * it = home->createIterator();
-
-    File * hello = new File("./Users/user/home/hello.txt");
-    home->add(hello);
-    
-    ASSERT_ANY_THROW(it->first());
-
-}
-
-TEST_F(IteratorTest, my_NotAvaliableIterator_next) {
-
-    Iterator * it = home->createIterator();
-
-    File * hello = new File("./Users/user/home/hello.txt");
-    
-    it->first();
-    ASSERT_FALSE(it->isDone());
-    ASSERT_EQ("my_profile", it->currentItem()->name());
-    
-    home->add(hello);
-
-    ASSERT_ANY_THROW(it->next());
-
 }

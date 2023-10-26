@@ -1,9 +1,7 @@
 #pragma once
 
-#include <list>
+#include <queue>
 #include <stack>
-
-#include "folder.h"
 #include "iterator.h"
 
 class DfsIterator: public Iterator {

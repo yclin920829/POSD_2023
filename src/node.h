@@ -1,11 +1,9 @@
-#pragma once 
+#pragma once
 
 #include<string>
-#include<sys/stat.h>
-
 #include "iterator.h"
-#include "null_iterator.h"
 #include "visitor.h"
+#include "null_iterator.h"
 
 using namespace std;
 
@@ -55,18 +53,13 @@ public:
         return new NullIterator();
     }
 
-    virtual Iterator * dfsIterator() {
-        return new NullIterator();
-    }
-
     virtual Node * find(string path) = 0;
-    
+
     virtual std::list<string> findByName(string name) = 0;
-    
+
     virtual void remove(string path) {
         throw string("This node does not support deleting sub node");
     }
 
     virtual void accept(Visitor * visitor) = 0;
-
 };

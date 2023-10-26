@@ -1,18 +1,18 @@
 #pragma once
 
-#include <string>
-#include <sys/stat.h>
-
 #include "node.h"
+#include "visitor.h"
 
 class File: public Node {
 public:
     File(string path): Node(path) {
-        struct stat sb;
-        stat(this->path().c_str(), &sb);
-        if (!S_ISREG(sb.st_mode)) {
-            throw string("Not a file.");
+        struct stat fileInfo;
+        const char *c = path.c_str();
+        if(lstat(c, &fileInfo) == 0){
+            if(S_ISREG(fileInfo.st_mode))
+                return;
         }
+        throw "No File exists";
     }
 
     int numberOfFiles() const override {

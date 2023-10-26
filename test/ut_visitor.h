@@ -1,185 +1,193 @@
-#pragma once
-
-#include <string>
-#include <gtest/gtest.h>
-
 #include "../src/node.h"
-#include "../src/file.h"
 #include "../src/folder.h"
+#include "../src/file.h"
+#include "../src/visitor.h"
 #include "../src/find_by_name_visitor.h"
 #include "../src/stream_out_visitor.h"
 
-TEST(Visitor, Ping){
-    ASSERT_TRUE(true);
+class VisitorTest: public ::testing::Test {
+protected:
+    virtual void SetUp() {
+        home = new Folder("structure/home");
+
+        profile = new File("structure/home/my_profile");
+        home->add(profile);
+
+        hello1 = new File("structure/home/hello.txt");
+        home->add(hello1);
+
+        document = new Folder("structure/home/Documents");
+        home->add(document);
+
+        favorite = new Folder("structure/home/Documents/favorites");
+        document->add(favorite);
+        ddd = new File("structure/home/Documents/favorites/domain-driven-design.pdf");
+        favorite->add(ddd);
+        ca = new File("structure/home/Documents/favorites/clean-architecture.pdf");
+        favorite->add(ca);
+        cqrs = new File("structure/home/Documents/favorites/cqrs.pdf");
+        favorite->add(cqrs);
+
+        note = new File("structure/home/Documents/note.txt");
+        document->add(note);
+
+        hello2 = new File("structure/home/hello.txt");
+        home->add(hello2);
+
+        download = new Folder("structure/home/Downloads");
+        home->add(download);
+
+        funny = new File("structure/home/Downloads/funny.png");
+        download->add(funny);
+
+        visitor_folder = new Folder("structure/visitor");
+        file1 = new File("structure/visitor/file1.txt");
+        visitor_folder->add(file1);
+        file2 = new File("structure/visitor/file2.txt");
+        visitor_folder->add(file2);
+        nested = new Folder("structure/visitor/nested");
+        visitor_folder->add(nested);
+        file3 = new File("structure/visitor/nested/file3.txt");
+        nested->add(file3);
+        file4 = new File("structure/visitor/nested/file4.txt");
+        nested->add(file4);
+    }
+
+    void TearDown() {
+        delete home;
+        delete profile;
+        delete download;
+        delete document;
+        delete note;
+        delete favorite;
+        delete ddd;
+        delete ca;
+        delete cqrs;
+        delete funny;
+        delete hello1;
+        delete hello2;
+        delete visitor_folder;
+        delete file1;
+        delete file2;
+        delete nested;
+        delete file3;
+        delete file4;
+    }
+    
+    Node * home;
+    Node * profile;
+    Node * download;
+    Node * document;
+    Node * note;
+    Node * favorite;
+    Node * ddd;
+    Node * ca;
+    Node * cqrs;
+    Node * funny;
+    Node * hello1;
+    Node * hello2;
+
+    Node * visitor_folder;
+    Node * file1;
+    Node * file2;
+    Node * nested;
+    Node * file3;
+    Node * file4;
+};
+
+TEST_F(VisitorTest, findNormal) {
+    FindByNameVisitor * visitor = new FindByNameVisitor("clean-architecture.pdf");
+
+    home->accept(visitor);
+
+    ASSERT_EQ(1, visitor->getPaths().size());
+    ASSERT_EQ(ca->path(), visitor->getPaths().begin().operator*());
 }
 
-TEST(Visitor, visit_a_file){
+TEST_F(VisitorTest, findMany) {
+    FindByNameVisitor * visitor = new FindByNameVisitor("hello.txt");
 
-    File * file01 = new File("./folder01/file01.txt");
+    home->accept(visitor);
 
-    FindByNameVisitor * findByNameVisitor = new FindByNameVisitor("file01.txt");
-
-    file01->accept(findByNameVisitor);
-
-    ASSERT_EQ(1, findByNameVisitor->getPaths().size());
-    ASSERT_EQ("./folder01/file01.txt", findByNameVisitor->getPaths().front());
-
-    delete file01;
+    ASSERT_EQ(2, visitor->getPaths().size());
 }
 
-TEST(Visitor, visit_a_folder){
+TEST_F(VisitorTest, findNothing) {
+    FindByNameVisitor * visitor = new FindByNameVisitor("nothing-to_find");
 
-    Folder * folder01 = new Folder("./folder01");
+    home->accept(visitor);
 
-    FindByNameVisitor * findByNameVisitor = new FindByNameVisitor("folder01");
-
-    folder01->accept(findByNameVisitor);
-
-    ASSERT_EQ(1, findByNameVisitor->getPaths().size());
-    ASSERT_EQ("./folder01", findByNameVisitor->getPaths().front());
-
-    delete folder01;
+    ASSERT_EQ(0, visitor->getPaths().size());
 }
 
-TEST(Visitor, visit_a_file_under_a_folder){
+TEST_F(VisitorTest, streamOutFile) {
+    StreamOutVisitor * visitor = new StreamOutVisitor();
 
-    Folder * folder01 = new Folder("./folder01");
-    Folder * folder02 = new Folder("./folder01/folder02");
-    Folder * folder03 = new Folder("./folder01/folder02/folder03");
+    profile->accept(visitor);
 
+    string expected;
+    expected += "_____________________________________________\n";
+    expected += "structure/home/my_profile\n";
+    expected += "---------------------------------------------\n";
+    expected += "Profile\n";
+    expected += "Name: name\n";
+    expected += "_____________________________________________\n";
 
-    File * file01 = new File("./folder01/file01.txt");
-    File * file02 = new File("./folder01/file02.txt");
-    File * file03 = new File("./folder01/folder02/file03.txt");
-    File * file04 = new File("./folder01/folder02/file04.txt");
-    File * file05 = new File("./folder01/folder02/folder03/file05.txt");
-
-    folder01->add(file01);
-    folder01->add(file02);
-    folder01->add(folder02);
-    folder02->add(file03);
-    folder02->add(file04);
-    folder02->add(folder03);
-    folder03->add(file05);
-
-    FindByNameVisitor * findByNameVisitor = new FindByNameVisitor("file03.txt");
-
-
-    folder01->accept(findByNameVisitor);
-
-    ASSERT_EQ(1, findByNameVisitor->getPaths().size());
-    ASSERT_EQ("./folder01/folder02/file03.txt", findByNameVisitor->getPaths().front());
-
-    delete folder01;
-    delete folder02;
-    delete folder03;
-    delete file01;
-    delete file02;
-    delete file03;
-    delete file04;
-    delete file05;
+    ASSERT_EQ(expected, visitor->getResult());
 }
 
-TEST(Visitor, stream_out_a_file){
+TEST_F(VisitorTest, streamOutFolder) {
+    StreamOutVisitor * visitor = new StreamOutVisitor();
 
-    string path = "./folder01/file01.txt";
-    File * file01 = new File(path);
+    nested->accept(visitor);
 
-    StreamOutVisitor * streamOutVisitor = new StreamOutVisitor();
+    string expected;
+    expected += "_____________________________________________\n";
+    expected += "structure/visitor/nested/file3.txt\n";
+    expected += "---------------------------------------------\n";
+    expected += "I am file 3\n";
+    expected += "_____________________________________________\n";
+    expected += "\n";
+    expected += "_____________________________________________\n";
+    expected += "structure/visitor/nested/file4.txt\n";
+    expected += "---------------------------------------------\n";
+    expected += "I am file 4\n";
+    expected += "_____________________________________________\n";
+    expected += "\n";
 
-    file01->accept(streamOutVisitor);
-
-    std::string content = "_____________________________________________\n"
-                          "./folder01/file01.txt\n"
-                          "---------------------------------------------\n"
-                          "Hello,\n"
-                          "this is file 01\n"
-                          "\n"
-                          "see you soon\n"
-                          "_____________________________________________\n";
-
-    ASSERT_EQ(content, streamOutVisitor->getResult()); 
-
-    delete file01;
+    ASSERT_EQ(expected, visitor->getResult());
 }
 
-TEST(Visitor, stream_out_a_folder){
+TEST_F(VisitorTest, streamOutNestedFolder) {
+    StreamOutVisitor * visitor = new StreamOutVisitor();
 
-    Folder * folder01 = new Folder("./folder01");
-    Folder * folder02 = new Folder("./folder01/folder02");
-    Folder * folder03 = new Folder("./folder01/folder02/folder03");
-    File * file01 = new File("./folder01/file01.txt");
-    File * file02 = new File("./folder01/file02.txt");
-    File * file03 = new File("./folder01/folder02/file03.txt");
-    File * file04 = new File("./folder01/folder02/file04.txt");
-    File * file05 = new File("./folder01/folder02/folder03/file05.txt");
+    visitor_folder->accept(visitor);
 
-    folder01->add(file01);
-    folder01->add(file02);
-    folder01->add(folder02);
-    folder02->add(file03);
-    folder02->add(file04);
-    folder02->add(folder03);
-    folder03->add(file05);
+    string expected;
+    expected += "_____________________________________________\n";
+    expected += "structure/visitor/file1.txt\n";
+    expected += "---------------------------------------------\n";
+    expected += "I am file 1\n";
+    expected += "_____________________________________________\n";
+    expected += "\n";
+    expected += "_____________________________________________\n";
+    expected += "structure/visitor/file2.txt\n";
+    expected += "---------------------------------------------\n";
+    expected += "I am file 2\n";
+    expected += "_____________________________________________\n";
+    expected += "\n";
+    expected += "_____________________________________________\n";
+    expected += "structure/visitor/nested/file3.txt\n";
+    expected += "---------------------------------------------\n";
+    expected += "I am file 3\n";
+    expected += "_____________________________________________\n";
+    expected += "\n";
+    expected += "_____________________________________________\n";
+    expected += "structure/visitor/nested/file4.txt\n";
+    expected += "---------------------------------------------\n";
+    expected += "I am file 4\n";
+    expected += "_____________________________________________\n";
+    expected += "\n";
 
-    StreamOutVisitor * streamOutVisitor = new StreamOutVisitor();
-
-    folder01->accept(streamOutVisitor);
-
-    std::string content = "_____________________________________________\n"
-                          "./folder01/file01.txt\n"
-                          "---------------------------------------------\n"
-                          "Hello,\n"
-                          "this is file 01\n"
-                          "\n"
-                          "see you soon\n"
-                          "_____________________________________________\n"
-                          "\n"
-                          "_____________________________________________\n"
-                          "./folder01/file02.txt\n"
-                          "---------------------------------------------\n"
-                          "Hello,\n"
-                          "this is file 02\n"
-                          "\n"
-                          "see you soon\n"
-                          "_____________________________________________\n"
-                          "\n"
-                          "_____________________________________________\n"
-                          "./folder01/folder02/file03.txt\n"
-                          "---------------------------------------------\n"
-                          "Hello,\n"
-                          "this is file 03\n"
-                          "\n"
-                          "see you soon\n"
-                          "_____________________________________________\n"
-                          "\n"
-                          "_____________________________________________\n"
-                          "./folder01/folder02/file04.txt\n"
-                          "---------------------------------------------\n"
-                          "Hello,\n"
-                          "this is file 04\n"
-                          "\n"
-                          "see you soon\n"
-                          "_____________________________________________\n"
-                          "\n"
-                          "_____________________________________________\n"
-                          "./folder01/folder02/folder03/file05.txt\n"
-                          "---------------------------------------------\n"
-                          "Hello,\n"
-                          "this is file 05\n"
-                          "\n"
-                          "see you soon\n"
-                          "_____________________________________________\n"
-                          "\n";
-
-    ASSERT_EQ(content, streamOutVisitor->getResult()); 
-
-    delete folder01;
-    delete folder02;
-    delete folder03;
-    delete file01;
-    delete file02;
-    delete file03;
-    delete file04;
-    delete file05;
+    ASSERT_EQ(expected, visitor->getResult());
 }
