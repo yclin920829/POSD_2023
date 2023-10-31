@@ -8,11 +8,14 @@ using std::string;
 
 class FileSystemBuilder {
 public:
-    Folder * getRoot() const;
+    Folder * getRoot() const
+    {
+        return nullptr;
+    }
 
-    void buildFile(string path);
+    void buildFile(string path) {}
 
-    void buildFolder(string path);
+    void buildFolder(string path) {};
 
-    void endFolder();
+    void endFolder() {};
 };
