@@ -16,4 +16,8 @@ public:
     void parse();
 
     void setPath(string path);
+
+private:
+    FileSystemBuilder * _builder;
+    string _path;
 };

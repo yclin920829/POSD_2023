@@ -1,3 +1,6 @@
+#include <iostream>
+#include <gtest/gtest.h>
+
 #include "../src/node.h"
 #include "../src/folder.h"
 #include "../src/file.h"
@@ -87,7 +90,7 @@ TEST_F(IteratorTest, NotAvaliableIterator) {
     ASSERT_EQ("Documents", it->currentItem()->name());
     
     home->add(new File("structure/home/hello.txt"));
-    std::cout << "1" << std::endl;
+    // std::cout << "1" << std::endl;
     ASSERT_ANY_THROW(it->next());
     ASSERT_ANY_THROW(it->first());
     ASSERT_EQ("Documents", it->currentItem()->name());
@@ -162,3 +165,9 @@ TEST_F(IteratorTest, BFS) {
     bfsIt->next();
     ASSERT_TRUE(bfsIt->isDone());
 }
+
+
+
+
+
+

@@ -1,8 +1,10 @@
 #pragma once
 
 #include<string>
+
 #include "iterator.h"
 #include "visitor.h"
+#include "order_by.h"
 #include "null_iterator.h"
 
 using namespace std;
@@ -50,6 +52,10 @@ public:
     virtual int numberOfFiles() const = 0;
 
     virtual Iterator * createIterator() {
+        return new NullIterator();
+    }
+
+    virtual Iterator * createIterator(OrderBy orderby) {
         return new NullIterator();
     }
 
