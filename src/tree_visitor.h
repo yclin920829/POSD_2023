@@ -1,14 +1,18 @@
 #pragma once
 
 #include "visitor.h"
+#include "file.h"
+#include "folder.h"
 #include "order_by.h"
 
 class TreeVisitor: public Visitor {
 public:
-    TreeVisitor(OrderBy orderBy);
+    TreeVisitor(OrderBy orderBy) {};
 
-    void visitFile(File * file);
-    void visitFolder(Folder * folder);
+    void visitFile(File * file) {};
+    void visitFolder(Folder * folder) {};
 
-    string getTree();
+    string getTree() {
+        return "";
+    };
 };

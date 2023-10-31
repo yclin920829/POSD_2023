@@ -6,15 +6,23 @@ using std::string;
 
 class FileSystemScanner {
 public:
-    bool isFile() {};
+    bool isFile() {
+        return false;
+    };
 
-    bool isFolder() {};
+    bool isFolder() {
+        return false;
+    };
 
-    bool isDone() {};
+    bool isDone() {
+        return false;
+    };
 
     void setPath(string path) {};
 
-    string currentNodeName() {};
+    string currentNodeName() {
+        return "";
+    };
 
     void nextNode() {};
 };
