@@ -15,7 +15,7 @@ public:
     };
 
     bool isDone() {
-        return false;
+        return true;
     };
 
     void setPath(string path) {};

@@ -17,20 +17,20 @@ public:
     };
 
     void parse() {
-        FileSystemScanner * scanner = new FileSystemScanner();
-        scanner->setPath(_path);
-        while (!scanner->isDone()) {
-            if (scanner->isFile()) {
-                _builder->buildFile(scanner->currentNodeName());
-            } else if (scanner->isFolder()) {
-                _builder->buildFolder(scanner->currentNodeName());
-            }
-            scanner->nextNode();
-        }
+        // FileSystemScanner * scanner = new FileSystemScanner();
+        // scanner->setPath(_path);
+        // while (!scanner->isDone()) {
+        //     if (scanner->isFile()) {
+        //         _builder->buildFile(scanner->currentNodeName());
+        //     } else if (scanner->isFolder()) {
+        //         _builder->buildFolder(scanner->currentNodeName());
+        //     }
+        //     scanner->nextNode();
+        // }
     };
 
     void setPath(string path) {
-        _path = path;
+        // _path = path;
     };
 
 private:

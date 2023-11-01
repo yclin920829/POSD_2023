@@ -15,14 +15,14 @@ public:
     }
 
     void buildFile(string path) {
-        File * file = new File(path);
-        _root->add(file);
+        // File * file = new File(path);
+        // _root->add(file);
         
     }
 
     void buildFolder(string path) {
-        Folder * folder = new Folder(path);
-        _root->add(folder);
+        // Folder * folder = new Folder(path);
+        // _root->add(folder);
     };
 
     void endFolder() {
