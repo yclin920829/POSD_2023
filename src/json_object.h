@@ -11,18 +11,19 @@ public:
 
     string toString() override {
         _result += "{\n";
-        auto it = _key.begin();
-        auto it2 = _value.begin();
+        auto it_key = _key.begin();
+        auto it_value = _value.begin();
         int count = 1;
         int size = _key.size();
         std:: cout << "size: " << size << "\n";
-        for (; it != _key.end(); it++, it2++, count++) {
+        for (; it_key != _key.end(); it_key++, it_value++, count++) {
 
-            std::cout << *it << " is find.\n";
-            _result += "\"" + *it + "\"";
+            std::cout << "key: " << *it_key << "\n";
+            _result += "\"" + *it_key + "\"";
             _result += ":";
-            std::cout << "it value is " << (*it2)->toString() << "\n";
-            _result += (*it2)->toString();
+            string temp = (*it_value)->toString();
+            std::cout << "value: " << temp << "\n";
+            _result += temp;
             if (count != size){
                 _result += ",";
             }
@@ -40,15 +41,15 @@ public:
     }
 
     Value * getValue(string key) {
-        auto it = _key.begin();
-        auto it2 = _value.begin();
-        for (; it != _key.end(); it++, it2++) {
-            if (key == (*it)){
-                std::cout << *it << " is find.\n";
-                std::cout << "it value is " << (*it2)->toString() << "\n";
-                return (*it2); 
+        auto it_key = _key.begin();
+        auto it_value = _value.begin();
+        for (; it_key != _key.end(); it_key++, it_value++) {
+            if (key == (*it_key)){
+                // std::cout << *it_key << " is find.\n";
+                // std::cout << "it_key value is " << (*it_value)->toString() << "\n";
+                return (*it_value); 
             }
-            // it2++;
+            // it_value++;
         }
         return _value.front();
     }
