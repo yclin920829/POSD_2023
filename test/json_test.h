@@ -33,7 +33,6 @@ TEST(JSonSuite, Composite) {
 
     JsonObject *j_composite = new JsonObject;
     j_composite->set("keyc", jo);
-
     ASSERT_EQ(jo, j_composite->getValue("keyc"));
     ASSERT_EQ("{\n\"keyc\":{\n\"key1\":\"value1\",\n\"key2\":\"value2\"\n}\n}", j_composite->toString());
 }
