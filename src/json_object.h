@@ -15,14 +15,14 @@ public:
         auto it_value = _value.begin();
         int count = 1;
         int size = _key.size();
-        std:: cout << "size: " << size << "\n";
+        // std:: cout << "size: " << size << "\n";
         for (; it_key != _key.end(); it_key++, it_value++, count++) {
 
-            std::cout << "key: " << *it_key << "\n";
+            // std::cout << "key: " << *it_key << "\n";
             _result += "\"" + *it_key + "\"";
             _result += ":";
             string temp = (*it_value)->toString();
-            std::cout << "value: " << temp << "\n";
+            // std::cout << "value: " << temp << "\n";
             _result += temp;
             if (count != size){
                 _result += ",";
@@ -54,10 +54,13 @@ public:
         return _value.front();
     }
 
+    JsonIterator * createIterator() override {
+        return new JsonObjectIterator(this);
+    }
+
 private:
     std::list<string> _key;
     std::list<Value *> _value;
-
     string _result;
 
 };

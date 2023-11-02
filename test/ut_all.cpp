@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "json_test.h"
+#include "json_object_iterator_test.h"
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
