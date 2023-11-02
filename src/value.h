@@ -13,7 +13,7 @@ public:
         return "";
     }
 
-    virtual JsonIterator * createIterator() {
-        return new NullIterator();
-    }
+    // virtual JsonIterator * createIterator() {
+    //     return new NullIterator();
+    // }
 };

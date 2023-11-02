@@ -38,39 +38,39 @@ public:
 
 // };
 
-class JsonObjectIterator : public JsonIterator {
-public:
-    // JsonObjectIterator(JsonObject * jasonObject): _jsonObject(jasonObject)  {}
-    JsonObjectIterator(JsonObject * jsonObject)  {
-        _jsonObject = jsonObject;
-    }
+// class JsonObjectIterator : public JsonIterator {
+// public:
+//     // JsonObjectIterator(JsonObject * jasonObject): _jsonObject(jasonObject)  {}
+//     JsonObjectIterator(JsonObject * jsonObject)  {
+//         _jsonObject = jsonObject;
+//     }
 
-    void first() override {
-        _currentKey = _jsonObject->_key.begin();
-        _currentValue = _jsonObject->_value.begin();
-    };
+//     void first() override {
+//         _currentKey = _jsonObject->_key.begin();
+//         _currentValue = _jsonObject->_value.begin();
+//     };
 
-    std::string currentKey() const override {
-        return * _currentKey;
-    };
+//     std::string currentKey() const override {
+//         return * _currentKey;
+//     };
 
-    Value * currentValue() const override {
-        return * _currentValue;
-    };
+//     Value * currentValue() const override {
+//         return * _currentValue;
+//     };
 
-    void next() override {
-        _currentKey++;
-        _currentValue++;
+//     void next() override {
+//         _currentKey++;
+//         _currentValue++;
 
-    };
+//     };
 
-    bool isDone() const override {
-         return _currentKey == _jsonObject->_key.end();
-    };
+//     bool isDone() const override {
+//          return _currentKey == _jsonObject->_key.end();
+//     };
 
-private:
-    JsonObject * _jsonObject;
-    std::list<string>::iterator _currentKey;
-    std::list<Value *>::iterator _currentValue;
+// private:
+//     JsonObject * _jsonObject;
+//     std::list<string>::iterator _currentKey;
+//     std::list<Value *>::iterator _currentValue;
 
-};
+// };

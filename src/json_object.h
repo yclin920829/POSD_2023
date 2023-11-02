@@ -54,9 +54,9 @@ public:
         return _value.front();
     }
 
-    JsonIterator * createIterator() override {
-        return new JsonObjectIterator(this);
-    }
+    // JsonIterator * createIterator() override {
+    //     return new JsonObjectIterator(this);
+    // }
 
 private:
     std::list<string> _key;
