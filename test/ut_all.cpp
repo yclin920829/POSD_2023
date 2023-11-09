@@ -1,7 +1,12 @@
 #include <gtest/gtest.h>
 
-#include "json_test.h"
-#include "json_object_iterator_test.h"
+// #include "ut_file.h"
+// #include "ut_folder.h"
+// #include "ut_node.h"
+// #include "ut_iterator.h"
+// #include "ut_visitor.h"
+// #include "ut_tree_visitor.h"
+#include "ut_file_system_builder.h"
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
