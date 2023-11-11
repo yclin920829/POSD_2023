@@ -133,6 +133,10 @@ public:
         visitor->visitFolder(this);
     }
 
+    int numberOfChildren() const {
+        return _nodes.size();
+    }
+
     class FolderIterator : public Iterator {
     public:
         FolderIterator(Folder* composite, int operationCount) : _host(composite), _operationCount(operationCount)  {}
