@@ -24,10 +24,4 @@ clear:
 
 me: clear clean all
 	./bin/ut_all
-
-git : 
-	git add .
-	git commit -m "preparing for test, homework03 not done."
-	git push
-
-
+	
