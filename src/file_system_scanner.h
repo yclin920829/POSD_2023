@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include <list>
+#include <sys/stat.h>
 #include <dirent.h>
 
 using std::string;

@@ -10,47 +10,65 @@ using std::string;
 
 class FileSystemBuilder {
 public:
-    Folder * getRoot() const
-    {
-        std::cout << "getBuilderRoot" << std::endl;
-        std::cout << "builderSuperPath: " << _path << std::endl;
-        return _root;
+    Folder * getRoot() const {
+        return _currentFolder;
+        // return new Folder("data/home");
     }
 
     void buildFile(string path) {
-        std::cout << "buildFile: " << path << std::endl;
+        std::cout << "build a File: " << path << std::endl;
         File * file = new File(path);
-        _path = getSuperPath(path);
-        _nodes.push_back(file);
+        _currentFolder->add(file);
     }
 
     void buildFolder(string path) {
-        std::cout << "buildFolder: " << path << std::endl;
+        std::cout << "build a Folder: " << path << std::endl;
         Folder * folder = new Folder(path);
-        _path = getSuperPath(path);
-        _nodes.push_back(folder);
-    };
+
+        if (_fatherFolders.empty()){
+            std::cout << "this is a root folder, their is no father " << std::endl;
+        } else {
+            std::cout << "super dolder : " << _fatherFolders.back()->path() << std::endl;
+        }
+
+        if (_currentFolder == nullptr) {
+            std::cout << "currentFolder is NULL" << std::endl;
+        } else {
+            std::cout << "currentFolder is not NULL" << std::endl;
+            _fatherFolders.push_back(_currentFolder);
+        }
+        _currentFolder = folder;
+
+        std::cout << "currentFolder: " << _currentFolder->path() << std::endl;
+
+
+    }
 
     void endFolder() {
-        std::cout << "endFolder" << std::endl;
-        _root = new Folder(_path);
+        std::cout << "\nendFolder" << std::endl;
+        if (_fatherFolders.empty()){
+            std::cout << "this is a root folder, their is no father " << std::endl;
+        } else {
+            std::cout << "super dolder : " << _fatherFolders.back()->path() << std::endl;
+            Folder * super = _fatherFolders.back();
+            std::cout << "superFolder: " << super->path() << std::endl;
 
-        std::cout << "father: " << _root->path() << std::endl;
-        for (auto node: _nodes) {
-            std::cout << "node: " << node->path() << std::endl;
+            _fatherFolders.pop_back();
+            super->add(_currentFolder);
+            _currentFolder = super;
         }
-        while (!_nodes.empty()) {
-            std::cout << "child: " << _nodes.front()->name() << std::endl;
-            _root->add(_nodes.front());
-            _nodes.pop_front();
-        }
+        
+
+        std::cout << "currentFolder: " << _currentFolder->path() << std::endl;
+
+        
 
     };
 
 private:
-    Folder * _root;
-    string _path;
-    std::list<Node *> _nodes;
+
+    Folder * _currentFolder = nullptr;
+    std::list<Folder *> _fatherFolders;
 
     string getSuperPath(string path) {
         string superPath = path.substr(0, path.find_last_of("/"));
