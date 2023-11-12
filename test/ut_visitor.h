@@ -1,5 +1,3 @@
-#include <gtest/gtest.h>
-
 #include "../src/node.h"
 #include "../src/folder.h"
 #include "../src/file.h"

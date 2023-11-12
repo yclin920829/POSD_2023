@@ -1,9 +1,5 @@
-#include <iostream>
 #include <gtest/gtest.h>
 
-#include "../src/node.h"
-#include "../src/folder.h"
-#include "../src/file.h"
 #include "../src/tree_visitor.h"
 
 class TreeVisitorTest: public ::testing::Test {
@@ -123,53 +119,78 @@ TEST_F(TreeVisitorTest, OrderByNormal) {
 }
 
 TEST_F(TreeVisitorTest, OrderByName) {
-    
-    // Iterator * it = home->createIterator(OrderBy::Name);
 
-    // it->first();
-    // std::cout << "TreeVisitorTest-------------" << std::endl;
-    // for (it->first(); !it->isDone(); it->next()) {
-    //     // std::cout << "call next()" << std::endl;   
-    //     std::cout << it->currentItem()->name() << std::endl;
-    // }
+    TreeVisitor * visitor = new TreeVisitor(OrderBy::Name);
+    home->accept(visitor);
 
-    // TreeVisitor * visitor = new TreeVisitor(OrderBy::Name);
-    // home->accept(visitor);
+    string expected;
+    expected += ".\n";
+    expected += "├── Documents\n";
+    expected += "│   ├── clean-architecture.pdf\n";
+    expected += "│   ├── domain-driven-design.pub\n";
+    expected += "│   ├── hello.txt\n";
+    expected += "│   ├── note.txt\n";
+    expected += "│   ├── object-oriented-analysis-and-design.pdf\n";
+    expected += "│   └── programming\n";
+    expected += "│       ├── cpp.pub\n";
+    expected += "│       ├── oop.pdf\n";
+    expected += "│       └── python.pub\n";
+    expected += "├── Downloads\n";
+    expected += "│   └── funny.png\n";
+    expected += "├── hello.txt\n";
+    expected += "└── my_profile\n";
 
+    ASSERT_EQ(expected, visitor->getTree());
 }
 
 TEST_F(TreeVisitorTest, OrderByNameWithFolderFirst) {
     
-    // Iterator * it = home->createIterator(OrderBy::NameWithFolderFirst);
+    TreeVisitor * visitor = new TreeVisitor(OrderBy::NameWithFolderFirst);
+    home->accept(visitor);
 
-    // it->first();
-    // std::cout << "TreeVisitorTest-------------" << std::endl;
-    // for (it->first(); !it->isDone(); it->next()) {
-    //     // std::cout << "call next()" << std::endl;   
-    //     std::cout << it->currentItem()->name() << std::endl;
-    // }
+    string expected;
+    expected += ".\n";
+    expected += "├── Documents\n";
+    expected += "│   ├── programming\n";
+    expected += "│   │   ├── cpp.pub\n";
+    expected += "│   │   ├── oop.pdf\n";
+    expected += "│   │   └── python.pub\n";
+    expected += "│   ├── clean-architecture.pdf\n";
+    expected += "│   ├── domain-driven-design.pub\n";
+    expected += "│   ├── hello.txt\n";
+    expected += "│   ├── note.txt\n";
+    expected += "│   └── object-oriented-analysis-and-design.pdf\n";
+    expected += "├── Downloads\n";
+    expected += "│   └── funny.png\n";
+    expected += "├── hello.txt\n";
+    expected += "└── my_profile\n";
 
-    // TreeVisitor * visitor = new TreeVisitor(OrderBy::NameWithFolderFirst);
-    // home->accept(visitor);
-
+    ASSERT_EQ(expected, visitor->getTree());
 }
 
 TEST_F(TreeVisitorTest, OrderByKind) {
     
-    // Iterator * it = home->createIterator(OrderBy::Kind);
-    // Iterator * it = document->createIterator(OrderBy::Kind);
-    Iterator * it = programming->createIterator(OrderBy::Kind);
+    TreeVisitor * visitor = new TreeVisitor(OrderBy::Kind);
+    home->accept(visitor);
 
-    // it->first();
-    // std::cout << "\nTreeVisitorTest-------------" << std::endl;
-    // for (it->first(); !it->isDone(); it->next()) {
-    //     // std::cout << "call next()" << std::endl;   
-    //     std::cout << it->currentItem()->name() << std::endl;
-    // }
+    string expected;
+    expected += ".\n";
+    expected += "├── my_profile\n";
+    expected += "├── Documents\n";
+    expected += "│   ├── programming\n";
+    expected += "│   │   ├── oop.pdf\n";
+    expected += "│   │   ├── cpp.pub\n";
+    expected += "│   │   └── python.pub\n";
+    expected += "│   ├── clean-architecture.pdf\n";
+    expected += "│   ├── object-oriented-analysis-and-design.pdf\n";
+    expected += "│   ├── domain-driven-design.pub\n";
+    expected += "│   ├── hello.txt\n";
+    expected += "│   └── note.txt\n";
+    expected += "├── Downloads\n";
+    expected += "│   └── funny.png\n";
+    expected += "└── hello.txt\n";
 
-    // TreeVisitor * visitor = new TreeVisitor(OrderBy::Kind);
-    // home->accept(visitor);
-
+    ASSERT_EQ(expected, visitor->getTree());
 }
 
 
