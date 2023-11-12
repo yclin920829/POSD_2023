@@ -294,76 +294,80 @@ public:
     class OrderByKindIterator: public Iterator {
     public:
         OrderByKindIterator(Folder* composite, int operationCount) : _host(composite), _operationCount(operationCount)  {
-            // std::cout << "OrderByKindIterator" << std::endl;
-
-            _kinds.push_back("folder");
-            _kinds.push_back("file");
-
+            // std::cout << "OrderByNameWithFolderFirstIterator" << std::endl;
             Iterator * it = _host->createIterator();
             for (it->first(); !it->isDone(); it->next()) {
-                if (it->currentItem()->name().find(".") != string::npos) {
-                    string kind = it->currentItem()->name().substr(it->currentItem()->name().find(".") + 1);
-                    // std::cout << "kind: " << kind << std::endl;
-                    if (isExist(kind)) {
-                        continue;
-                    }
-                    _kinds.push_back(kind);
-                }
-            }
-
-            for (it->first(); !it->isDone(); it->next()) {
-                std::cout << it->currentItem()->name() << std::endl;
-
                 struct stat fileInfo;
                 string path = it->currentItem()->path(); 
                 const char* c = path.c_str(); 
                 // std::cout << "path:" << c << "\n"; 
                 if(lstat(c, &fileInfo) == 0){
-                    // std::cout << "path:" << c << "\n";
                     if(S_ISDIR(fileInfo.st_mode)) {
-                        std:: cout << "folder: " << it->currentItem()->name() << std::endl;
-                    }else if (S_ISREG(fileInfo.st_mode)) {
-                        if (it->currentItem()->name().find(".") != string::npos) {
-                            // std::cout << "find: " << it->currentItem()->name() << endl;
-                            for (auto it2 = _kinds.begin(); it2 != _kinds.end(); ++it2) {
-                                // std::cout << "find2: " << *it2 << endl;
-                                if (it->currentItem()->name().find(*it2) != string::npos){
-                                    cout << "find3: " << *it2 << endl;
-                                    break;
-                                }
-                            }
-                        }else{
-                            cout << "file: " << it->currentItem()->name() << endl;
-                        }
+                        string type = "folder";
+                        string name = it->currentItem()->name();
+                        string newName = type + "." + name;
+                        // std::cout << "type: " << type << std::endl;
+                        // std::cout << "name: " << name<< std::endl;
+                        // std::cout << "new name: " << newName << std::endl;
 
+                        _names.push_back(newName);
+
+                    }else if (S_ISREG(fileInfo.st_mode)) {
+                        if (it->currentItem()->name().find(".") != std::string::npos) {
+                            string type = it->currentItem()->name().substr(it->currentItem()->name().find(".") + 1);
+                            string name = it->currentItem()->name().substr(0, it->currentItem()->name().find("."));
+                            string newName = type + "." + name;
+                            // std::cout << "type: " << type << std::endl;
+                            // std::cout << "name: " << name << std::endl;
+                            // std::cout << "new name: " << newName << std::endl;
+
+                            _names.push_back(newName);
+
+
+                        }else {
+                            string type = "file";
+                            string name = it->currentItem()->name();
+                            string newName = type + "." + name;
+                            // std::cout << "type: " << type << std::endl;
+                            // std::cout << "name: " << name<< std::endl;
+                            // std::cout << "new name: " << newName << std::endl;
+
+                            _names.push_back(newName);
+
+                        }
                     }
                 }
-
-                std::cout << "ssssss\n" << std::endl;
+                // std::cout << std::endl;
             }
 
-            // std::cout << "kinds:" << std::endl;
-            // for (auto it = _kinds.begin(); it != _kinds.end(); ++it) {
+            _names.sort();
+
+            // for (auto it = _names.begin(); it != _names.end(); ++it) {
             //     std::cout << *it << std::endl;
             // }
 
-            _kinds.sort([](string a, string b) {
-                return a < b;
-            });
+            // std::cout << std::endl;
 
-            std::cout << "kinds:" << std::endl;
-            for (auto it = _kinds.begin(); it != _kinds.end(); ++it) {
-                std::cout << *it << std::endl;
-            }
-        }
+            for (auto it = _names.begin(); it != _names.end(); ++it) {
+                string type = it->substr(0, it->find("."));
+                string name = it->substr(it->find(".") + 1);
 
-        bool isExist(string kind) {
-            for (auto it = _kinds.begin(); it != _kinds.end(); ++it) {
-                if (*it == kind) {
-                    return true;
+                if (type != "file" && type != "folder") {
+                    name = name + "." + type;
                 }
+
+                // std::list<string> path = _host->findByName(name);
+                Node *  node = _host->getChildByName(name.c_str());
+
+                // std::cout << "type: " << type << std::endl;
+                // std::cout << "name: " << name << std::endl;
+                // std::cout << "path: " << node->path() << std::endl;
+
+                _nodes.push_back(node);
+
+                // std::cout << std::endl;
             }
-            return false;
+
         }
 
         ~OrderByKindIterator() {}
@@ -391,6 +395,7 @@ public:
         std::list<Node *>::iterator _current;
         std::list<string> _kinds;
         std::list<Node *> _nodes;
+        std::list<string> _names;
         int _operationCount;
 
         void checkAvailable() const {
