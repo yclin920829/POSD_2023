@@ -14,7 +14,7 @@ public:
     FileSystemParser(FileSystemBuilder * builder): _builder(builder) {};
 
     Folder * getRoot() const {
-        cout << "getParserRoot" << endl;
+        // cout << "getParserRoot" << endl;
         // return new Folder("data/home");
         return _builder->getRoot();
     };
@@ -24,22 +24,22 @@ public:
         for (scanner->setPath(_path); !scanner->isDone(); scanner->nextNode()){
             string path = _path + "/" + scanner->currentNodeName();
             _files.push_back(path);
-            std::cout << "\n" << path << std::endl;
+            // std::cout << "\n" << path << std::endl;
             if (scanner->isFile()){
-                std::cout << "is a file." << std::endl;
+                // std::cout << "is a file." << std::endl;
                 _builder->buildFile(path);
             }else if (scanner->isFolder()){
-                std::cout << "is a folder." << std::endl;
+                // std::cout << "is a folder." << std::endl;
                 // _builder->buildFolder(path);
 
-                std::cout << "-----------------------------------" << std::endl;
+                // std::cout << "-----------------------------------" << std::endl;
 
                 FileSystemParser * parser = new FileSystemParser(_builder);
                 parser->setPath(path);
                 parser->parse();
 
                 // _builder->endFolder();
-                std::cout << "-----------------------------------" << std::endl;
+                // std::cout << "-----------------------------------" << std::endl;
 
             }
         }

@@ -16,42 +16,42 @@ public:
     }
 
     void buildFile(string path) {
-        std::cout << "build a File: " << path << std::endl;
+        // std::cout << "build a File: " << path << std::endl;
         File * file = new File(path);
         _currentFolder->add(file);
     }
 
     void buildFolder(string path) {
-        std::cout << "build a Folder: " << path << std::endl;
+        // std::cout << "build a Folder: " << path << std::endl;
         Folder * folder = new Folder(path);
 
         if (_fatherFolders.empty()){
-            std::cout << "this is a root folder, their is no father " << std::endl;
+            // std::cout << "this is a root folder, their is no father " << std::endl;
         } else {
-            std::cout << "super dolder : " << _fatherFolders.back()->path() << std::endl;
+            // std::cout << "super dolder : " << _fatherFolders.back()->path() << std::endl;
         }
 
         if (_currentFolder == nullptr) {
-            std::cout << "currentFolder is NULL" << std::endl;
+            // std::cout << "currentFolder is NULL" << std::endl;
         } else {
-            std::cout << "currentFolder is not NULL" << std::endl;
+            // std::cout << "currentFolder is not NULL" << std::endl;
             _fatherFolders.push_back(_currentFolder);
         }
         _currentFolder = folder;
 
-        std::cout << "currentFolder: " << _currentFolder->path() << std::endl;
+        // std::cout << "currentFolder: " << _currentFolder->path() << std::endl;
 
 
     }
 
     void endFolder() {
-        std::cout << "\nendFolder" << std::endl;
+        // std::cout << "\nendFolder" << std::endl;
         if (_fatherFolders.empty()){
-            std::cout << "this is a root folder, their is no father " << std::endl;
+            // std::cout << "this is a root folder, their is no father " << std::endl;
         } else {
-            std::cout << "super dolder : " << _fatherFolders.back()->path() << std::endl;
+            // std::cout << "super dolder : " << _fatherFolders.back()->path() << std::endl;
             Folder * super = _fatherFolders.back();
-            std::cout << "superFolder: " << super->path() << std::endl;
+            // std::cout << "superFolder: " << super->path() << std::endl;
 
             _fatherFolders.pop_back();
             super->add(_currentFolder);
@@ -59,7 +59,7 @@ public:
         }
         
 
-        std::cout << "currentFolder: " << _currentFolder->path() << std::endl;
+        // std::cout << "currentFolder: " << _currentFolder->path() << std::endl;
 
         
 
@@ -75,5 +75,4 @@ private:
         // std::cout << "superPath: " << superPath << std::endl;
         return superPath;
     };
-
 };
