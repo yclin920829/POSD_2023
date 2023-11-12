@@ -49,7 +49,6 @@ public:
                 return *it;
             }
         }
-
         return nullptr;
     }
 
@@ -69,20 +68,18 @@ public:
     }
 
     Iterator * createIterator(OrderBy orderby) override {
-        if (orderby == OrderBy::Normal) {
-            // std::cout << "Normal in createIterator" << std::endl;
-            return new FolderIterator(this, _operationCount);
-        } else if (orderby == OrderBy::Name) {
-            // std::cout << "Name in createIterator" << std::endl;
-            return new OrderByNameIterator(this, _operationCount);
-        } else if (orderby == OrderBy::NameWithFolderFirst) {
-            // std::cout << "NameWithFolderFirst in createIterator" << std::endl;
-            return new OrderByNameWithFolderFirstIterator(this, _operationCount);
-        } else if (orderby == OrderBy::Kind) {
-            // std::cout << "Kind in createIterator" << std::endl;
-            return new OrderByKindIterator(this, _operationCount);
-        } 
-        return new NullIterator();
+        switch (orderby) {
+            case OrderBy::Normal:
+                return new FolderIterator(this, _operationCount);
+            case OrderBy::Name:
+                return new OrderByNameIterator(this, _operationCount);
+            case OrderBy::NameWithFolderFirst:
+                return new OrderByNameWithFolderFirstIterator(this, _operationCount);
+            case OrderBy::Kind:
+                return new OrderByKindIterator(this, _operationCount);
+            default:
+                return new NullIterator();
+        }
     }
 
     Node * find(string path) override {
@@ -176,7 +173,6 @@ public:
     class OrderByNameIterator: public Iterator {
     public:
         OrderByNameIterator(Folder* composite, int operationCount) : _host(composite), _operationCount(operationCount)  {
-            // std::cout << "OrderByNameIterator" << std::endl;
             Iterator * it = _host->createIterator();
             for (it->first(); !it->isDone(); it->next()) {
                 _nodes.push_back(it->currentItem());
@@ -222,20 +218,16 @@ public:
     class OrderByNameWithFolderFirstIterator: public Iterator {
     public:
         OrderByNameWithFolderFirstIterator(Folder* composite, int operationCount) : _host(composite), _operationCount(operationCount)  {
-            // std::cout << "OrderByNameWithFolderFirstIterator" << std::endl;
             Iterator * it = _host->createIterator();
             for (it->first(); !it->isDone(); it->next()) {
                 struct stat fileInfo;
                 string path = it->currentItem()->path(); 
                 const char* c = path.c_str(); 
-                // std::cout << "path:" << c << "\n"; 
                 if(lstat(c, &fileInfo) == 0){
                     if(S_ISDIR(fileInfo.st_mode)) {
-                        // std::cout << "Folder: " << it->currentItem()->name() << std::endl;
                         _folders.push_back(it->currentItem());
                     }else if (S_ISREG(fileInfo.st_mode)) {
-                        // std::cout << "File: " << it->currentItem()->name() << std::endl;
-                        files.push_back(it->currentItem());
+                        _files.push_back(it->currentItem());
                     }
                 }
             }
@@ -243,7 +235,7 @@ public:
                 return a->name() < b->name();
             });
 
-            files.sort([](Node * a, Node * b) {
+            _files.sort([](Node * a, Node * b) {
                 return a->name() < b->name();
             });
 
@@ -251,7 +243,7 @@ public:
                 _nodes.push_back(*it);
             }
 
-            for (auto it = files.begin(); it != files.end(); ++it) {
+            for (auto it = _files.begin(); it != _files.end(); ++it) {
                 _nodes.push_back(*it);
             }
         }
@@ -280,7 +272,7 @@ public:
         Folder* const _host;
         std::list<Node *>::iterator _current;
         std::list<Node *> _folders;
-        std::list<Node *> files;
+        std::list<Node *> _files;
         std::list<Node *> _nodes;
         int _operationCount;
 
@@ -294,59 +286,29 @@ public:
     class OrderByKindIterator: public Iterator {
     public:
         OrderByKindIterator(Folder* composite, int operationCount) : _host(composite), _operationCount(operationCount)  {
-            // std::cout << "OrderByNameWithFolderFirstIterator" << std::endl;
             Iterator * it = _host->createIterator();
             for (it->first(); !it->isDone(); it->next()) {
                 struct stat fileInfo;
                 string path = it->currentItem()->path(); 
                 const char* c = path.c_str(); 
-                // std::cout << "path:" << c << "\n"; 
                 if(lstat(c, &fileInfo) == 0){
+                    string type, name;
                     if(S_ISDIR(fileInfo.st_mode)) {
-                        string type = "folder";
-                        string name = it->currentItem()->name();
-                        string newName = type + "." + name;
-                        // std::cout << "type: " << type << std::endl;
-                        // std::cout << "name: " << name<< std::endl;
-                        // std::cout << "new name: " << newName << std::endl;
-
-                        _names.push_back(newName);
-
+                        type = "folder";
+                        name = it->currentItem()->name();
                     }else if (S_ISREG(fileInfo.st_mode)) {
                         if (it->currentItem()->name().find(".") != std::string::npos) {
-                            string type = it->currentItem()->name().substr(it->currentItem()->name().find(".") + 1);
-                            string name = it->currentItem()->name().substr(0, it->currentItem()->name().find("."));
-                            string newName = type + "." + name;
-                            // std::cout << "type: " << type << std::endl;
-                            // std::cout << "name: " << name << std::endl;
-                            // std::cout << "new name: " << newName << std::endl;
-
-                            _names.push_back(newName);
-
-
+                            type = it->currentItem()->name().substr(it->currentItem()->name().find(".") + 1);
+                            name = it->currentItem()->name().substr(0, it->currentItem()->name().find("."));
                         }else {
-                            string type = "file";
-                            string name = it->currentItem()->name();
-                            string newName = type + "." + name;
-                            // std::cout << "type: " << type << std::endl;
-                            // std::cout << "name: " << name<< std::endl;
-                            // std::cout << "new name: " << newName << std::endl;
-
-                            _names.push_back(newName);
-
+                            type = "file";
+                            name = it->currentItem()->name();
                         }
                     }
+                    _names.push_back(type + "." + name);
                 }
-                // std::cout << std::endl;
             }
-
             _names.sort();
-
-            // for (auto it = _names.begin(); it != _names.end(); ++it) {
-            //     std::cout << *it << std::endl;
-            // }
-
-            // std::cout << std::endl;
 
             for (auto it = _names.begin(); it != _names.end(); ++it) {
                 string type = it->substr(0, it->find("."));
@@ -355,17 +317,7 @@ public:
                 if (type != "file" && type != "folder") {
                     name = name + "." + type;
                 }
-
-                // std::list<string> path = _host->findByName(name);
-                Node *  node = _host->getChildByName(name.c_str());
-
-                // std::cout << "type: " << type << std::endl;
-                // std::cout << "name: " << name << std::endl;
-                // std::cout << "path: " << node->path() << std::endl;
-
-                _nodes.push_back(node);
-
-                // std::cout << std::endl;
+                _nodes.push_back(_host->getChildByName(name.c_str()));
             }
 
         }
@@ -393,7 +345,6 @@ public:
     private:
         Folder* const _host;
         std::list<Node *>::iterator _current;
-        std::list<string> _kinds;
         std::list<Node *> _nodes;
         std::list<string> _names;
         int _operationCount;
