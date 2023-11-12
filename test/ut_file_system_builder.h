@@ -43,42 +43,46 @@ TEST(FileSystemBuilder, parser){
     ASSERT_EQ(expected, visitor->getTree());
 }
 
-// TEST(FileSystemBuilder, scanner){
+TEST(FileSystemBuilder, scanner){
 
-//     FileSystemScanner * scanner = new FileSystemScanner();
+    FileSystemScanner * scanner = new FileSystemScanner();
 
-//     scanner->setPath("data/home");
+    for (scanner->setPath("data/home"); !scanner->isDone(); scanner->nextNode()){
+        std::cout << scanner->currentNodeName() << std::endl;
+    }
 
-//     ASSERT_EQ(scanner->currentNodeName(), "my_profile");
-//     ASSERT_TRUE(scanner->isFile());
-//     ASSERT_FALSE(scanner->isFolder());
-//     ASSERT_FALSE(scanner->isDone());
+    // scanner->setPath("data/home");
 
-//     scanner->nextNode();
+    // ASSERT_EQ(scanner->currentNodeName(), "my_profile");
+    // ASSERT_TRUE(scanner->isFile());
+    // ASSERT_FALSE(scanner->isFolder());
+    // ASSERT_FALSE(scanner->isDone());
 
-//     ASSERT_EQ(scanner->currentNodeName(), "Documents");
-//     ASSERT_FALSE(scanner->isFile());
-//     ASSERT_TRUE(scanner->isFolder());
-//     ASSERT_FALSE(scanner->isDone());
+    // scanner->nextNode();
 
-//     scanner->nextNode();
+    // ASSERT_EQ(scanner->currentNodeName(), "Documents");
+    // ASSERT_FALSE(scanner->isFile());
+    // ASSERT_TRUE(scanner->isFolder());
+    // ASSERT_FALSE(scanner->isDone());
 
-//     ASSERT_EQ(scanner->currentNodeName(), "Downloads");
-//     ASSERT_FALSE(scanner->isFile());
-//     ASSERT_TRUE(scanner->isFolder());
-//     ASSERT_FALSE(scanner->isDone());
+    // scanner->nextNode();
 
-//     scanner->nextNode();
+    // ASSERT_EQ(scanner->currentNodeName(), "Downloads");
+    // ASSERT_FALSE(scanner->isFile());
+    // ASSERT_TRUE(scanner->isFolder());
+    // ASSERT_FALSE(scanner->isDone());
 
-//     ASSERT_EQ(scanner->currentNodeName(), "hello.txt");
-//     ASSERT_TRUE(scanner->isFile());
-//     ASSERT_FALSE(scanner->isFolder());
-//     ASSERT_FALSE(scanner->isDone());
+    // scanner->nextNode();
 
-//     scanner->nextNode();
+    // ASSERT_EQ(scanner->currentNodeName(), "hello.txt");
+    // ASSERT_TRUE(scanner->isFile());
+    // ASSERT_FALSE(scanner->isFolder());
+    // ASSERT_FALSE(scanner->isDone());
 
-//     ASSERT_TRUE(scanner->isDone());
-// }
+    // scanner->nextNode();
+
+    // ASSERT_TRUE(scanner->isDone());
+}
 
 TEST(FileSystemBuilder, builder){
 
