@@ -46,11 +46,7 @@ TEST(FileSystemBuilder, parser){
 TEST(FileSystemBuilder, scanner){
 
     FileSystemScanner * scanner = new FileSystemScanner();
-
-    for (scanner->setPath("data/home"); !scanner->isDone(); scanner->nextNode()){
-        std::cout << scanner->currentNodeName() << std::endl;
-    }
-
+    
     scanner->setPath("data/home");
 
     ASSERT_EQ(scanner->currentNodeName(), "my_profile");
@@ -61,8 +57,8 @@ TEST(FileSystemBuilder, scanner){
     scanner->nextNode();
 
     ASSERT_EQ(scanner->currentNodeName(), "hello.txt");
-    ASSERT_FALSE(scanner->isFile());
-    ASSERT_TRUE(scanner->isFolder());
+    ASSERT_TRUE(scanner->isFile());
+    ASSERT_FALSE(scanner->isFolder());
     ASSERT_FALSE(scanner->isDone());
 
     scanner->nextNode();
@@ -75,8 +71,8 @@ TEST(FileSystemBuilder, scanner){
     scanner->nextNode();
 
     ASSERT_EQ(scanner->currentNodeName(), "Downloads");
-    ASSERT_TRUE(scanner->isFile());
-    ASSERT_FALSE(scanner->isFolder());
+    ASSERT_FALSE(scanner->isFile());
+    ASSERT_TRUE(scanner->isFolder());
     ASSERT_FALSE(scanner->isDone());
 
     scanner->nextNode();
