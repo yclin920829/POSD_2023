@@ -15,3 +15,15 @@ clean:
 
 dirs:
 	mkdir -p bin obj
+
+clear:
+	clear
+
+me: clear clean all
+	./bin/ut_all
+
+git : 
+	git add .
+	git commit -m "push test not done."
+	git push
+
