@@ -40,6 +40,9 @@ public:
     }
 
     Value * getValue(std::string value) {
+        if (_jsonMap[value] == NULL) {
+            throw "key not found";
+        }
         return _jsonMap[value];
     }
 

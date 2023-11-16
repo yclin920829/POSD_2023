@@ -35,20 +35,20 @@ public:
                 
                 if(token == ':') {
                     key = value;
-                    std::cout << ":\n";
+                    // std::cout << ":\n";
                 } 
                 else if(token == ',') {
                     // fill in the code
-                    std::cout<< ",\n";
+                    // std::cout<< ",\n";
                     _builder->buildValue(key, value);
                 } else if (token == '}') {
                     // fill in the code
-                    std::cout<< "}\n";
+                    // std::cout<< "}\n";
                     _builder->buildValue(key, value);
                     // _builder->endObject();
                 }
-                std::cout << "key: " << key << "\n";
-                std::cout << "value: " << value << "\n\n";
+                // std::cout << "key: " << key << "\n";
+                // std::cout << "value: " << value << "\n\n";
 
             }
             else if (token == '}') {

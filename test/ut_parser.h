@@ -17,7 +17,7 @@ TEST(ParserTest, parser){
     JsonParser * parser = new JsonParser(scanner, builder);
 
     std::string input = "{\"keyc\":{\"key1\":\"value1\",\"key2\":\"value2\"}}";
-    std::cout<< "input: \n" << input << "\n\n";
+    // std::cout<< "input: \n" << input << "\n\n";
     parser->setInput(input);
 
     parser->parse();
