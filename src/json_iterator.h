@@ -15,4 +15,19 @@ public:
 };
 
 class NullIterator : public JsonIterator {
+    void first() override {};
+
+    std::string currentKey() const override {
+        throw "can't invoke NullIterator::currentKey()";
+    };
+
+    Value * currentValue() const override {
+        throw "can't invoke NullIterator::currentValue()";
+    };
+
+    void next() override {};
+
+    bool isDone() const override {
+        return true;
+    }
 };

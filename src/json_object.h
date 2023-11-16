@@ -43,6 +43,39 @@ public:
         return _jsonMap[value];
     }
 
+    JsonIterator * createIterator() override {
+        return new JsonObjectIterator(this);
+    }
+
+    class JsonObjectIterator : public JsonIterator {
+    public:
+        JsonObjectIterator(JsonObject * jsonObject) : _jsonObject(jsonObject)  {}
+
+        void first() override {
+            _current = _jsonObject->_jsonMap.begin();
+        };
+
+        std::string currentKey() const override {
+            return _current->first;
+        };
+
+        Value * currentValue() const override {
+            return _current->second;
+        };
+
+        void next() override {
+            _current++;
+        };
+
+        bool isDone() const override {
+            return _current == _jsonObject->_jsonMap.end();
+        }
+
+    private:
+        JsonObject * const _jsonObject;
+        std::map<std::string, Value *>::iterator _current;
+    };
+
 private:
     std::string _result;
     std::map<std::string, Value *> _jsonMap;
