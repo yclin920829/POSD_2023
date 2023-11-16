@@ -1,7 +1,7 @@
 .PHONY: clean dirs
 
 UT_ALL = test/ut_all.cpp
-TEST_HEADERS = test/json_test.h test/ut_iterator.h test/ut_visitor.h test/ut_parser.h
+TEST_HEADERS = test/json_test.h test/ut_iterator.h test/ut_visitor.h
 
 SRC_HEADERS = src/json_object.h src/value.h src/string_value.h src/json_iterator.h src/visitor.h src/beautify_visitor.h src/json_parser.h src/json_scanner.h src/json_builder.h
 
