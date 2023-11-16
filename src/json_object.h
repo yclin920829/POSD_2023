@@ -36,7 +36,13 @@ public:
     }
 
     void set(std::string key, Value * value) {
-        _jsonMap.insert( std::pair<std::string,Value *>(key, value) );
+        if (_jsonMap.find(key) == _jsonMap.end()) {
+            // std::cout << "key not found\n";
+            _jsonMap.insert( std::pair<std::string,Value *>(key, value) );
+        } else {
+            // std::cout << "key found\n";
+            _jsonMap[key] = value;
+        }
     }
 
     Value * getValue(std::string value) {
