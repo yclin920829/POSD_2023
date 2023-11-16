@@ -1,5 +1,6 @@
 #pragma once
 
+#include "json_object.h"
 
 class JsonBuilder {
 public:
