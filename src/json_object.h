@@ -47,6 +47,10 @@ public:
         return new JsonObjectIterator(this);
     }
 
+    void accept(JsonVisitor * visitor) override {
+        visitor->visitJsonObject(this);
+    }
+
     class JsonObjectIterator : public JsonIterator {
     public:
         JsonObjectIterator(JsonObject * jsonObject) : _jsonObject(jsonObject)  {}

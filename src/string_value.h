@@ -13,6 +13,10 @@ public:
         return "\"" + _value + "\"";
     }
 
+    void accept(JsonVisitor * visitor) override {
+        visitor->visitStringValue(this);
+    }
+
 private:
     std::string _value;
 };

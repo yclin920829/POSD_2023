@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include "visitor.h"
 #include "json_iterator.h"
 
 class Value {
@@ -11,4 +12,6 @@ public:
     virtual JsonIterator * createIterator() {
         return new NullIterator();
     }
+
+    virtual void accept(JsonVisitor * visitor) = 0;
 };
