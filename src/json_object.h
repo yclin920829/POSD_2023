@@ -12,7 +12,7 @@ public:
     JsonObject() {};
 
     std::string toString() override {
-
+        _result = "";
         int size = _jsonMap.size();
         std::map<std::string, Value *>::iterator it = _jsonMap.begin();
 

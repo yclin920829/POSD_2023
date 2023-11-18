@@ -45,7 +45,8 @@ public:
                     // fill in the code
                     // std::cout<< "}\n";
                     _builder->buildValue(key, value);
-                    // _builder->endObject();
+                    _builder->endObject();
+                    token = _scanner->next();
                 }
                 // std::cout << "key: " << key << "\n";
                 // std::cout << "value: " << value << "\n\n";
