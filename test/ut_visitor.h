@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 
-#include <iostream>
 #include "../src/beautify_visitor.h"
 
 TEST(VisitorTest, ping){
@@ -29,12 +28,6 @@ TEST(VisitorTest, normal) {
     BeautifyVisitor * visitor = new BeautifyVisitor();
 
     example->accept(visitor);
-
-    // std::cout << "---------------test---------------\n";
-    // std::cout << visitor->getResult();
-
-    // std::cout <<"{\n    \"desc\": \"Product\",\n    \"id\": \"10\",\n    \"isDeleted\": \"false\"\n}";
-
 }
 
 TEST(VisitorTest, BeautifyVisitor) {
