@@ -14,4 +14,11 @@ public:
     }
 
     virtual void accept(JsonVisitor * visitor) = 0;
+
+    int getSize() const {
+        return _jsonMap.size();
+    }
+
+protected:
+    std::map<std::string, Value *> _jsonMap;
 };

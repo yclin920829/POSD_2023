@@ -60,6 +60,10 @@ public:
         visitor->visitJsonObject(this);
     }
 
+    // int getSize() const {
+    //     return _jsonMap.size();
+    // }
+
     class JsonObjectIterator : public JsonIterator {
     public:
         JsonObjectIterator(JsonObject * jsonObject) : _jsonObject(jsonObject)  {}
@@ -91,6 +95,6 @@ public:
 
 private:
     std::string _result;
-    std::map<std::string, Value *> _jsonMap;
+    // std::map<std::string, Value *> _jsonMap;
 };
 
