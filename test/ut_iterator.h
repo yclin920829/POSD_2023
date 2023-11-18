@@ -31,6 +31,9 @@ TEST(IteratorTest, Nomal) {
     ASSERT_EQ(books, it->currentValue());
     ASSERT_EQ(books->toString(), it->currentValue()->toString());
     ASSERT_FALSE(it->isDone());
+
+    it->next();
+    ASSERT_TRUE(it->isDone());
 }
 
 TEST(IteratorTest, StringValue){

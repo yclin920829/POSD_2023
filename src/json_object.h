@@ -12,35 +12,24 @@ public:
     JsonObject() {};
 
     std::string toString() override {
-        _result = "";
+        _result = "{\n";
         int size = _jsonMap.size();
         std::map<std::string, Value *>::iterator it = _jsonMap.begin();
-
-        // std::cout << "json map size = " << size << "\n";
-        
-        _result += "{\n";
         for (int count = 0; count < size; it++, count++)
         {
-            // std::cout << it->first << ":" << it->second->toString() << "\n";
-            _result += "\"";
-            _result += it->first;
-            _result += "\":";
-            _result += it->second->toString();
+            _result += ("\"" + it->first + "\":" + it->second->toString());
             if (count != (size - 1)){
                 _result += ",";
             }
             _result += "\n";
         }
-        _result += "}";
-        return _result;
+        return _result + "}";
     }
 
     void set(std::string key, Value * value) {
         if (_jsonMap.find(key) == _jsonMap.end()) {
-            // std::cout << "key not found\n";
             _jsonMap.insert( std::pair<std::string,Value *>(key, value) );
         } else {
-            // std::cout << "key found\n";
             _jsonMap[key] = value;
         }
     }
@@ -59,10 +48,6 @@ public:
     void accept(JsonVisitor * visitor) override {
         visitor->visitJsonObject(this);
     }
-
-    // int getSize() const {
-    //     return _jsonMap.size();
-    // }
 
     class JsonObjectIterator : public JsonIterator {
     public:
@@ -95,6 +80,5 @@ public:
 
 private:
     std::string _result;
-    // std::map<std::string, Value *> _jsonMap;
 };
 

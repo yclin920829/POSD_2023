@@ -11,6 +11,7 @@ public:
     virtual Value * currentValue() const = 0;
 
     virtual void next() = 0;
+    
     virtual bool isDone() const = 0;
 };
 

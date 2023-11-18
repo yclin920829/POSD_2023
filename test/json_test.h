@@ -1,3 +1,4 @@
+#include <gtest/gtest.h>
 #include "../src/json_object.h"
 #include "../src/string_value.h"
 

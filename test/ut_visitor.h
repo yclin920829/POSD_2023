@@ -49,7 +49,7 @@ TEST(VisitorTest, BeautifyVisitor) {
 }
 
 TEST(VisitorTest, BeautifyVisitorWithComposed) {
-    std::string expect = "{\n    \"books\": {\n        \"clean code\": {\n            \"author\": \"Robert C. Martin\",\n            \"name\": \"Clean Code\"\n        },\n        \"design patterns\": {\n            \"author\": \"Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides\",\n            \"name\": \"Design Patterns: Elements of Reusable Object-Oriented Software\"\n        }\n    }\n}";
+    std::string expect = "{\n    \"books\": {\n        \"clean code\": {\n            \"author\": \"Robert C. Martin\",\n            \"name\": \"Clean Code\"\n        },\n        \"design patterns\": {\n            \"author\": \"Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides\",\n            \"name\": \"Design Patterns Elements of Reusable Object-Oriented Software\"\n        }\n    }\n}";
 
     JsonObject *example = new JsonObject;
     JsonObject *books = new JsonObject;
@@ -61,7 +61,7 @@ TEST(VisitorTest, BeautifyVisitorWithComposed) {
     clean_code->set("name", v2);
     Value * v3 = new StringValue("Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides");
     design_pattern->set("author", v3);
-    Value * v4 = new StringValue("Design Patterns: Elements of Reusable Object-Oriented Software");
+    Value * v4 = new StringValue("Design Patterns Elements of Reusable Object-Oriented Software");
     design_pattern->set("name", v4);
 
     books->set("clean code", clean_code);

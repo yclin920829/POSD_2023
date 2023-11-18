@@ -1,11 +1,12 @@
 #pragma once
 
+#include <string>
+#include <regex>
+
 #include "./json_scanner.h"
 #include "./json_builder.h"
 #include "./json_object.h"
 #include "./string_value.h"
-#include <string>
-#include <regex>
 
 class JsonParser {
 public:
@@ -18,7 +19,6 @@ public:
             if(token == ' ') {
                 continue;
             } else if (token == '{') {
-                // fill in the code
                 _builder->buildObject(key);
             } else if (token == '"') {
                 std::string value;
@@ -35,32 +35,23 @@ public:
                 
                 if(token == ':') {
                     key = value;
-                    // std::cout << ":\n";
                 } 
                 else if(token == ',') {
-                    // fill in the code
-                    // std::cout<< ",\n";
                     _builder->buildValue(key, value);
                 } else if (token == '}') {
-                    // fill in the code
-                    // std::cout<< "}\n";
                     _builder->buildValue(key, value);
                     _builder->endObject();
                     token = _scanner->next();
                 }
-                // std::cout << "key: " << key << "\n";
-                // std::cout << "value: " << value << "\n\n";
-
             }
             else if (token == '}') {
-                // fill in the code
                 _builder->endObject();
             }
         }
     }
 
     JsonObject * getJsonObject() {
-        return _builder->getJsonObject();    // fill in the code
+        return _builder->getJsonObject();
     }
 
     void setInput(std::string input) {
