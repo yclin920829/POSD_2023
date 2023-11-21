@@ -34,6 +34,16 @@ TEST(IteratorTest, Nomal) {
 
     it->next();
     ASSERT_TRUE(it->isDone());
+
+    delete jo;
+    delete books;
+    delete clean_code;
+    delete design_pattern;
+    delete v1;
+    delete v2;
+    delete v3;
+    delete v4;
+    delete it;
 }
 
 TEST(IteratorTest, StringValue){
@@ -57,4 +67,9 @@ TEST(IteratorTest, StringValue){
 
     it->next();
     ASSERT_TRUE(it->isDone());
+
+    delete jo;
+    delete v1;
+    delete v2;
+    delete it;
 }

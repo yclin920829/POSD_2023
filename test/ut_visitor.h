@@ -28,6 +28,16 @@ TEST(VisitorTest, normal) {
     BeautifyVisitor * visitor = new BeautifyVisitor();
 
     example->accept(visitor);
+
+    delete example;
+    delete books;
+    delete clean_code;
+    delete design_pattern;
+    delete v1;
+    delete v2;
+    delete v3;
+    delete v4;
+    delete visitor;
 }
 
 TEST(VisitorTest, BeautifyVisitor) {
@@ -46,6 +56,12 @@ TEST(VisitorTest, BeautifyVisitor) {
     example->accept(visitor);
 
     ASSERT_EQ(expect, visitor->getResult());
+
+    delete example;
+    delete v1;
+    delete v2;
+    delete v3;
+    delete visitor;
 }
 
 TEST(VisitorTest, BeautifyVisitorWithComposed) {
@@ -74,4 +90,14 @@ TEST(VisitorTest, BeautifyVisitorWithComposed) {
     example->accept(visitor);
 
     ASSERT_EQ(expect, visitor->getResult());
+
+    delete example;
+    delete books;
+    delete clean_code;
+    delete design_pattern;
+    delete v1;
+    delete v2;
+    delete v3;
+    delete v4;
+    delete visitor;
 }

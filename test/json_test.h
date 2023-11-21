@@ -10,6 +10,8 @@ TEST(JSonSuite, OneKeyStringValue) {
     ASSERT_EQ(v1, jo->getValue("key1"));
     ASSERT_EQ("{\n\"key1\":\"value1\"\n}", jo->toString());
 
+    delete jo;
+    delete v1;
 }
 
 TEST(JSonSuite, TwoKeyStringValue) {
@@ -23,6 +25,9 @@ TEST(JSonSuite, TwoKeyStringValue) {
     ASSERT_EQ("\"value2\"", jo->getValue("key2")->toString());
     ASSERT_EQ("{\n\"key1\":\"value1\",\n\"key2\":\"value2\"\n}", jo->toString());
 
+    delete jo;
+    delete v1;
+    delete v2;
 }
 
 TEST(JSonSuite, Composite) {
@@ -37,6 +42,11 @@ TEST(JSonSuite, Composite) {
 
     ASSERT_EQ(jo, j_composite->getValue("keyc"));
     ASSERT_EQ("{\n\"keyc\":{\n\"key1\":\"value1\",\n\"key2\":\"value2\"\n}\n}", j_composite->toString());
+
+    delete jo;
+    delete v1;
+    delete v2;
+    delete j_composite;
 }
 
 TEST(JSonSuite, CompositeGetValueException) {
@@ -50,6 +60,11 @@ TEST(JSonSuite, CompositeGetValueException) {
     j_composite->set("keyc", jo);
 
     ASSERT_ANY_THROW(j_composite->getValue("keyc1111"));
+
+    delete jo;
+    delete v1;
+    delete v2;
+    delete j_composite;
 }
 
 TEST(JSonSuite, ReplaceValueOfOneKey) {
@@ -66,4 +81,9 @@ TEST(JSonSuite, ReplaceValueOfOneKey) {
 
     ASSERT_EQ(jo, j_composite->getValue("keyc"));
     ASSERT_EQ("{\n\"keyc\":{\n\"key1\":\"value3\",\n\"key2\":\"value2\"\n}\n}", j_composite->toString());
+
+    delete jo;
+    delete v1;
+    delete v2;
+    delete j_composite;
 }

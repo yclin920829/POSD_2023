@@ -4,6 +4,8 @@ class Value;
 
 class JsonIterator {
 public:
+    virtual ~JsonIterator() {};
+
     virtual void first() = 0;
 
     virtual std::string currentKey() const = 0;
@@ -16,6 +18,8 @@ public:
 };
 
 class NullIterator : public JsonIterator {
+public:
+
     void first() override {};
 
     std::string currentKey() const override {
