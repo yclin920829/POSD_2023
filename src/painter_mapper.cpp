@@ -47,9 +47,8 @@ std::string PainterMapper::addStmt(DomainObject * domainObject) const {
 }
 
 //TODO : not sure
-std::string PainterMapper::addStmt(DomainObject * domainObject) const {
-    Painter* painter = static_cast<Painter*>(domainObject);
-    std::string stmt = "DELETE INTO painter(ID, Name) values ('" + painter->id() + "', '" + painter->name() + "')";
+std::string PainterMapper::deleteByIdStmt(std::string id) const {
+    std::string stmt = "DELETE FROM painter WHERE ID='" + id + "'";
     return stmt;
 }
 
