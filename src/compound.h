@@ -39,7 +39,7 @@ public:
         _components.push_back(shape);
     }
 
-    std::string toString() const {
+    std::string toString() const override {
         std::string result("compound { ");
 
         for (auto component : _components) {

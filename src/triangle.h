@@ -3,6 +3,7 @@
 #include "./visitor.h"
 #include "./iterator_factory.h"
 #include <string>
+#include <sstream>
 
 class Triangle : public Shape {
 public:
@@ -18,7 +19,7 @@ public:
         visitor->visitTriangle(this);
     }
 
-    std::string toString() const {
+    std::string toString() const override {
         std::stringstream ss;
         ss << "triangle " << _a << " " << _b << " " << _c;
         return ss.str();

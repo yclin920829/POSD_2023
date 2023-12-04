@@ -38,7 +38,7 @@ clear:
 	clear
 
 me: clear clean all
-	./bin/ut
+	./bin/ut_all
 
 install:
 	sudo apt-get install libgtest-dev

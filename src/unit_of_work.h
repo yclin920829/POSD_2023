@@ -8,25 +8,45 @@ class DomainObject;
 
 class UnitOfWork {
 public:
-    static UnitOfWork * instance();
+    //TODO
+    static UnitOfWork * instance() {
+        return new UnitOfWork();
+    }
 
-    void registerNew(DomainObject * domainObject);
+    //TODO
+    void registerNew(DomainObject * domainObject) {};
 
-    void registerClean(DomainObject * domainObject);
+    //TODO
+    void registerClean(DomainObject * domainObject) {};
 
-    void registerDirty(DomainObject * domainObject);
+    //TODO
+    void registerDirty(DomainObject * domainObject) {};
 
-    void registerDeleted(DomainObject * domainObject);
+    //TODO
+    void registerDeleted(DomainObject * domainObject) {};
 
-    bool inNew(std::string id) const;
+    //TODO
+    bool inNew(std::string id) const {
+        return false;
+    };
 
-    bool inClean(std::string id) const;
+    //TODO
+    bool inClean(std::string id) const {
+        return true;
+    }
 
-    bool inDirty(std::string id) const;
+    //TODO
+    bool inDirty(std::string id) const {
+        return false;
+    }
 
-    bool inDeleted(std::string id) const;
+    //TODO
+    bool inDeleted(std::string id) const {
+        return false;
+    }
 
-    void commit();
+    //TODO
+    void commit() {};
 
 protected:
     UnitOfWork();

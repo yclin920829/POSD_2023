@@ -11,34 +11,48 @@ class Scanner;
 class Parser;
 class Builder;
 
-class DrawingMapper : public AbstractMapper
-{
+class DrawingMapper : public AbstractMapper {
 public:
     Drawing *find(std::string id);
 
     // add
-    void add(DomainObject *Drawing);
+    //TODO
+    void add(DomainObject *Drawing) {};
 
     // update
-    void update(std::string id);
+    //TODO
+    void update(std::string id) {};
 
     // delete
-    void del(std::string id);
+    //TODO
+    void del(std::string id) {};
 
-    std::string updateStmt(DomainObject *domainObject) const;
+    //TODO
+    std::string updateStmt(DomainObject *domainObject) const override {
+        return "";
+    }
 
-    std::string findByIdStmt(std::string id) const;
+    std::string findByIdStmt(std::string id) const override;
 
-    std::string addStmt(DomainObject *domainObject) const;
+    //TODO
+    std::string addStmt(DomainObject *domainObject) const override {
+        return "";
+    }
 
-    std::string deleteByIdStmt(std::string id) const;
+    //TODO
+    std::string deleteByIdStmt(std::string id) const override {
+        return _errorMessage;
+    }
 
     static DrawingMapper *instance();
 
 protected:
     DrawingMapper();
 
-    static int callback(void *notUsed, int argc, char **argv, char **colNames);
+    //TODO
+    static int callback(void *notUsed, int argc, char **argv, char **colNames) {
+        return 0;
+    }
 
     std::list<Shape *> convertShapes(int argc, char **argv);
 

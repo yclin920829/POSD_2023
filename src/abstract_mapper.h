@@ -11,9 +11,7 @@ typedef int (*CallbackType)(void *, int argc, char **argv, char **col_names);
 class AbstractMapper
 {
 public:
-    virtual ~AbstractMapper()
-    {
-    }
+    virtual ~AbstractMapper() {}
 
     virtual std::string updateStmt(DomainObject *domainObject) const = 0;
     virtual std::string findByIdStmt(std::string id) const = 0;
@@ -48,14 +46,22 @@ protected:
         return nullptr;
     }
 
-    DomainObject * abstractFind(std::string id, CallbackType callback);
+    //TODO
+    DomainObject * abstractFind(std::string id, CallbackType callback) {
+        return nullptr;
+    }
 
-    void abstractAdd(DomainObject *domainObject);
+    //TODO
+    void abstractAdd(DomainObject *domainObject) {};
 
-    void abstractUpdate(DomainObject *domainObject);
+    //TODO
+    void abstractUpdate(DomainObject *domainObject) {};
 
-    void abstractDelete(std::string id);
+    //TODO
+    void abstractDelete(std::string id) {};
 
-    void load(DomainObject *domainObject);
+    //TODO
+    void load(DomainObject *domainObject) {};
+
 private:
 };

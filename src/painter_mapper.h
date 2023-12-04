@@ -9,28 +9,52 @@ class Painter;
 
 class PainterMapper: public AbstractMapper {
 public:
-    Painter* find(std::string id);
+    //TODO
+    Painter* find(std::string id) {
+        return nullptr;
+    };
     
-    void add(DomainObject * Painter);
+    //TODO
+    void add(DomainObject * Painter) {};
 
-    void update(std::string id);
+    //TODO
+    void update(std::string id) {};
 
-    void del(std::string id);
+    //TODO
+    void del(std::string id) {};
 
-    std::string updateStmt(DomainObject * domainObject) const;
+    //TODO
+    std::string updateStmt(DomainObject * domainObject) const override {
+        return "";
+    }
 
-    std::string findByIdStmt(std::string id) const;
+    //TODO
+    std::string findByIdStmt(std::string id) const override {
+        return "";
+    };
 
-    std::string addStmt(DomainObject * domainObject) const;
+    //TODO
+    std::string addStmt(DomainObject * domainObject) const override {
+        return "";
+    };
 
-    std::string deleteByIdStmt(std::string id) const;
+    //TODO
+    std::string deleteByIdStmt(std::string id) const override {
+        return _errorMessage;
+    };
 
-    static PainterMapper* instance();
+    //TODO
+    static PainterMapper* instance() {
+        return new PainterMapper();
+    }
 
 protected:
     PainterMapper();
 
-    static int callback(void* notUsed, int argc, char** argv, char** colNames);
+    //TODO
+    static int callback(void* notUsed, int argc, char** argv, char** colNames) {
+        return 0;
+    };
     
 private:
     char* _errorMessage;
