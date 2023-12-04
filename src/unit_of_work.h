@@ -8,48 +8,39 @@ class DomainObject;
 
 class UnitOfWork {
 public:
-    //TODO
-    static UnitOfWork * instance() {
-        return new UnitOfWork();
-    }
+    //TODO : class
+    static UnitOfWork * instance();
 
-    //TODO
-    void registerNew(DomainObject * domainObject) {};
+    //TODO : class
+    void registerNew(DomainObject * domainObject);
 
-    //TODO
-    void registerClean(DomainObject * domainObject) {};
+    //TODO : class
+    void registerClean(DomainObject * domainObject);
 
-    //TODO
-    void registerDirty(DomainObject * domainObject) {};
+    //TODO : class
+    void registerDirty(DomainObject * domainObject);
 
-    //TODO
-    void registerDeleted(DomainObject * domainObject) {};
+    //TODO : class
+    void registerDeleted(DomainObject * domainObject);
 
-    //TODO
-    bool inNew(std::string id) const {
-        return false;
-    };
+    //TODO : class
+    bool inNew(std::string id) const;
 
-    //TODO
-    bool inClean(std::string id) const {
-        return true;
-    }
+    //TODO : class
+    bool inClean(std::string id) const;
 
-    //TODO
-    bool inDirty(std::string id) const {
-        return false;
-    }
+    //TODO : class
+    bool inDirty(std::string id) const;
 
-    //TODO
-    bool inDeleted(std::string id) const {
-        return false;
-    }
+    //TODO : class
+    bool inDeleted(std::string id) const;
 
-    //TODO
-    void commit() {};
+    //TODO : class
+    void commit();
 
 protected:
     UnitOfWork();
+
 private:
     std::unordered_map<std::string, DomainObject *> _new;
     std::unordered_map<std::string, DomainObject *> _dirty;

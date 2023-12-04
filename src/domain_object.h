@@ -10,8 +10,7 @@ public:
         return _id;
     }
 
-    virtual ~DomainObject() {
-    }
+    virtual ~DomainObject() {}
     
 protected:
     std::string _id;

@@ -1,35 +1,27 @@
 #pragma once
 
-#include <string>
 #include <list>
-#include "domain_object.h"
+#include <string>
 #include "shape.h"
 #include "painter.h"
+#include "domain_object.h"
 
-class Drawing : public DomainObject
-{
+class Drawing : public DomainObject {
 public:
-  Drawing(std::string id, Painter *painter) : DomainObject(id), _painter(painter)
-  {
-  }
+  Drawing(std::string id, Painter *painter) : DomainObject(id), _painter(painter) {}
 
-  Drawing(std::string id, Painter *painter, std::list<Shape *> shapes) : DomainObject(id), _painter(painter), _shapes(shapes)
-  {
-  }
+  Drawing(std::string id, Painter *painter, std::list<Shape *> shapes) : DomainObject(id), _painter(painter), _shapes(shapes) {}
 
-  Painter *painter() const
-  {
+  Painter *painter() const {
     return _painter;
   }
 
-  void setPainter(Painter *painter)
-  {
+  void setPainter(Painter *painter) {
     _painter = painter;
     UnitOfWork::instance()->registerDirty(this);
   }
 
-  Shape *getShape(int i) const
-  {
+  Shape *getShape(int i) const {
     if (i < 0 || i > _shapes.size() - 1)
       return nullptr;
 
@@ -40,11 +32,9 @@ public:
     return *it;
   }
 
-  std::string getShapesAsString() const
-  {
+  std::string getShapesAsString() const{
     std::string result = "";
-    for (auto shape : _shapes)
-    {
+    for (auto shape : _shapes) {
       result += shape->toString() + "\n";
     }
     return result;

@@ -10,12 +10,9 @@
 class Compound : public Shape {
     friend class ShapeIterator;
 public:
-    Compound() {
-    }
+    Compound() {}
 
-    Compound(std::vector<Shape *> shapes): _components(shapes) {
-
-    }
+    Compound(std::vector<Shape *> shapes): _components(shapes) {}
 
     double perimeter() const override {
         double p = 0.0;
