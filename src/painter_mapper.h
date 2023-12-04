@@ -18,8 +18,8 @@ public:
     //TODO : class
     void update(std::string id);
 
-    //TODO : del
-    void del(std::string id) {};
+    //TODO : class
+    void del(std::string id);
 
     //TODO : class
     std::string updateStmt(DomainObject * domainObject) const override;
@@ -30,10 +30,8 @@ public:
     //TODO : class
     std::string addStmt(DomainObject * domainObject) const override;
 
-    //TODO : deleteByIdStmt
-    std::string deleteByIdStmt(std::string id) const override {
-        return _errorMessage;
-    };
+    //TODO : class
+    std::string deleteByIdStmt(std::string id) const override;
 
     //TODO : class
     static PainterMapper* instance();

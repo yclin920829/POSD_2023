@@ -16,8 +16,18 @@ Drawing *DrawingMapper::find(std::string id) {
     return static_cast<Drawing *>(abstractFind(id, DrawingMapper::callback));
 }
 
+//TODO : not sure
+void DrawingMapper::add(DomainObject * Drawing) {
+    abstractAdd(Drawing);
+}
+
 void DrawingMapper::update(std::string id) {
     abstractUpdate(getDomainObject(id));
+}
+
+//TODO : not sure
+void DrawingMapper::del(std::string id) {
+    abstractDelete(id);
 }
 
 std::string DrawingMapper::findByIdStmt(std::string id) const {
@@ -27,31 +37,31 @@ std::string DrawingMapper::findByIdStmt(std::string id) const {
 
 //TODO : not sure
 std::string DrawingMapper::deleteByIdStmt(std::string id) const {
-    std::string stmt = "DELETE * FROM drawing WHERE ID = '" + id + "'";
+    std::string stmt = "DELETE FROM drawing WHERE ID = '" + id + "'";
     return stmt;
 }
 
+//TODO : not sure
 std::string DrawingMapper::addStmt(DomainObject* domainObject) const {
-    return "";
+    Drawing* drawing = static_cast<Drawing*>(domainObject);
+    std::string stmt = "INSERT INTO drawing (ID, Painter) VALUES ('" + drawing->id() + "', '" + drawing->painter()->id() + "')";
+    return stmt;
 }
 
 DrawingMapper *DrawingMapper::instance() {
-    if (_instance == nullptr)
-    {
+    if (_instance == nullptr) {
         _instance = new DrawingMapper();
     }
     return _instance;
 }
 
-DrawingMapper::DrawingMapper()
-{
+DrawingMapper::DrawingMapper() {
     _builder = new Builder();
     _scanner = new Scanner();
     _parser = new Parser(_scanner, _builder);
 }
 
-std::list<Shape *> DrawingMapper::convertShapes(int argc, char **argv)
-{
+std::list<Shape *> DrawingMapper::convertShapes(int argc, char **argv) {
     _parser->clear();
     _parser->setInput(argv[2]);
     _parser->parse();

@@ -16,16 +16,16 @@ public:
     Drawing *find(std::string id);
 
     // add
-    //TODO : add
-    void add(DomainObject * Drawing) {};
+    //TODO : class
+    void add(DomainObject * Drawing);
 
     // update
     //TODO : class
     void update(std::string id);
 
     // delete
-    //TODO : del
-    void del(std::string id) {};
+    //TODO : class
+    void del(std::string id);
 
     //TODO : class
     std::string updateStmt(DomainObject *domainObject) const override;

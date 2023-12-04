@@ -1,4 +1,5 @@
 #include "painter_mapper.h"
+
 #include <string>
 #include <iostream>
 #include <sqlite3.h>
@@ -22,6 +23,11 @@ void PainterMapper::update(std::string id) {
     abstractUpdate(getDomainObject(id));
 }
 
+//TODO : not sure
+void PainterMapper::del(std::string id) {
+    abstractDelete(id);
+}
+
 PainterMapper* PainterMapper::instance() {
     if (_instance == nullptr) {
         _instance = new PainterMapper();
@@ -37,6 +43,13 @@ std::string PainterMapper::findByIdStmt(std::string id) const {
 std::string PainterMapper::addStmt(DomainObject * domainObject) const {
     Painter* painter = static_cast<Painter*>(domainObject);
     std::string stmt = "INSERT INTO painter(ID, Name) values ('" + painter->id() + "', '" + painter->name() + "')";
+    return stmt;
+}
+
+//TODO : not sure
+std::string PainterMapper::addStmt(DomainObject * domainObject) const {
+    Painter* painter = static_cast<Painter*>(domainObject);
+    std::string stmt = "DELETE INTO painter(ID, Name) values ('" + painter->id() + "', '" + painter->name() + "')";
     return stmt;
 }
 

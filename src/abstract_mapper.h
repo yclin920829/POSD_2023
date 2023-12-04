@@ -1,10 +1,11 @@
 #pragma once
 
-#include <unordered_map>
-#include "domain_object.h"
-#include "unit_of_work.h"
 #include <iostream>
+#include <unordered_map>
+
 #include "drawing.h"
+#include "unit_of_work.h"
+#include "domain_object.h"
 
 typedef int (*CallbackType)(void *, int argc, char **argv, char **col_names);
 
@@ -25,8 +26,7 @@ public:
         return _domainObjects.count(id);
     }
 
-    void cleanCache()
-    {
+    void cleanCache() {
         _domainObjects.clear();
     }
 
@@ -35,8 +35,7 @@ protected:
     sqlite3 *_db;
 
     DomainObject *getDomainObject(std::string id){
-        if (_domainObjects.count(id))
-        {
+        if (_domainObjects.count(id)) {
             return _domainObjects.at(id);
         }
         return nullptr;
@@ -67,8 +66,10 @@ protected:
         sqlite3_exec(_db, updateStmt(domainObject).c_str(), NULL, NULL, &_errorMessage);
     };
 
-    //TODO : abstractDelete
-    void abstractDelete(std::string id) {};
+    //TODO : not sure
+    void abstractDelete(std::string id) {
+        sqlite3_exec(_db, deleteByIdStmt(id).c_str(), NULL, NULL, &_errorMessage);
+    };
 
     //TODO : class
     void load(DomainObject *domainObject) {
