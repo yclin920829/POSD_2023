@@ -44,7 +44,7 @@ std::string DrawingMapper::deleteByIdStmt(std::string id) const {
 //TODO : not sure
 std::string DrawingMapper::addStmt(DomainObject* domainObject) const {
     Drawing* drawing = static_cast<Drawing*>(domainObject);
-    std::string stmt = "INSERT INTO drawing (ID, Painter) VALUES ('" + drawing->id() + "', '" + drawing->painter()->id() + "')";
+    std::string stmt = "INSERT INTO drawing (ID, Painter, Shapes) values ('" + drawing->id() + "', '" + drawing->painter()->id() + "', '" + drawing->getShapesAsString() + "')";
     return stmt;
 }
 
@@ -79,6 +79,6 @@ int DrawingMapper::callback(void* notUsed, int argc, char** argv, char** colName
 
 std::string DrawingMapper::updateStmt(DomainObject* domainObject) const {
     Drawing* drawing = static_cast<Drawing*>(domainObject);
-    std::string stmt = "UPDATE drawing SET Painter='" + drawing->painter()->id() + "' WHERE DrawingID='" + drawing->id() + "'";
+    std::string stmt = "UPDATE drawing SET Painter = '" + drawing->painter()->id() + "', Shapes = '" + drawing->getShapesAsString() + "' WHERE ID = '" + drawing->id() + "'";
     return stmt;
 }
