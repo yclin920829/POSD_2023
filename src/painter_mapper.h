@@ -1,12 +1,11 @@
 #pragma once
 
 #include <string>
-#include <iostream>
 #include <sqlite3.h>
 
-#include "painter.h"
 #include "abstract_mapper.h"
 
+class Painter;
 
 class PainterMapper: public AbstractMapper {
 public:
@@ -17,6 +16,14 @@ public:
     void update(std::string id);
 
     void del(std::string id);
+
+    std::string updateStmt(DomainObject * domainObject) const;
+
+    std::string findByIdStmt(std::string id) const;
+
+    std::string addStmt(DomainObject * domainObject) const;
+
+    std::string deleteByIdStmt(std::string id) const;
 
     static PainterMapper* instance();
 

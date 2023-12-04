@@ -31,5 +31,9 @@ public:
 protected:
     UnitOfWork();
 private:
+    std::unordered_map<std::string, DomainObject *> _new;
+    std::unordered_map<std::string, DomainObject *> _dirty;
+    std::unordered_map<std::string, DomainObject *> _clean;
+    std::unordered_map<std::string, DomainObject *> _deleted;
     static UnitOfWork * _instance;
 };

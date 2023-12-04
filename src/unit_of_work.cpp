@@ -11,33 +11,3 @@ UnitOfWork * UnitOfWork::_instance = nullptr;
 UnitOfWork::UnitOfWork() {
     
 }
-
-UnitOfWork * UnitOfWork::instance() {
-}
-
-void UnitOfWork::registerNew(DomainObject * domainObject) {
-}
-
-void UnitOfWork::registerClean(DomainObject * domainObject) {
-}
-
-void UnitOfWork::registerDirty(DomainObject * domainObject) {
-}
-
-void UnitOfWork::registerDeleted(DomainObject * domainObject) {
-}
-
-bool UnitOfWork::inNew(std::string id) const {
-}
-
-bool UnitOfWork::inClean(std::string id) const {
-}
-
-bool UnitOfWork::inDirty(std::string id) const {
-}
-
-bool UnitOfWork::inDeleted(std::string id) const {
-}
-
-void UnitOfWork::commit() {
-}

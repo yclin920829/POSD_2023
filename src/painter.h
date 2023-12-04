@@ -13,6 +13,7 @@ public:
 
     void setName(std::string name) {
         _name = name;
+        UnitOfWork::instance()->registerDirty(this);
     }
 
 private:

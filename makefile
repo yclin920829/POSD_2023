@@ -8,8 +8,7 @@ TEST = test/ut.cpp test/db_test.h test/parser_test.h
 all: dir u_test 
 
 u_test: $(SRC) $(TEST) $(OBJ)
-#u_test is the target, test/ut.cpp is the depended file
-	g++ $(FLAGS) test/ut.cpp $(OBJ) -o bin/ut -lsqlite3 -lgtest -lpthread
+	g++ $(FLAGS) test/ut.cpp $(OBJ) -o bin/ut_all -lsqlite3 -lgtest -lpthread
 
 obj/shape_iterator.o: src/shape_iterator.h src/shape_iterator.cpp
 	g++ $(FLAGS) -c src/shape_iterator.cpp -o obj/shape_iterator.o
@@ -29,7 +28,7 @@ dir:
 	mkdir -p resource
 
 clean:
-	# rm -rf bin/* obj/*.o resource/*.db
+	# rm -f bin/* obj/*.o resource/*.db
 	rm -rf bin obj resource
 
 stat:

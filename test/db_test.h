@@ -1,120 +1,150 @@
 #include <gtest/gtest.h>
-
 #include <sqlite3.h>
 #include <string>
 #include <iostream>
+#include <list>
+#include <memory>
+#include "../src/unit_of_work.h"
+#include "../src/drawing_mapper.h"
+#include "../src/painter_mapper.h"
+#include "../src/drawing.h"
 
-class Sqlite3Suite : public ::testing::Test {
+class DBSuite : public ::testing::Test
+{
 protected:
-  void SetUp() override {
-    ASSERT_EQ(0, sqlite3_open("resource/test.db", &db));
-    ASSERT_EQ(SQLITE_OK, sqlite3_prepare_v2(db, stmt1, nByte, &pStmt, &zTail));
-    ASSERT_EQ(SQLITE_DONE, sqlite3_step(pStmt));
-    ASSERT_EQ(SQLITE_OK, sqlite3_finalize(pStmt));
-    ASSERT_EQ(SQLITE_OK, sqlite3_close(db));
-  }
+    void SetUp() override
+    {
+        create_drawing_table();
+        create_painter_table();
+        populate_drawings();
+        populate_painters();
+        dm = DrawingMapper::instance();
+        dm->setDB("resource/drawing.db");
+        pm = PainterMapper::instance();
+        pm->setDB("resource/painter.db");
+    }
 
-  void TearDown() override {
-    ASSERT_EQ(0, sqlite3_open("resource/test.db", &db));
-    ASSERT_EQ(SQLITE_OK, sqlite3_prepare_v2(db, dropStmt, nByte, &pStmt, &zTail));
-    ASSERT_EQ(SQLITE_DONE, sqlite3_step(pStmt));
-    ASSERT_EQ(SQLITE_OK, sqlite3_finalize(pStmt));
-    ASSERT_EQ(SQLITE_OK, sqlite3_close(db));
-  }
+    void TearDown() override
+    {
+        drop_drawing_table();
+        drop_painter_table();
+        sqlite3_close(db);
+        sqlite3_close(db_p);
+    }
 
-  sqlite3 *db;
-  const char * stmt1 = "create table myTable (FirstName varchar(30), LastName varchar(30), Age smallint, Hometown varchar(30), Job varchar(30))";
-  const char * dropStmt = "drop table myTable";
-  int nByte = -1;
-  sqlite3_stmt *pStmt;
-  const char *zTail;
+    void create_drawing_table()
+    {
+        ASSERT_EQ(0, sqlite3_open("resource/drawing.db", &db));
+        const char *stmt = "CREATE TABLE drawing ("
+                           "ID         char(6) PRIMARY KEY     not null,"
+                           "painter    varchar(50)             not null,"
+                           "shapes varchar(1028),"
+                           "FOREIGN KEY(painter) REFERENCES painter(ID))";
+        int rc = sqlite3_exec(db, stmt, NULL, NULL, &err_msg);
+        display_err_msg_and_fail_if_any(rc);
+    }
 
+    void drop_drawing_table()
+    {
+        const char *dropStmt = "DROP TABLE drawing";
+        int rc = sqlite3_exec(db, dropStmt, NULL, NULL, &err_msg);
+        display_err_msg_and_fail_if_any(rc);
+    }
+
+    void create_painter_table()
+    {
+        ASSERT_EQ(0, sqlite3_open("resource/painter.db", &db_p));
+        const char *stmt = "CREATE TABLE painter ("
+                           "ID         char(6) PRIMARY KEY     not null,"
+                           "name    varchar(50)             not null)";
+        int rc = sqlite3_exec(db_p, stmt, NULL, NULL, &err_msg);
+        display_err_msg_and_fail_if_any(rc);
+    }
+
+    void drop_painter_table()
+    {
+        const char *dropStmt = "DROP TABLE painter";
+        int rc = sqlite3_exec(db_p, dropStmt, NULL, NULL, &err_msg);
+        display_err_msg_and_fail_if_any(rc);
+    }
+
+    void populate_drawings()
+    {
+        const char *s1 = "INSERT INTO drawing"
+                         "(ID, painter, shapes)"
+                         "values"
+                         "('d_0001', 'p_0001', 'triangle 1 1 1')";
+        int rc = sqlite3_exec(db, s1, NULL, NULL, &err_msg);
+        display_err_msg_and_fail_if_any(rc);
+        ASSERT_EQ(SQLITE_OK, rc);
+
+        const char *s2 = "INSERT INTO drawing"
+                         "(ID,  painter,   shapes)"
+                         "values"
+                         "('d_0002', 'p_0001', 'triangle 2 2 2')";
+        rc = sqlite3_exec(db, s2, NULL, NULL, &err_msg);
+        display_err_msg_and_fail_if_any(rc);
+        ASSERT_EQ(SQLITE_OK, rc);
+
+        const char *s3 = "INSERT INTO drawing"
+                         "(ID,  painter,   shapes)"
+                         "values"
+                         "('d_0003', 'p_0002', 'compound { triangle 1 1 1 triangle 2 2 2 } triangle 3 3 3')";
+        rc = sqlite3_exec(db, s3, NULL, NULL, &err_msg);
+        display_err_msg_and_fail_if_any(rc);
+        ASSERT_EQ(SQLITE_OK, rc);
+    }
+
+    void populate_painters()
+    {
+        const char *s1 = "INSERT INTO painter"
+                         "(ID, name)"
+                         "values"
+                         "('p_0001', 'Patrick')";
+        int rc = sqlite3_exec(db_p, s1, NULL, NULL, &err_msg);
+        display_err_msg_and_fail_if_any(rc);
+        ASSERT_EQ(SQLITE_OK, rc);
+
+        const char *s2 = "INSERT INTO painter"
+                         "(ID, name)"
+                         "values"
+                         "('p_0002', 'Mary')";
+        rc = sqlite3_exec(db_p, s2, NULL, NULL, &err_msg);
+        display_err_msg_and_fail_if_any(rc);
+        ASSERT_EQ(SQLITE_OK, rc);
+    }
+
+    void display_err_msg_and_fail_if_any(int rc)
+    {
+        if (rc)
+        {
+            std::cout << "db error: " << err_msg << std::endl;
+            sqlite3_free(err_msg);
+        }
+        ASSERT_EQ(SQLITE_OK, rc);
+    }
+
+    sqlite3 *db;
+    sqlite3 *db_p;
+    char *err_msg = nullptr;
+    DrawingMapper *dm;
+    PainterMapper *pm;
 };
 
-// TEST_F(Sqlite3Suite, libversionTest){
-//   ASSERT_EQ(std::string("3.39.5"),  sqlite3_libversion());
-// }
-
-TEST_F(Sqlite3Suite, OpenAndCloseDBFile) {
-  ASSERT_EQ(0, SQLITE_OK);
-  ASSERT_EQ(0, sqlite3_open("resource/test.db", &db));
-  ASSERT_EQ(SQLITE_OK, sqlite3_close(db));
+TEST_F(DBSuite, Sanity)
+{
 }
 
-TEST_F(Sqlite3Suite, PreparedStatement) {
-  ASSERT_EQ(0, sqlite3_open("resource/test.db", &db));
+TEST_F(DBSuite, findDrawing)
+{
+    Drawing *drawing = dm->find("d_0001");
 
-  const char * stmt2 = "insert into myTable (FirstName, LastName, Age, Hometown, Job) values ('Peter', 'Griffin', 41, 'Quahog', 'Brewery')";
-  const char * stmt3 = "insert into myTable (FirstName, LastName, Age, Hometown, Job) values ('Joseph', 'Swanson', 39, 'Quahog', 'Police Officer')";
-  const char * stmt4 = "select * from myTable"; 
-
-  ASSERT_EQ(SQLITE_OK, sqlite3_prepare_v2(db, stmt2, nByte, &pStmt, &zTail));
-  ASSERT_EQ(SQLITE_DONE, sqlite3_step(pStmt));
-  ASSERT_EQ(SQLITE_OK, sqlite3_finalize(pStmt));
-
-  ASSERT_EQ(SQLITE_OK, sqlite3_prepare_v2(db, stmt3, nByte, &pStmt, &zTail));
-  ASSERT_EQ(SQLITE_DONE, sqlite3_step(pStmt));
-  ASSERT_EQ(SQLITE_OK, sqlite3_finalize(pStmt));
-
-  ASSERT_EQ(SQLITE_OK, sqlite3_prepare_v2(db, stmt4, nByte, &pStmt, &zTail));
-  ASSERT_EQ(SQLITE_ROW, sqlite3_step(pStmt));
-  ASSERT_EQ(5, sqlite3_column_count(pStmt));
-  ASSERT_EQ(std::string("Peter"), reinterpret_cast<const char*>(sqlite3_column_text(pStmt, 0)));
-  ASSERT_EQ(SQLITE_ROW, sqlite3_step(pStmt));
-  ASSERT_EQ(std::string("Joseph"), reinterpret_cast<const char*>(sqlite3_column_text(pStmt, 0)));
-
-  ASSERT_EQ(SQLITE_OK, sqlite3_finalize(pStmt));
-
-  ASSERT_EQ(SQLITE_OK, sqlite3_close(db));
-}
-
-class  Person {
-public:
-  Person(std::string fn, std::string ln, int age, std::string ht, std::string job): _first_name(fn), _last_name(ln), _age(age), _hometown(ht), _job(job) {
-
-  }
-
-  static Person * createPerson(std::string fn, std::string ln, int age, std::string ht, std::string job) {
-    Person * p = new Person(fn, ln, age, ht, job);
-    return p;
-  }
-
-  std::string toString() const {
-    std::string r="";
-    return r +_first_name + "\t" + _last_name + "\t" + std::to_string(_age) + "\t" + _hometown + "\t" + _job;
-  }
-
-private:
-  std::string _first_name;
-  std::string _last_name; 
-  int _age; 
-  std::string _hometown; 
-  std::string _job;
-};
-
-int callback(void * not_used, int argc, char **argv, char **colNames) {
-  for (int i = 0; i < argc; i++) {
-    std::cout << colNames[i] << "\t"; 
-  }
-  std::cout << std::endl;
-
-  Person * p = Person::createPerson(argv[0], argv[1], std::stoi(argv[2]), argv[3], argv[4]);
-  std::cout << p->toString() << std::endl;
-
-  return 0;
-
-}
-
-TEST_F(Sqlite3Suite, sqlite3_exec) {
-  ASSERT_EQ(0, sqlite3_open("resource/test.db", &db));
-
-  const char * stmt2 = "insert into myTable (FirstName, LastName, Age, Hometown, Job) values ('Peter', 'Lin', 41, 'Taipei', 'salesperson')";
-  const char * stmt3 = "insert into myTable (FirstName, LastName, Age, Hometown, Job) values ('Joseph', 'Wang', 39, 'Taichung', 'chef')";
-  const char * stmt4 = "select * from myTable"; 
-  char * err_msg = nullptr;
-
-  sqlite3_exec(db, stmt2, NULL, NULL, &err_msg);
-  sqlite3_exec(db, stmt3, NULL, NULL, &err_msg);
-  sqlite3_exec(db, stmt4, callback, NULL, &err_msg);
-
+    EXPECT_TRUE(UnitOfWork::instance()->inClean("d_0001"));
+    EXPECT_FALSE(UnitOfWork::instance()->inDirty("d_0001"));
+    EXPECT_TRUE(UnitOfWork::instance()->inClean("p_0001"));
+    EXPECT_FALSE(UnitOfWork::instance()->inDirty("p_0001"));
+    ASSERT_EQ(drawing->id(), "d_0001");
+    ASSERT_EQ(drawing->getShape(0)->perimeter(), 3);
+    ASSERT_EQ(drawing->painter()->id(), "p_0001");
+    ASSERT_EQ(drawing->painter()->name(), "Patrick");
 }
