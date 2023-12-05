@@ -8,9 +8,13 @@
 
 class Drawing : public DomainObject {
 public:
-  Drawing(std::string id, Painter *painter) : DomainObject(id), _painter(painter) {}
+  Drawing(std::string id, Painter *painter) : DomainObject(id), _painter(painter) {
+    UnitOfWork::instance()->registerNew(this);
+  }
 
-  Drawing(std::string id, Painter *painter, std::list<Shape *> shapes) : DomainObject(id), _painter(painter), _shapes(shapes) {}
+  Drawing(std::string id, Painter *painter, std::list<Shape *> shapes) : DomainObject(id), _painter(painter), _shapes(shapes) {
+    UnitOfWork::instance()->registerNew(this);
+  }
 
   Painter *painter() const {
     return _painter;

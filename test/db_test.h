@@ -148,3 +148,63 @@ TEST_F(DBSuite, findDrawing)
     ASSERT_EQ(drawing->painter()->id(), "p_0001");
     ASSERT_EQ(drawing->painter()->name(), "Patrick");
 }
+
+// DBSuite.findPainterAndUpdate
+TEST_F(DBSuite, findPainter)
+{
+    Painter * painter = pm->find("p_0001");
+
+    EXPECT_TRUE(UnitOfWork::instance()->inClean("p_0001"));
+    EXPECT_FALSE(UnitOfWork::instance()->inDirty("p_0001"));
+    ASSERT_EQ(painter->id(), "p_0001");
+    ASSERT_EQ(painter->name(), "Patrick");
+}
+
+TEST_F(DBSuite, UnitOfWorkRegisterDirty) {
+    UnitOfWork * uow = UnitOfWork::instance();
+    Drawing* drawing = dm->find("d_0001");
+    Painter * painter = PainterMapper::instance()->find("p_0002");
+    drawing->setPainter(painter);
+    ASSERT_EQ(painter, drawing->painter());
+    ASSERT_FALSE(uow->inClean("d_0001"));
+    ASSERT_TRUE(uow->inDirty("d_0001"));
+
+    uow->commit();
+    ASSERT_EQ(painter, drawing->painter());
+    ASSERT_TRUE(uow->inClean("d_0001"));
+    ASSERT_FALSE(uow->inDirty("d_0001"));
+}
+
+TEST_F(DBSuite, UnitOfWorkRegisterNew) {
+    Painter * painter = new Painter("p_0003", "Howard");
+    UnitOfWork::instance()->registerNew(painter);
+    ASSERT_TRUE(UnitOfWork::instance()->inNew("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inClean("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDirty("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDeleted("p_0003"));
+
+    UnitOfWork::instance()->commit();
+
+    ASSERT_FALSE(UnitOfWork::instance()->inNew("p_0003"));
+    ASSERT_TRUE(UnitOfWork::instance()->inClean("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDirty("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDeleted("p_0003"));
+}
+
+TEST_F(DBSuite, update) {
+    UnitOfWork * uow = UnitOfWork::instance();
+    Painter * painter = PainterMapper::instance()->find("p_0002");
+    painter->setName("joe");
+    ASSERT_EQ("joe", painter->name());
+    ASSERT_FALSE(UnitOfWork::instance()->inNew("p_0002"));
+    ASSERT_FALSE(UnitOfWork::instance()->inClean("p_0002"));
+    ASSERT_TRUE(UnitOfWork::instance()->inDirty("p_0002"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDeleted("p_0002"));
+
+    uow->commit();
+
+    ASSERT_FALSE(UnitOfWork::instance()->inNew("p_0002"));
+    ASSERT_TRUE(UnitOfWork::instance()->inClean("p_0002"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDirty("p_0002"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDeleted("p_0002"));
+}

@@ -50,9 +50,14 @@ bool UnitOfWork::inDeleted(std::string id) const {
     return _deleted.count(id);
 }
 
+// TODO : not sure
 void UnitOfWork::commit() {
     for(auto dirty : _dirty) {
-        DrawingMapper::instance()->update(dirty.first);
+        if(DrawingMapper::instance()->find(dirty.first) != nullptr) {
+            DrawingMapper::instance()->update(dirty.first);
+        } else if(PainterMapper::instance()->find(dirty.first) != nullptr) {
+            PainterMapper::instance()->update(dirty.first);
+        }
         registerClean(dirty.second);
     }
     _dirty.clear();
