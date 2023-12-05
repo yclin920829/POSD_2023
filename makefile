@@ -43,3 +43,7 @@ me: clear clean all
 install:
 	sudo apt-get install libgtest-dev
 	sudo apt-get install sqlite3 libsqlite3-dev
+
+git:
+	git add .
+	git commit -m "wish to make the ta's compiler compile successfully."
