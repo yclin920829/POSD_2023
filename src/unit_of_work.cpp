@@ -30,6 +30,7 @@ void UnitOfWork::registerDirty(DomainObject * domainObject) {
 // TODO : not sure
 void UnitOfWork::registerDeleted(DomainObject * domainObject) {
     _deleted[domainObject->id()] = domainObject;
+    _clean.erase(domainObject->id());
 };
 
 bool UnitOfWork::inNew(std::string id) const {
@@ -69,9 +70,7 @@ void UnitOfWork::commit() {
         registerClean(newObj.second);
     }
     _new.clear();
-    for(auto deleted : _deleted) {
-        _clean.erase(deleted.first);
-    }
+    _deleted.clear();
 }
 
 UnitOfWork::UnitOfWork() {}
