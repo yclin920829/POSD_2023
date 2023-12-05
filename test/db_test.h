@@ -293,8 +293,6 @@ TEST_F(DBSuite, findDrawingAndUpdate) {
     ASSERT_EQ(drawing->getShapesAsString(), "");
 }
 
-TEST_F(DBSuite, DeletePainterInNewWithoutCommit) {} 
-
 TEST_F(DBSuite, DeletePainterInClean) {
     Painter * painter = pm->find("p_0003");
 
@@ -319,5 +317,22 @@ TEST_F(DBSuite, DeletePainterInClean) {
 
     ASSERT_EQ(pm->find("p_0003"), nullptr);
 }
+
+TEST_F(DBSuite, DeletePainterInNewWithoutCommit) {
+    Painter * newPainter = new Painter("p_0003", "John");
+
+    ASSERT_TRUE(UnitOfWork::instance()->inNew("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inClean("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDirty("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDeleted("p_0003"));
+
+    pm->del(newPainter->id());
+
+    ASSERT_FALSE(UnitOfWork::instance()->inNew("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inClean("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDirty("p_0003"));
+    ASSERT_TRUE(UnitOfWork::instance()->inDeleted("p_0003"));
+    
+} 
 
 TEST_F(DBSuite, CommitNewDrawingsWithOldPainter) {}

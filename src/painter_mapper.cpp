@@ -17,18 +17,26 @@ Painter* PainterMapper::find(std::string id) {
 
 void PainterMapper::add(DomainObject * domainObject) {
     abstractAdd(domainObject);
+    load(domainObject);
 }
 
 void PainterMapper::update(std::string id) {
     abstractUpdate(getDomainObject(id));
+    load(getDomainObject(id));
 }
 
 //TODO : not sure
 void PainterMapper::del(std::string id) {
     if(UnitOfWork::instance()->inDeleted(id)) {
         abstractDelete(id);
+        _domainObjects.erase(id);
     }else {
-        UnitOfWork::instance()->registerDeleted(getDomainObject(id));
+        if(isLoaded(id)) {
+            UnitOfWork::instance()->registerDeleted(getDomainObject(id));
+        }else {
+            UnitOfWork::instance()->commit();
+            del(id);
+        }
     }
 }
 
