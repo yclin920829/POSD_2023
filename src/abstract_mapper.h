@@ -41,7 +41,7 @@ protected:
         return nullptr;
     }
 
-    //TODO : class
+    //TODO : class 
     DomainObject * abstractFind(std::string id, CallbackType callback) {
         DomainObject * domainObject = getDomainObject(id);
         if(domainObject != nullptr) {
