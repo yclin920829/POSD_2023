@@ -317,7 +317,7 @@ TEST_F(DBSuite, DeletePainterInClean) {
     ASSERT_FALSE(UnitOfWork::instance()->inDirty("p_0003"));
     ASSERT_FALSE(UnitOfWork::instance()->inDeleted("p_0003"));
 
-    // ASSERT_EQ(pm->find("p_0003"), nullptr);
+    ASSERT_EQ(pm->find("p_0003"), nullptr);
 }
 
 TEST_F(DBSuite, CommitNewDrawingsWithOldPainter) {}

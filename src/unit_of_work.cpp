@@ -70,6 +70,13 @@ void UnitOfWork::commit() {
         registerClean(newObj.second);
     }
     _new.clear();
+    for (auto deleted : _deleted) {
+        if (DrawingMapper::instance()->find(deleted.first) != nullptr) {
+            DrawingMapper::instance()->del(deleted.first);
+        } else if (PainterMapper::instance()->find(deleted.first) != nullptr) {
+            PainterMapper::instance()->del(deleted.first);
+        }
+    }
     _deleted.clear();
 }
 

@@ -43,32 +43,33 @@ protected:
 
     //TODO : class 
     DomainObject * abstractFind(std::string id, CallbackType callback) {
-        DomainObject * domainObject = getDomainObject(id);
-        if(domainObject != nullptr) {
-            return domainObject;
+        if(isLoaded(id)){
+            return getDomainObject(id);
         }
         
         sqlite3_exec(_db, findByIdStmt(id).c_str(), callback, NULL, &_errorMessage);
-        DomainObject * object = getDomainObject(id);
-        if(object != nullptr) {
-            UnitOfWork::instance()->registerClean(object);
+        if(isLoaded(id)) {
+            UnitOfWork::instance()->registerClean(getDomainObject(id));
         }
-        return object;
+        return getDomainObject(id);
    }
 
     //TODO : class
     void abstractAdd(DomainObject * domainObject) {
         sqlite3_exec(_db, addStmt(domainObject).c_str(), NULL, NULL, &_errorMessage);
+        load(domainObject);
     }
 
     //TODO : class
     void abstractUpdate(DomainObject *domainObject) {
         sqlite3_exec(_db, updateStmt(domainObject).c_str(), NULL, NULL, &_errorMessage);
+        load(domainObject);
     };
 
     //TODO : not sure
     void abstractDelete(std::string id) {
         sqlite3_exec(_db, deleteByIdStmt(id).c_str(), NULL, NULL, &_errorMessage);
+        _domainObjects.erase(id);
     };
 
     //TODO : class
