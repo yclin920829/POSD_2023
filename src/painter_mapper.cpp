@@ -36,6 +36,7 @@ void PainterMapper::del(std::string id) {
         }else {
             UnitOfWork::instance()->commit();
             del(id);
+            UnitOfWork::instance()->commit();
         }
     }
 }

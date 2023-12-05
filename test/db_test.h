@@ -331,7 +331,9 @@ TEST_F(DBSuite, DeletePainterInNewWithoutCommit) {
     ASSERT_FALSE(UnitOfWork::instance()->inNew("p_0003"));
     ASSERT_FALSE(UnitOfWork::instance()->inClean("p_0003"));
     ASSERT_FALSE(UnitOfWork::instance()->inDirty("p_0003"));
-    ASSERT_TRUE(UnitOfWork::instance()->inDeleted("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDeleted("p_0003"));
+
+    ASSERT_EQ(pm->find("p_0003"), nullptr);
     
 } 
 
