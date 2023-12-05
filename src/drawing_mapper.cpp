@@ -74,6 +74,7 @@ int DrawingMapper::callback(void* notUsed, int argc, char** argv, char** colName
     std::list<Shape *> shapes = DrawingMapper::instance()->convertShapes(argc, argv);
     Drawing* drawing = new Drawing(argv[0], painter, shapes);
     DrawingMapper::instance()->load(drawing);
+    UnitOfWork::instance()->commit();
     return 0;
 }
 

@@ -61,5 +61,6 @@ std::string PainterMapper::updateStmt(DomainObject* domainObject) const {
 int PainterMapper::callback(void* notUsed, int argc, char** argv, char** colNames) {
     Painter* painter = new Painter(argv[0], argv[1]);
     PainterMapper::instance()->load(painter);
+    UnitOfWork::instance()->commit();
     return 0;
 }

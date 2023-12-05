@@ -62,7 +62,11 @@ void UnitOfWork::commit() {
     }
     _dirty.clear();
     for(auto newObj : _new) {
-        PainterMapper::instance()->add(newObj.second);
+        if (newObj.second->type() == "7Drawing") {
+            DrawingMapper::instance()->add(newObj.second);
+        } else if (newObj.second->type() == "7Painter") {
+            PainterMapper::instance()->add(newObj.second);
+        }
         registerClean(newObj.second);
     }
     _new.clear();

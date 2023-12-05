@@ -10,6 +10,10 @@ public:
         return _id;
     }
 
+    std::string type() const {
+        return typeid(*this).name();
+    }
+
     virtual ~DomainObject() {}
     
 protected:

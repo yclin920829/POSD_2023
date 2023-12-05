@@ -1,3 +1,5 @@
+#include <gtest/gtest.h>
+
 #include "../src/scanner.h"
 #include "../src/parser.h"
 #include "../src/builder.h"
