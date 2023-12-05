@@ -219,28 +219,96 @@ TEST_F(DBSuite, NewDrawingWithShapes) {
 
 // TEST_F(DBSuite, NewDrawingAndPainterThroughUoWAndFind) {}
 
-TEST_F(DBSuite, findPainterAndUpdate) {}
+TEST_F(DBSuite, findPainterAndUpdate) {
+    Painter * painter = pm->find("p_0001");
 
-TEST_F(DBSuite, findDrawingAndUpdate) {}
+    ASSERT_FALSE(UnitOfWork::instance()->inNew("p_0001"));
+    ASSERT_TRUE(UnitOfWork::instance()->inClean("p_0001"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDirty("p_0001"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDeleted("p_0001"));
+
+    painter->setName("Patrick2");
+
+    ASSERT_FALSE(UnitOfWork::instance()->inNew("p_0001"));
+    ASSERT_FALSE(UnitOfWork::instance()->inClean("p_0001"));
+    ASSERT_TRUE(UnitOfWork::instance()->inDirty("p_0001"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDeleted("p_0001"));
+
+    UnitOfWork::instance()->commit();
+
+    ASSERT_FALSE(UnitOfWork::instance()->inNew("p_0001"));
+    ASSERT_TRUE(UnitOfWork::instance()->inClean("p_0001"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDirty("p_0001"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDeleted("p_0001"));
+
+    ASSERT_EQ(painter->id(), "p_0001");
+    ASSERT_EQ(painter->name(), "Patrick2");
+}
 
 TEST_F(DBSuite, findDrawing) {
     Drawing * drawing = dm->find("d_0001");
 
     ASSERT_FALSE(UnitOfWork::instance()->inNew("d_0001"));
-    EXPECT_TRUE(UnitOfWork::instance()->inClean("d_0001"));
-    EXPECT_FALSE(UnitOfWork::instance()->inDirty("d_0001"));
+    ASSERT_TRUE(UnitOfWork::instance()->inClean("d_0001"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDirty("d_0001"));
     ASSERT_FALSE(UnitOfWork::instance()->inDeleted("d_0001"));
 
-    EXPECT_TRUE(UnitOfWork::instance()->inClean("p_0001"));
-    EXPECT_FALSE(UnitOfWork::instance()->inDirty("p_0001"));
+    ASSERT_TRUE(UnitOfWork::instance()->inClean("p_0001"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDirty("p_0001"));
     ASSERT_EQ(drawing->id(), "d_0001");
     ASSERT_EQ(drawing->getShape(0)->perimeter(), 3);
     ASSERT_EQ(drawing->painter()->id(), "p_0001");
-    ASSERT_EQ(drawing->painter()->name(), "Patrick");
+    ASSERT_EQ(drawing->painter()->name(), "Patrick2");
+    ASSERT_EQ(drawing->getShape(0)->perimeter(), 3);
+    ASSERT_EQ(drawing->getShape(1), nullptr);
+    ASSERT_EQ(drawing->getShapesAsString(), "triangle 1 1 1\n");
+}
+
+TEST_F(DBSuite, findDrawingAndUpdate) {
+    Drawing * drawing = dm->find("d_0004");
+
+    ASSERT_FALSE(UnitOfWork::instance()->inNew("d_0004"));
+    ASSERT_TRUE(UnitOfWork::instance()->inClean("d_0004"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDirty("d_0004"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDeleted("d_0004"));
+
+    drawing->setPainter(pm->find("p_0003"));
+
+    ASSERT_FALSE(UnitOfWork::instance()->inNew("d_0004"));
+    ASSERT_FALSE(UnitOfWork::instance()->inClean("d_0004"));
+    ASSERT_TRUE(UnitOfWork::instance()->inDirty("d_0004"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDeleted("d_0004"));
+
+    UnitOfWork::instance()->commit();
+
+    ASSERT_FALSE(UnitOfWork::instance()->inNew("d_0004"));
+    ASSERT_TRUE(UnitOfWork::instance()->inClean("d_0004"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDirty("d_0004"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDeleted("d_0004"));
+
+    ASSERT_EQ(drawing->id(), "d_0004");
+    ASSERT_EQ(drawing->painter()->id(), "p_0003");
+    ASSERT_EQ(drawing->painter()->name(), "John");
+    ASSERT_EQ(drawing->getShape(0), nullptr);
+    ASSERT_EQ(drawing->getShapesAsString(), "");
 }
 
 TEST_F(DBSuite, DeletePainterInNewWithoutCommit) {} 
 
-TEST_F(DBSuite, DeletePainterInClean) {}
+TEST_F(DBSuite, DeletePainterInClean) {
+    Painter * painter = pm->find("p_0003");
+
+    ASSERT_FALSE(UnitOfWork::instance()->inNew("p_0003"));
+    ASSERT_TRUE(UnitOfWork::instance()->inClean("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDirty("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDeleted("p_0003"));
+
+    pm->del(painter->id());
+
+    ASSERT_FALSE(UnitOfWork::instance()->inNew("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inClean("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDirty("p_0003"));
+    ASSERT_TRUE(UnitOfWork::instance()->inDeleted("p_0003"));
+}
 
 TEST_F(DBSuite, CommitNewDrawingsWithOldPainter) {}
