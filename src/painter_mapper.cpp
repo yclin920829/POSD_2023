@@ -27,15 +27,6 @@ void PainterMapper::update(std::string id) {
 
 //TODO : not sure
 void PainterMapper::del(std::string id) {
-    if(!UnitOfWork::instance()->inDeleted(id)){
-        if(!isLoaded(id)) {
-            // std::cout << "it is not in _domainObjects" << std::endl;
-            DomainObject * object = new DomainObject(id);
-            // std::cout << "painter mappeer: " << object->id() << std::endl;
-            UnitOfWork::instance()->registerDeleted(object);
-            return;
-        }
-    }
     abstractDelete(id);
     UnitOfWork::instance()->registerDeleted(getDomainObject(id));
     _domainObjects.erase(id);
