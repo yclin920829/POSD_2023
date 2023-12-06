@@ -25,7 +25,6 @@ void UnitOfWork::registerClean(DomainObject * domainObject) {
 void UnitOfWork::registerDirty(DomainObject * domainObject) {
     _dirty[domainObject->id()] = domainObject;
     _clean.erase(domainObject->id());
-    _new.erase(domainObject->id());
 }
 
 // TODO : not sure
@@ -35,7 +34,6 @@ void UnitOfWork::registerDeleted(DomainObject * domainObject) {
         // std::cout << "object->id(): " << domainObject->id() << std::endl;
         // std::cout << "domainObject is null" << std::endl;
         _new.erase(domainObject->id());
-        _dirty.erase(domainObject->id());
     }else {
         // std::cout << "domainObject is not null" << std::endl;
         _deleted[domainObject->id()] = domainObject;

@@ -16,9 +16,6 @@ public:
     void setName(std::string name) {
         _name = name;
         UnitOfWork::instance()->registerDirty(this);
-        if (UnitOfWork::instance()->inNew(id())) {
-            UnitOfWork::instance()->registerDirty(this);
-        }
     }
 
 private:
