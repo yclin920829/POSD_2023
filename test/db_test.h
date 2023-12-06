@@ -319,21 +319,26 @@ TEST_F(DBSuite, DeletePainterInClean) {
 }
 
 TEST_F(DBSuite, DeletePainterInNewWithoutCommit) {
-    Painter * newPainter = new Painter("p_0003", "John");
 
-    ASSERT_TRUE(UnitOfWork::instance()->inNew("p_0003"));
-    ASSERT_FALSE(UnitOfWork::instance()->inClean("p_0003"));
-    ASSERT_FALSE(UnitOfWork::instance()->inDirty("p_0003"));
-    ASSERT_FALSE(UnitOfWork::instance()->inDeleted("p_0003"));
+    Painter * newPainter = new Painter("p_0003", "John");
+    
+
+    ASSERT_TRUE(UnitOfWork::instance()->inNew(newPainter->id()));
+    ASSERT_FALSE(UnitOfWork::instance()->inClean(newPainter->id()));
+    ASSERT_FALSE(UnitOfWork::instance()->inDirty(newPainter->id()));
+    ASSERT_FALSE(UnitOfWork::instance()->inDeleted(newPainter->id()));
 
     pm->del(newPainter->id());
 
-    ASSERT_FALSE(UnitOfWork::instance()->inNew("p_0003"));
-    ASSERT_FALSE(UnitOfWork::instance()->inClean("p_0003"));
-    ASSERT_FALSE(UnitOfWork::instance()->inDirty("p_0003"));
-    ASSERT_FALSE(UnitOfWork::instance()->inDeleted("p_0003"));
+    // ASSERT_EQ(pm->find(newPainter->id()), nullptr);
 
-    ASSERT_EQ(pm->find("p_0003"), nullptr);
+    ASSERT_FALSE(UnitOfWork::instance()->inNew("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inNew(newPainter->id()));
+    ASSERT_FALSE(UnitOfWork::instance()->inClean(newPainter->id()));
+    ASSERT_FALSE(UnitOfWork::instance()->inDirty(newPainter->id()));
+    ASSERT_FALSE(UnitOfWork::instance()->inDeleted(newPainter->id()));
+
+    ASSERT_EQ(pm->find(newPainter->id()), nullptr);
     
 } 
 
