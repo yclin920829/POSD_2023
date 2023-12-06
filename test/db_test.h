@@ -318,31 +318,31 @@ TEST_F(DBSuite, DeletePainterInClean) {
     ASSERT_EQ(pm->find("p_0003"), nullptr);
 }
 
-// TEST_F(DBSuite, DeletePainterInNewWithoutCommit) {
+TEST_F(DBSuite, DeletePainterInNewWithoutCommit) {
 
-//     Painter * newPainter = new Painter("p_0003", "John");
+    Painter * newPainter = new Painter("p_0003", "John");
     
-//     ASSERT_TRUE(UnitOfWork::instance()->inNew(newPainter->id()));
-//     ASSERT_FALSE(UnitOfWork::instance()->inClean(newPainter->id()));
-//     ASSERT_FALSE(UnitOfWork::instance()->inDirty(newPainter->id()));
-//     ASSERT_FALSE(UnitOfWork::instance()->inDeleted(newPainter->id()));
+    ASSERT_TRUE(UnitOfWork::instance()->inNew(newPainter->id()));
+    ASSERT_FALSE(UnitOfWork::instance()->inClean(newPainter->id()));
+    ASSERT_FALSE(UnitOfWork::instance()->inDirty(newPainter->id()));
+    ASSERT_FALSE(UnitOfWork::instance()->inDeleted(newPainter->id()));
 
-//     pm->del(newPainter->id());
+    pm->del(newPainter->id());
 
-//     ASSERT_FALSE(UnitOfWork::instance()->inNew(newPainter->id()));
-//     ASSERT_FALSE(UnitOfWork::instance()->inClean(newPainter->id()));
-//     ASSERT_FALSE(UnitOfWork::instance()->inDirty(newPainter->id()));
-//     ASSERT_FALSE(UnitOfWork::instance()->inDeleted(newPainter->id()));
+    // ASSERT_FALSE(UnitOfWork::instance()->inNew(newPainter->id()));
+    // ASSERT_FALSE(UnitOfWork::instance()->inClean(newPainter->id()));
+    // ASSERT_FALSE(UnitOfWork::instance()->inDirty(newPainter->id()));
+    // ASSERT_FALSE(UnitOfWork::instance()->inDeleted(newPainter->id()));
 
-//     UnitOfWork::instance()->commit();
+    // UnitOfWork::instance()->commit();
 
-//     ASSERT_FALSE(UnitOfWork::instance()->inNew(newPainter->id()));
-//     ASSERT_FALSE(UnitOfWork::instance()->inClean(newPainter->id()));
-//     ASSERT_FALSE(UnitOfWork::instance()->inDirty(newPainter->id()));
-//     ASSERT_FALSE(UnitOfWork::instance()->inDeleted(newPainter->id()));
+    // ASSERT_FALSE(UnitOfWork::instance()->inNew(newPainter->id()));
+    // ASSERT_FALSE(UnitOfWork::instance()->inClean(newPainter->id()));
+    // ASSERT_FALSE(UnitOfWork::instance()->inDirty(newPainter->id()));
+    // ASSERT_FALSE(UnitOfWork::instance()->inDeleted(newPainter->id()));
 
-//     ASSERT_EQ(pm->find(newPainter->id()), nullptr);
+    // ASSERT_EQ(pm->find(newPainter->id()), nullptr);
     
-// } 
+} 
 
 TEST_F(DBSuite, CommitNewDrawingsWithOldPainter) {}
