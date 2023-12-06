@@ -84,6 +84,7 @@ void UnitOfWork::commit() {
         } else if (PainterMapper::instance()->find(deleted.first) != nullptr) {
             PainterMapper::instance()->del(deleted.first);
         }
+        _clean.erase(deleted.first);
     }
     _deleted.clear();
 }
