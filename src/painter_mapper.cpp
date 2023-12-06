@@ -27,9 +27,9 @@ void PainterMapper::update(std::string id) {
 
 //TODO : not sure
 void PainterMapper::del(std::string id) {
-    abstractDelete(id);
     UnitOfWork::instance()->registerDeleted(getDomainObject(id));
-    _domainObjects.erase(id);
+    abstractDelete(id);
+    // _domainObjects.erase(id);
     // if(UnitOfWork::instance()->inDeleted(id)) {
     //     abstractDelete(id);
     //     _domainObjects.erase(id);

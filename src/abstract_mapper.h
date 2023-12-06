@@ -69,7 +69,7 @@ protected:
     //TODO : not sure
     void abstractDelete(std::string id) {
         sqlite3_exec(_db, deleteByIdStmt(id).c_str(), NULL, NULL, &_errorMessage);
-        // _domainObjects.erase(id);
+        _domainObjects.erase(id);
     };
 
     //TODO : class
