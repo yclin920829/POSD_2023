@@ -27,7 +27,20 @@ void DrawingMapper::update(std::string id) {
 
 //TODO : not sure
 void DrawingMapper::del(std::string id) {
-    abstractDelete(id);
+    // abstractDelete(id);
+    if(UnitOfWork::instance()->inDeleted(id)) {
+        abstractDelete(id);
+        _domainObjects.erase(id);
+    }else {
+        if(isLoaded(id)) {
+            UnitOfWork::instance()->registerDeleted(getDomainObject(id));
+        }else {
+            // std::cout << "it is not in _domainObjects" << std::endl;
+            DomainObject * object = new DomainObject(id);
+            // std::cout << "painter mappeer: " << object->id() << std::endl;
+            UnitOfWork::instance()->registerDeleted(object);
+        }
+    }
 }
 
 std::string DrawingMapper::findByIdStmt(std::string id) const {

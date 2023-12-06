@@ -34,9 +34,9 @@ void PainterMapper::del(std::string id) {
         if(isLoaded(id)) {
             UnitOfWork::instance()->registerDeleted(getDomainObject(id));
         }else {
-            std::cout << "it is not in _domainObjects" << std::endl;
+            // std::cout << "it is not in _domainObjects" << std::endl;
             DomainObject * object = new DomainObject(id);
-            std::cout << "painter mappeer: " << object->id() << std::endl;
+            // std::cout << "painter mappeer: " << object->id() << std::endl;
             UnitOfWork::instance()->registerDeleted(object);
         }
     }
@@ -73,6 +73,7 @@ std::string PainterMapper::updateStmt(DomainObject* domainObject) const {
 }
 
 int PainterMapper::callback(void* notUsed, int argc, char** argv, char** colNames) {
+    // std::cout << "painter mapper callback" << std::endl;
     Painter* painter = new Painter(argv[0], argv[1]);
     PainterMapper::instance()->load(painter);
     UnitOfWork::instance()->commit();
