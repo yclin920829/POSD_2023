@@ -293,30 +293,30 @@ TEST_F(DBSuite, findDrawingAndUpdate) {
     ASSERT_EQ(drawing->getShapesAsString(), "");
 }
 
-// TEST_F(DBSuite, DeletePainterInClean) {
-//     Painter * painter = pm->find("p_0003");
+TEST_F(DBSuite, DeletePainterInClean) {
+    Painter * painter = pm->find("p_0003");
 
-//     ASSERT_FALSE(UnitOfWork::instance()->inNew("p_0003"));
-//     ASSERT_TRUE(UnitOfWork::instance()->inClean("p_0003"));
-//     ASSERT_FALSE(UnitOfWork::instance()->inDirty("p_0003"));
-//     ASSERT_FALSE(UnitOfWork::instance()->inDeleted("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inNew("p_0003"));
+    ASSERT_TRUE(UnitOfWork::instance()->inClean("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDirty("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDeleted("p_0003"));
 
-//     pm->del(painter->id());
+    pm->del(painter->id());
 
-//     ASSERT_FALSE(UnitOfWork::instance()->inNew("p_0003"));
-//     ASSERT_FALSE(UnitOfWork::instance()->inClean("p_0003"));
-//     ASSERT_FALSE(UnitOfWork::instance()->inDirty("p_0003"));
-//     ASSERT_TRUE(UnitOfWork::instance()->inDeleted("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inNew("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inClean("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDirty("p_0003"));
+    ASSERT_TRUE(UnitOfWork::instance()->inDeleted("p_0003"));
 
-//     UnitOfWork::instance()->commit();
+    UnitOfWork::instance()->commit();
 
-//     ASSERT_FALSE(UnitOfWork::instance()->inNew("p_0003"));
-//     ASSERT_FALSE(UnitOfWork::instance()->inClean("p_0003"));
-//     ASSERT_FALSE(UnitOfWork::instance()->inDirty("p_0003"));
-//     ASSERT_FALSE(UnitOfWork::instance()->inDeleted("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inNew("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inClean("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDirty("p_0003"));
+    ASSERT_FALSE(UnitOfWork::instance()->inDeleted("p_0003"));
 
-//     ASSERT_EQ(pm->find("p_0003"), nullptr);
-// }
+    ASSERT_EQ(pm->find("p_0003"), nullptr);
+}
 
 // TEST_F(DBSuite, DeletePainterInNewWithoutCommit) {
 

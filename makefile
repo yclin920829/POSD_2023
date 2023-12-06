@@ -46,4 +46,5 @@ install:
 
 git:
 	git add .
-	git commit -m "wish to make the ta's compiler compile successfully."
+	git commit -m "fixed tesst of DBSuite.DeletePainterInNewWithoutCommit."
+	git push
