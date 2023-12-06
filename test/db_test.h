@@ -345,4 +345,45 @@ TEST_F(DBSuite, DeletePainterInNewWithoutCommit) {
     
 } 
 
+TEST_F(DBSuite, DeleteModifiedPainterWithoutCommit) {
+    // Create a new painter without committing
+    Painter* newPainter = new Painter("p_0003", "John");
+
+    // Verify the initial state in the unit of work
+    ASSERT_TRUE(UnitOfWork::instance()->inNew(newPainter->id()));
+    ASSERT_FALSE(UnitOfWork::instance()->inClean(newPainter->id()));
+    ASSERT_FALSE(UnitOfWork::instance()->inDirty(newPainter->id()));
+    ASSERT_FALSE(UnitOfWork::instance()->inDeleted(newPainter->id()));
+
+    // Modify the name of the new painter
+    newPainter->setName("JohnModified");
+
+    // Verify the modified state in the unit of work
+    ASSERT_FALSE(UnitOfWork::instance()->inNew(newPainter->id()));
+    ASSERT_FALSE(UnitOfWork::instance()->inClean(newPainter->id()));
+    ASSERT_TRUE(UnitOfWork::instance()->inDirty(newPainter->id()));
+    ASSERT_FALSE(UnitOfWork::instance()->inDeleted(newPainter->id()));
+
+    // Try to delete the modified painter without committing
+    pm->del(newPainter->id());
+
+    // Verify the state in the unit of work after deletion
+    ASSERT_FALSE(UnitOfWork::instance()->inNew(newPainter->id()));
+    ASSERT_FALSE(UnitOfWork::instance()->inClean(newPainter->id()));
+    ASSERT_FALSE(UnitOfWork::instance()->inDirty(newPainter->id()));
+    ASSERT_FALSE(UnitOfWork::instance()->inDeleted(newPainter->id()));
+
+    // Commit the changes and expect an error
+    UnitOfWork::instance()->commit();
+
+    // Verify the final state in the unit of work
+    ASSERT_FALSE(UnitOfWork::instance()->inNew(newPainter->id()));
+    ASSERT_FALSE(UnitOfWork::instance()->inClean(newPainter->id()));
+    ASSERT_FALSE(UnitOfWork::instance()->inDirty(newPainter->id()));
+    ASSERT_FALSE(UnitOfWork::instance()->inDeleted(newPainter->id()));
+
+    // Verify that the painter is still present in the database
+    ASSERT_EQ(pm->find(newPainter->id()), nullptr);
+}
+
 TEST_F(DBSuite, CommitNewDrawingsWithOldPainter) {}
