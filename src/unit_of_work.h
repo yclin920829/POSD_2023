@@ -8,34 +8,24 @@ class DomainObject;
 
 class UnitOfWork {
 public:
-    //TODO : class
     static UnitOfWork * instance();
 
-    //TODO : class
     void registerNew(DomainObject * domainObject);
 
-    //TODO : class
     void registerClean(DomainObject * domainObject);
 
-    //TODO : class
     void registerDirty(DomainObject * domainObject);
 
-    //TODO : class
     void registerDeleted(DomainObject * domainObject);
 
-    //TODO : class
     bool inNew(std::string id) const;
 
-    //TODO : class
     bool inClean(std::string id) const;
 
-    //TODO : class
     bool inDirty(std::string id) const;
 
-    //TODO : class
     bool inDeleted(std::string id) const;
 
-    //TODO : class
     void commit();
 
 protected:

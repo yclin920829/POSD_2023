@@ -25,7 +25,6 @@ void PainterMapper::update(std::string id) {
     load(getDomainObject(id));
 }
 
-//TODO : not sure
 void PainterMapper::del(std::string id) {
     UnitOfWork::instance()->registerDeleted(getDomainObject(id));
     abstractDelete(id);
@@ -49,7 +48,6 @@ std::string PainterMapper::addStmt(DomainObject * domainObject) const {
     return stmt;
 }
 
-//TODO : not sure
 std::string PainterMapper::deleteByIdStmt(std::string id) const {
     std::string stmt = "DELETE FROM painter WHERE ID='" + id + "'";
     return stmt;
@@ -62,7 +60,6 @@ std::string PainterMapper::updateStmt(DomainObject* domainObject) const {
 }
 
 int PainterMapper::callback(void* notUsed, int argc, char** argv, char** colNames) {
-    // std::cout << "painter mapper callback" << std::endl;
     Painter* painter = new Painter(argv[0], argv[1]);
     PainterMapper::instance()->load(painter);
     UnitOfWork::instance()->commit();

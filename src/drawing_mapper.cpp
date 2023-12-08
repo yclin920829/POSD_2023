@@ -16,7 +16,6 @@ Drawing *DrawingMapper::find(std::string id) {
     return static_cast<Drawing *>(abstractFind(id, DrawingMapper::callback));
 }
 
-//TODO : not sure
 void DrawingMapper::add(DomainObject * Drawing) {
     abstractAdd(Drawing);
 }
@@ -25,22 +24,9 @@ void DrawingMapper::update(std::string id) {
     abstractUpdate(getDomainObject(id));
 }
 
-//TODO : not sure
 void DrawingMapper::del(std::string id) {
-    // abstractDelete(id);
-    if(UnitOfWork::instance()->inDeleted(id)) {
-        abstractDelete(id);
-        _domainObjects.erase(id);
-    }else {
-        if(isLoaded(id)) {
-            UnitOfWork::instance()->registerDeleted(getDomainObject(id));
-        }else {
-            // std::cout << "it is not in _domainObjects" << std::endl;
-            DomainObject * object = new DomainObject(id);
-            // std::cout << "painter mappeer: " << object->id() << std::endl;
-            UnitOfWork::instance()->registerDeleted(object);
-        }
-    }
+    UnitOfWork::instance()->registerDeleted(getDomainObject(id));
+    abstractDelete(id);
 }
 
 std::string DrawingMapper::findByIdStmt(std::string id) const {
@@ -48,13 +34,11 @@ std::string DrawingMapper::findByIdStmt(std::string id) const {
     return stmt;
 }
 
-//TODO : not sure
 std::string DrawingMapper::deleteByIdStmt(std::string id) const {
     std::string stmt = "DELETE FROM drawing WHERE ID = '" + id + "'";
     return stmt;
 }
 
-//TODO : not sure
 std::string DrawingMapper::addStmt(DomainObject* domainObject) const {
     Drawing* drawing = static_cast<Drawing*>(domainObject);
     std::string stmt = "INSERT INTO drawing (ID, Painter, Shapes) values ('" + drawing->id() + "', '" + drawing->painter()->id() + "', '" + drawing->getShapesAsString() + "')";
@@ -81,7 +65,6 @@ std::list<Shape *> DrawingMapper::convertShapes(int argc, char **argv) {
     return _parser->getShapes();
 }
 
-//TODO : not sure
 int DrawingMapper::callback(void* notUsed, int argc, char** argv, char** colNames) {
     Painter * painter = PainterMapper::instance()->find(argv[1]);
     std::list<Shape *> shapes = DrawingMapper::instance()->convertShapes(argc, argv);

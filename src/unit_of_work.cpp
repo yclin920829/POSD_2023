@@ -27,7 +27,6 @@ void UnitOfWork::registerDirty(DomainObject * domainObject) {
     _clean.erase(domainObject->id());
 }
 
-// TODO : not sure
 void UnitOfWork::registerDeleted(DomainObject * domainObject) {
         _new.erase(domainObject->id());
         _clean.erase(domainObject->id());
@@ -46,12 +45,10 @@ bool UnitOfWork::inDirty(std::string id) const {
     return _dirty.count(id);
 }
 
-// TODO : not sure
 bool UnitOfWork::inDeleted(std::string id) const {
     return _deleted.count(id);
 }
 
-// TODO : not sure
 void UnitOfWork::commit() {
     for(auto dirty : _dirty) {
         if(DrawingMapper::instance()->find(dirty.first) != nullptr) {
