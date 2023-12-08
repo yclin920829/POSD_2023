@@ -301,7 +301,7 @@ TEST_F(DBSuite, DeletePainterInClean) {
     ASSERT_FALSE(UnitOfWork::instance()->inDirty("p_0003"));
     ASSERT_FALSE(UnitOfWork::instance()->inDeleted("p_0003"));
 
-    pm->del(painter->id());
+    UnitOfWork::instance()->registerDeleted(painter);
 
     ASSERT_FALSE(UnitOfWork::instance()->inNew("p_0003"));
     ASSERT_FALSE(UnitOfWork::instance()->inClean("p_0003"));
@@ -327,12 +327,12 @@ TEST_F(DBSuite, DeletePainterInNewWithoutCommit) {
     ASSERT_FALSE(UnitOfWork::instance()->inDirty(newPainter->id()));
     ASSERT_FALSE(UnitOfWork::instance()->inDeleted(newPainter->id()));
 
-    pm->del(newPainter->id());
+    UnitOfWork::instance()->registerDeleted(newPainter);
 
     ASSERT_FALSE(UnitOfWork::instance()->inNew(newPainter->id()));
     ASSERT_FALSE(UnitOfWork::instance()->inClean(newPainter->id()));
     ASSERT_FALSE(UnitOfWork::instance()->inDirty(newPainter->id()));
-    ASSERT_FALSE(UnitOfWork::instance()->inDeleted(newPainter->id()));
+    ASSERT_TRUE(UnitOfWork::instance()->inDeleted(newPainter->id()));
 
     UnitOfWork::instance()->commit();
 

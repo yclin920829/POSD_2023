@@ -29,16 +29,9 @@ void UnitOfWork::registerDirty(DomainObject * domainObject) {
 
 // TODO : not sure
 void UnitOfWork::registerDeleted(DomainObject * domainObject) {
-    if (domainObject->type() == "12DomainObject") {
-        // std::cout << "object: " << domainObject << std::endl;
-        // std::cout << "object->id(): " << domainObject->id() << std::endl;
-        // std::cout << "domainObject is null" << std::endl;
         _new.erase(domainObject->id());
-    }else {
-        // std::cout << "domainObject is not null" << std::endl;
-        _deleted[domainObject->id()] = domainObject;
         _clean.erase(domainObject->id());
-    }
+        _deleted[domainObject->id()] = domainObject;
 };
 
 bool UnitOfWork::inNew(std::string id) const {
