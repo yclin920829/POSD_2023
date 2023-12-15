@@ -12,6 +12,8 @@ public:
     // TODO: implement it
     Link(string path, Node * target): Node(path), _target(target) {
         cout << "Link::Link()" << endl;
+        cout << "path: " << path << endl;
+        cout << "target path: " << target->path() << endl;
     }
 
     // TODO: implement it
