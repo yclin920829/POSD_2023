@@ -5,6 +5,7 @@
 
 #include "node.h"
 #include "file.h"
+#include "link.h"
 #include "iterator.h"
 #include "dfs_iterator.h"
 
