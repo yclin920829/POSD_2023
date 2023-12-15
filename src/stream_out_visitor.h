@@ -32,6 +32,9 @@ public:
         }
     }
 
+    // TODO: implement it
+    void visitLink(Link * link) override {}
+
     string getResult() const {
         return _result;
     }

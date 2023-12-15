@@ -70,4 +70,8 @@ public:
     }
 
     virtual void accept(Visitor * visitor) = 0;
+
+    // TODO: implement it
+    void rename (string name) {}
+    
 };

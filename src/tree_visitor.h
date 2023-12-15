@@ -7,10 +7,11 @@ class TreeVisitor: public Visitor {
 public:
     TreeVisitor(IteratorFactory* factory): _factory(factory), _currentLevel(0), _notEndLevel(0) {}
 
-    void visitFile(File * file) {
+    void visitFile(File * file) override {
         _result += file->name() + "\n";
     }
-    void visitFolder(Folder * folder) {
+
+    void visitFolder(Folder * folder) override {
         if (_result == "") {
             _result += ".\n";
         } else {
@@ -45,6 +46,9 @@ public:
             _notEndLevel = notEndLevel;
         }
     }
+
+    // TODO: implement it
+    void visitLink(Link * link) override {}
 
     string getTree() {
         return _result;

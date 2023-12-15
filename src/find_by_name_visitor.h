@@ -29,6 +29,9 @@ public:
         delete it;
     }
 
+    // TODO: implement it
+    void visitLink(Link * link) override {}
+
     std::list<string> getPaths() const {
         return _paths;
     }
