@@ -59,9 +59,9 @@ public:
     }
 
     // TODO: implement it
-    void accept(Visitor * guest) override {
+    void accept(Visitor * visitor) override {
         cout << "Link::accept()" << endl;
-        _target->accept(guest);
+        _target->accept(visitor);
     }
 
 private:

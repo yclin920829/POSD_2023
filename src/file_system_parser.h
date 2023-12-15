@@ -15,7 +15,9 @@ using std::string;
 
 class FileSystemParser {
 public:
-    FileSystemParser(FileSystemBuilder * builder): _builder(builder) {}
+    FileSystemParser(FileSystemBuilder * builder): _builder(builder) {
+        cout << "FileSystemParser::FileSystemParser()" << endl;
+    }
 
     ~FileSystemParser() {
         delete _builder;
