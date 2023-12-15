@@ -129,6 +129,14 @@ public:
         visitor->visitFolder(this);
     }
 
+    // TODO: need undo
+    void updateChildrenPath(string oldName, string newName) override{
+        Iterator * it = new BfsIterator(this);
+        for (it->first(); !it->isDone(); it->next()) {
+            it->currentItem()->updateNodePath(oldName, newName);
+        }
+    }
+
 private:
     class AbstractFolderIterator: public Iterator {
     private:

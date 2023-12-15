@@ -72,6 +72,19 @@ public:
     virtual void accept(Visitor * visitor) = 0;
 
     // TODO: implement it
-    void rename (string name) {}
+    void rename(string name) {
+        string oldName = this->name();
+        updateNodePath(oldName, name);
+        updateChildrenPath(oldName, name);
+    }
+
+    void updateNodePath(string oldName, string newName) {
+        _path.replace(_path.find(oldName), oldName.length(), newName);
+    }
+
+    virtual void updateChildrenPath(string oldName, string newName){
+
+    }
+
     
 };

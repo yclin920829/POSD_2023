@@ -48,3 +48,38 @@ TEST(Folder, add_folder) {
 
     delete home;
 }
+
+TEST(Folder, rename) {
+    Folder * home = new Folder("structure/home");
+
+    ASSERT_EQ("home", home->name());
+    ASSERT_EQ("structure/home", home->path());
+
+    home->rename("new_home");
+
+    ASSERT_EQ("new_home", home->name());
+    ASSERT_EQ("structure/new_home", home->path());
+
+    delete home;
+}
+
+TEST(Folder, rename_should_affect_recursively) {
+    Folder * home = new Folder("structure/home");
+    Folder * document = new Folder("structure/home/Documents");
+    File * hello = new File("structure/home/Documents/hello.txt");
+    File * note = new File("structure/home/Documents/note.txt");
+
+    home->add(document);
+    document->add(hello);
+    document->add(note);
+
+    ASSERT_EQ(2, home->numberOfFiles());
+
+    home->rename("new_home");
+
+    ASSERT_EQ("new_home", home->name());
+    ASSERT_EQ("structure/new_home", home->path());
+    ASSERT_EQ("structure/new_home/Documents", document->path());
+    ASSERT_EQ("structure/new_home/Documents/hello.txt", hello->path());
+    ASSERT_EQ("structure/new_home/Documents/note.txt", note->path());
+}
