@@ -35,7 +35,7 @@ public:
 
     // TODO: implement it
     void visitLink(Link * link) override {
-        link->getTarget()->accept(this);
+        link->accept(this);
     }
 
     string getResult() const {
