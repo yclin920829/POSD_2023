@@ -39,6 +39,7 @@ public:
 
     void add(Node * node) override {
         cout << "Folder::add()" << endl;
+        cout << "this->path(): " << this->path() << endl;
         if (node->path() != this->path() + "/" + node->name()) {
             throw string("Incorrect path of node: " + node -> path());
         }
