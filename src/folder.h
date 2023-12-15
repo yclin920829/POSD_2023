@@ -19,6 +19,8 @@ private:
 
 public:
     Folder(string path): Node(path) {
+        cout << "Folder::Folder()" << endl;
+        cout << "path: " << path << endl;
         struct stat fileInfo;
         const char *c = path.c_str();
         if(lstat(c, &fileInfo) == 0){

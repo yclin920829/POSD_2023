@@ -6,6 +6,8 @@
 class File: public Node {
 public:
     File(string path): Node(path) {
+        cout << "File::File()" << endl;
+        cout << "path: " << path << endl;
         struct stat fileInfo;
         const char *c = path.c_str();
         if(lstat(c, &fileInfo) == 0){
