@@ -20,8 +20,8 @@ private:
 
 public:
     Folder(string path): Node(path) {
-        cout << "Folder::Folder()" << endl;
-        cout << "path: " << path << endl;
+        // cout << "Folder::Folder()" << endl;
+        // cout << "path: " << path << endl;
         struct stat fileInfo;
         const char *c = path.c_str();
         if(lstat(c, &fileInfo) == 0){
@@ -39,8 +39,8 @@ public:
     }
 
     void add(Node * node) override {
-        cout << "Folder::add()" << endl;
-        cout << "this->path(): " << this->path() << endl;
+        // cout << "Folder::add()" << endl;
+        // cout << "this->path(): " << this->path() << endl;
         if (node->path() != this->path() + "/" + node->name()) {
             throw string("Incorrect path of node: " + node -> path());
         }
@@ -131,7 +131,7 @@ public:
     }
 
     void accept(Visitor * visitor) override {
-        cout << "Folder::accept()" << endl;
+        // cout << "Folder::accept()" << endl;
         visitor->visitFolder(this);
     }
 
@@ -385,6 +385,11 @@ public:
             const Folder * folder = dynamic_cast<const Folder *>(node);
             if (folder) {
                 return "folder";
+            }
+
+            const Link * link = dynamic_cast<const Link *>(node);
+            if (link) {
+                return "link";
             }
 
             std::size_t pos = node->name().rfind(".");
