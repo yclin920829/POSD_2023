@@ -24,6 +24,7 @@ public:
     // TODO: implement it
     Node * find(string path) override {
         cout << "Link::find()" << endl;
+        cout << "Path: " << path << endl;
         return new File(path);
     }
 
@@ -31,18 +32,20 @@ public:
     std::list<string> findByName(string name) override {
         cout << "Link::findByName()" << endl;
         std::list<string> pathList;
-        pathList.push_back("not done yet");
+        pathList.push_back(name);
         return pathList;
     }
 
     // TODO: implement it
     void add(Node * node) override {
         cout << "Link::add()" << endl;
+        cout << "Node: " << node->path() << endl;
     }
 
     // TODO: implement it
     void remove(string patth) override {
         cout << "Link::remove()" << endl;
+        cout << "Path: " << patth << endl;
     }
 
     // TODO: implement it
