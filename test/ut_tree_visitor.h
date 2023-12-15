@@ -3,6 +3,7 @@
 
 #include "../src/order_by.h"
 #include "../src/tree_visitor.h"
+#include "../src/iterator_factories.h"
 
 class TreeVisitorTest: public ::testing::Test {
 protected:
@@ -99,7 +100,7 @@ TEST_F(TreeVisitorTest, OrderByName) {
     "├── hello.txt\n"
     "└── my_profile\n";
 
-    TreeVisitor * tree = new TreeVisitor(OrderBy::Name);
+    TreeVisitor * tree = new TreeVisitor(new OrderByNameIteratorFactory());
     home->accept(tree);
     string result = tree->getTree();
 
@@ -127,7 +128,7 @@ TEST_F(TreeVisitorTest, OrderByNameWithFolderFirst) {
     "├── hello.txt\n"
     "└── my_profile\n";
 
-    TreeVisitor * tree = new TreeVisitor(OrderBy::NameWithFolderFirst);
+    TreeVisitor * tree = new TreeVisitor(new OrderByNameWithFolderFirstIteratorFactory());
     home->accept(tree);
     string result = tree->getTree();
 
@@ -154,7 +155,7 @@ TEST_F(TreeVisitorTest, OrderByKind) {
     "│   └── funny.png\n"
     "└── hello.txt\n";
 
-    TreeVisitor * tree = new TreeVisitor(OrderBy::Kind);
+    TreeVisitor * tree = new TreeVisitor(new OrderByKindIteratorFactory());
     home->accept(tree);
     string result = tree->getTree();
 
