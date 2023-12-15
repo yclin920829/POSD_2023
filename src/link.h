@@ -11,58 +11,55 @@ class Link: public Node {
 public:
     // TODO: implement it
     Link(string path, Node * target): Node(path), _target(target) {
-        cout << "Link path: " << path << endl;
-        cout << "Target: " << target->path() << endl;
+        cout << "Link::Link()" << endl;
     }
 
     // TODO: implement it
     int numberOfFiles() const override {
         cout << "Link::numberOfFiles()" << endl;
-        return 0;
+        return _target->numberOfFiles();
     }
 
     // TODO: implement it
     Node * find(string path) override {
         cout << "Link::find()" << endl;
-        cout << "Path: " << path << endl;
-        return new File(path);
+        return _target->find(path);
     }
 
     // TODO: implement it
     std::list<string> findByName(string name) override {
         cout << "Link::findByName()" << endl;
-        std::list<string> pathList;
-        pathList.push_back(name);
-        return pathList;
+        return _target->findByName(name);
     }
 
     // TODO: implement it
     void add(Node * node) override {
         cout << "Link::add()" << endl;
-        cout << "Node: " << node->path() << endl;
+        _target->add(node);
     }
 
     // TODO: implement it
-    void remove(string patth) override {
+    void remove(string path) override {
         cout << "Link::remove()" << endl;
-        cout << "Path: " << patth << endl;
+        _target->remove(path);
     }
 
     // TODO: implement it
     Node * getChildByName(const char * name) const override {
         cout << "Link::getChildByName()" << endl;
-        return new File(name);
+        return _target->getChildByName(name);
     }
 
     // TODO: implement it
     Node * getTarget() {
         cout << "Link::getTarget()" << endl;
-        return new File("not done yet");
+        return _target;
     }
 
     // TODO: implement it
     void accept(Visitor * guest) override {
         cout << "Link::accept()" << endl;
+        _target->accept(guest);
     }
 
 private:
