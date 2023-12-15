@@ -1,6 +1,7 @@
 #pragma once
 
 #include "file.h"
+#include "link.h"
 #include "folder.h"
 #include "visitor.h"
 
@@ -30,7 +31,9 @@ public:
     }
 
     // TODO: implement it
-    void visitLink(Link * link) override {}
+    void visitLink(Link * link) override {
+        link->getTarget()->accept(this);
+    }
 
     std::list<string> getPaths() const {
         return _paths;

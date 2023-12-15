@@ -1,6 +1,7 @@
 #pragma once
 
 #include "file.h"
+#include "link.h"
 #include "folder.h"
 #include "visitor.h"
 #include <fstream>
@@ -33,7 +34,9 @@ public:
     }
 
     // TODO: implement it
-    void visitLink(Link * link) override {}
+    void visitLink(Link * link) override {
+        link->getTarget()->accept(this);
+    }
 
     string getResult() const {
         return _result;
