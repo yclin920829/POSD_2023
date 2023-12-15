@@ -130,6 +130,7 @@ public:
     }
 
     void accept(Visitor * visitor) override {
+        cout << "Folder::accept()" << endl;
         visitor->visitFolder(this);
     }
 
@@ -196,6 +197,11 @@ private:
             File * file = dynamic_cast<File *>(node);
             if (file) {
                 return new File(node->path());
+            }
+
+            Link * link = dynamic_cast<Link *>(node);
+            if (link) {
+                return new Link(node->path(), link->getTarget());
             }
 
             Node * clonedFolder = new Folder(node->path());
