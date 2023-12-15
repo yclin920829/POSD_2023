@@ -5,6 +5,8 @@
 
 class Link: public Node {
 public:
+    // TODO: implement it
+    Link(string path, Node * target): Node(path), _target(target) {}
 
     // TODO: implement it
     int numberOfFiles() const override {
@@ -40,4 +42,8 @@ public:
 
     // TODO: implement it
     void accept(Visitor * guest) override {}
+
+private:
+    string _path;
+    Node * _target;
 };
