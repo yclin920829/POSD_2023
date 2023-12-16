@@ -6,6 +6,7 @@
 
 using namespace std;
 
+// TODO: add more tests
 TEST(Link, LinkToFile) {
     File * file = new File("./structure/file.txt");
     Link * link = new Link("link", file);

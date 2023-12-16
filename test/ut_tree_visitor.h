@@ -45,6 +45,9 @@ protected:
         document->add(ca);
         ooad = new File("structure2/home/Documents/object-oriented-analysis-and-design.pdf");
         document->add(ooad);
+
+        Link * link = new Link("structure2/home/link_to_programming", programming);
+        home->add(link);
     }
 
     void TearDown() {
@@ -63,6 +66,7 @@ protected:
         ddd = nullptr;
         ca = nullptr;
         ooad = nullptr;
+        link = nullptr;
     }
     
     Node * home;
@@ -80,6 +84,7 @@ protected:
     Node * ddd;
     Node * ca;
     Node * ooad;
+    Node * link;
 };
 
 TEST_F(TreeVisitorTest, OrderByName) {
@@ -98,6 +103,7 @@ TEST_F(TreeVisitorTest, OrderByName) {
     "├── Downloads\n"
     "│   └── funny.png\n"
     "├── hello.txt\n"
+    "├── link_to_programming\n"
     "└── my_profile\n";
 
     TreeVisitor * tree = new TreeVisitor(OrderByNameIteratorFactory::instance());
@@ -126,6 +132,7 @@ TEST_F(TreeVisitorTest, OrderByNameWithFolderFirst) {
     "├── Downloads\n"
     "│   └── funny.png\n"
     "├── hello.txt\n"
+    "├── link_to_programming\n"
     "└── my_profile\n";
 
     TreeVisitor * tree = new TreeVisitor(OrderByNameWithFolderFirstIteratorFactory::instance());
@@ -153,6 +160,7 @@ TEST_F(TreeVisitorTest, OrderByKind) {
     "│   └── note.txt\n"
     "├── Downloads\n"
     "│   └── funny.png\n"
+    "├── link_to_programming\n"
     "└── hello.txt\n";
 
     TreeVisitor * tree = new TreeVisitor(OrderByKindIteratorFactory::instance());

@@ -21,7 +21,6 @@ public:
     }
 
     void buildFile(string path) {
-        cout << "FileSystemBuilder::buildFile()" << endl;
         if (_folders.empty()) {
             throw "A file should be created under a folder";
         }
@@ -29,7 +28,6 @@ public:
     }
 
     void buildFolder(string path) {
-        cout << "FileSystemBuilder::buildFolder()" << endl;
         _folders.push(new Folder(path));
     }
 
