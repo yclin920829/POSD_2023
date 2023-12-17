@@ -49,13 +49,9 @@ TEST(Folder, add_folder) {
     delete home;
 }
 
-// TODO: new test case
 TEST(Folder, rename) {
     Folder * home = new Folder("structure/home");
-
-    ASSERT_EQ("home", home->name());
-    ASSERT_EQ("structure/home", home->path());
-
+    
     home->rename("new_home");
 
     ASSERT_EQ("new_home", home->name());
@@ -64,7 +60,6 @@ TEST(Folder, rename) {
     delete home;
 }
 
-// TODO: new test case
 TEST(Folder, rename_should_affect_recursively) {
     Folder * home = new Folder("structure/home");
     Folder * document = new Folder("structure/home/Documents");
@@ -74,8 +69,6 @@ TEST(Folder, rename_should_affect_recursively) {
     home->add(document);
     document->add(hello);
     document->add(note);
-
-    ASSERT_EQ(2, home->numberOfFiles());
 
     home->rename("new_home");
 

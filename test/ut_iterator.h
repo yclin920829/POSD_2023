@@ -135,7 +135,6 @@ TEST_F(IteratorTest, DFS) {
     delete dfsIt;
 }
 
-
 TEST_F(IteratorTest, BFS) {
     Iterator * bfsIt = new BfsIterator(home);
 
@@ -172,7 +171,8 @@ TEST_F(IteratorTest, BFS) {
     delete bfsIt;
 }
 
-// TODO: new test case
 TEST_F(IteratorTest, LinkIterator) {
-
+    Link * homeLink = new Link("structure/homeLink", home);
+    Iterator * it = homeLink->createIterator();
+    ASSERT_TRUE(it->isDone());
 }
