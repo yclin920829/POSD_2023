@@ -165,6 +165,7 @@ public:
         }
 
         Node * currentItem() const override {
+            cout << (*_current)->name() << endl;
             return *_current;
         }
 
