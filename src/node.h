@@ -51,12 +51,10 @@ public:
 
     virtual int numberOfFiles() const = 0;
 
-    // TODO: not sure
     virtual Iterator * createIterator() {
         return new NullIterator();
     }
 
-    // TODO: not sure
     virtual Iterator * createIterator(IteratorFactory * factory) {
         return new NullIterator();
     }
@@ -71,17 +69,19 @@ public:
 
     virtual void accept(Visitor * visitor) = 0;
 
-    // TODO: implement it
+    // TODO: not sure if this is correct
     void rename(string name) {
         string oldName = this->name();
         updateNodePath(oldName, name);
         updateChildrenPath(oldName, name);
     }
 
+    // TODO: not sure if this is correct
     void updateNodePath(string oldName, string newName) {
         _path.replace(_path.find(oldName), oldName.length(), newName);
     }
 
+    // TODO: not sure if this is correct
     virtual void updateChildrenPath(string oldName, string newName){
 
     }

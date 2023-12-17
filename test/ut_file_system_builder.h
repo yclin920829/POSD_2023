@@ -4,6 +4,7 @@
 #include "../src/file.h"
 #include "../src/folder.h"
 #include "../src/iterator.h"
+#include "../src/iterator_factories.h"
 #include "../src/file_system_parser.h"
 #include "../src/file_system_builder.h"
 #include "../src/file_system_scanner.h"

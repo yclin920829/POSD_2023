@@ -66,12 +66,10 @@ public:
         return num;
     }
 
-    // TODO: not sure
     Iterator * createIterator() override {
         return new FolderIterator(this, _operationCount);
     }
 
-    // TODO: not sure
     Iterator * createIterator(IteratorFactory * factory) override {
         return factory->create(this, _operationCount);
     }
@@ -130,7 +128,7 @@ public:
         visitor->visitFolder(this);
     }
 
-    // TODO: need undo
+    // TODO: not sure if this is correct
     void updateChildrenPath(string oldName, string newName) override{
         Iterator * it = new BfsIterator(this);
         for (it->first(); !it->isDone(); it->next()) {

@@ -16,6 +16,7 @@ TEST(File, invalid_file_2) {
     ASSERT_ANY_THROW(File("structure/home"));
 }
 
+// TODO: new test case
 TEST(File, rename) {
     File * file = new File("structure/file.txt");
     ASSERT_EQ("file.txt", file->name());

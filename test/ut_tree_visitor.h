@@ -87,6 +87,7 @@ protected:
     Node * link;
 };
 
+// TODO: new test case
 TEST_F(TreeVisitorTest, OrderByName) {
     string expected = 
     ".\n"
@@ -115,7 +116,7 @@ TEST_F(TreeVisitorTest, OrderByName) {
     delete tree;
 }
 
-
+// TODO: new test case
 TEST_F(TreeVisitorTest, OrderByNameWithFolderFirst) {
     string expected = 
     ".\n"
@@ -144,6 +145,7 @@ TEST_F(TreeVisitorTest, OrderByNameWithFolderFirst) {
     delete tree;
 }
 
+// TODO: new test case
 TEST_F(TreeVisitorTest, OrderByKind) {
     string expected = 
     ".\n"

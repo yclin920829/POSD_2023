@@ -33,9 +33,9 @@ public:
         }
     }
 
-    // TODO: implement it
+    // TODO: not sure if this is correct
     void visitLink(Link * link) override {
-        link->accept(this);
+        link->getTarget()->accept(this);
     }
 
     string getResult() const {

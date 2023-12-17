@@ -3,7 +3,6 @@
 #include "./folder.h"
 #include "iterator_factory.h"
 
-// TODO: not sure
 class FolderIteratorFactory: public IteratorFactory {
 public:
     static IteratorFactory * instance() {
@@ -15,7 +14,6 @@ public:
     }
 };
 
-// TODO: not sure
 class OrderByNameIteratorFactory: public IteratorFactory {
 public:
     static IteratorFactory * instance() {
@@ -27,7 +25,6 @@ public:
     }
 };
 
-// TODO: not sure
 class OrderByNameWithFolderFirstIteratorFactory: public IteratorFactory {
 public:
     static IteratorFactory * instance() {
@@ -39,7 +36,6 @@ public:
     }
 };
 
-// TODO: not sure
 class OrderByKindIteratorFactory: public IteratorFactory {
 public:
     static IteratorFactory * instance() {

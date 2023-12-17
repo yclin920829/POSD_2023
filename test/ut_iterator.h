@@ -171,3 +171,8 @@ TEST_F(IteratorTest, BFS) {
 
     delete bfsIt;
 }
+
+// TODO: new test case
+TEST_F(IteratorTest, LinkIterator) {
+
+}

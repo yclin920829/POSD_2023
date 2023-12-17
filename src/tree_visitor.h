@@ -51,7 +51,6 @@ public:
         }
     }
 
-    // TODO: implement it
     void visitLink(Link * link) override {
         _result += link->name() + "\n";
     }

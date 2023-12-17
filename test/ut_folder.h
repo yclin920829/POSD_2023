@@ -48,7 +48,8 @@ TEST(Folder, add_folder) {
 
     delete home;
 }
-// TODO: check
+
+// TODO: new test case
 TEST(Folder, rename) {
     Folder * home = new Folder("structure/home");
 
@@ -63,7 +64,7 @@ TEST(Folder, rename) {
     delete home;
 }
 
-// TODO: check
+// TODO: new test case
 TEST(Folder, rename_should_affect_recursively) {
     Folder * home = new Folder("structure/home");
     Folder * document = new Folder("structure/home/Documents");

@@ -30,9 +30,9 @@ public:
         delete it;
     }
 
-    // TODO: implement it
+    // TODO: not sure if this is correct
     void visitLink(Link * link) override {
-        link->accept(this);
+        link->getTarget()->accept(this);
     }
 
     std::list<string> getPaths() const {
