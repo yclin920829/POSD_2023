@@ -9,20 +9,21 @@ class Drawing;
 class Scanner;
 class Builder;
 class Parser;
+class DomainObject;
 
 
 class DrawingMapper {
 public:
 
-    void add(DomainObject * Drawing);
+    virtual void add(DomainObject * Drawing) = 0;
 
-    Drawing* find(std::string id);
+    virtual Drawing* find(std::string id) = 0;
 
-    void update(std::string id);
+    virtual void update(std::string id) = 0;
 
-    void del(std::string id);
+    virtual void del(std::string id) = 0;
 
     static DrawingMapper* instance();
 
-    void cleanCache();
+    virtual void cleanCache() = 0;
 };

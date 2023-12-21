@@ -9,18 +9,8 @@
 #include "scanner.h"
 #include "builder.h"
 #include "domain_object.h"
+#include "sqlite_drawing_mapper.h"
 
-virtual Drawing* DrawingMapper::find(std::string id) = 0;
-
-// add
-virtual void DrawingMapper::add(DomainObject * drawing) = 0;
-
-// update
-virtual void DrawingMapper::update(std::string id) = 0;
-
-// delete
-virtual void DrawingMapper::del(std::string id) = 0;
-
-virtual DrawingMapper* DrawingMapper::instance() = 0;
-
-virtual void DrawingMapper::cleanCache() = 0;
+DrawingMapper* DrawingMapper::instance() {
+    return SQLiteDrawingMapper::instance();
+};
