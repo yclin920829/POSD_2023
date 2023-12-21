@@ -1,4 +1,5 @@
 #include "sqlite_drawing_mapper.h"
+#include "sqlite_painter_mapper.h"
 
 #include <sqlite3.h>
 #include <string>

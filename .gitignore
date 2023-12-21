@@ -1,0 +1,8 @@
+bin
+obj
+resource
+
+.vscode
+
+#Mac Os
+.DS_Store

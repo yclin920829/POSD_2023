@@ -6,12 +6,12 @@
 
 #include "drawing.h"
 #include "sqlite_abstract_mapper.h"
-#include "sqlite_painter_mapper.h"
+#include "drawing_mapper.h"
 #include "scanner.h"
 #include "builder.h"
 #include "parser.h"
 
-class SQLiteDrawingMapper: public SQLiteAbstractMapper {
+class SQLiteDrawingMapper: public SQLiteAbstractMapper, public DrawingMapper {
 public:
 
     ~SQLiteDrawingMapper() {

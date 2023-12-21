@@ -28,6 +28,9 @@ obj/sqlite_painter_mapper.o: src/sqlite_painter_mapper.h src/sqlite_painter_mapp
 obj/db_mode.o: src/db_mode.h src/db_mode.cpp
 	g++ $(FLAGS) -c src/db_mode.cpp -o obj/db_mode.o
 
+obj/drawing_mapper.o: src/drawing_mapper.h src/drawing_mapper.cpp 
+	g++ $(FLAGS) -c src/drawing_mapper.cpp -o obj/drawing_mapper.o
+
 dir:
 	mkdir -p bin obj resource
 
