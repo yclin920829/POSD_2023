@@ -6,9 +6,9 @@
 
 #include "painter.h"
 #include "sqlite_abstract_mapper.h"
+#include "painter_mapper.h"
 
-
-class SQLitePainterMapper: public SQLiteAbstractMapper {
+class SQLitePainterMapper: public SQLiteAbstractMapper, public PainterMapper {
 public:
     
     void add(DomainObject * Painter);

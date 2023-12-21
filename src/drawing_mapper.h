@@ -13,7 +13,7 @@ class Parser;
 
 class DrawingMapper {
 public:
-    
+
     void add(DomainObject * Drawing);
 
     Drawing* find(std::string id);
@@ -25,5 +25,4 @@ public:
     static DrawingMapper* instance();
 
     void cleanCache();
-
 };

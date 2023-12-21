@@ -31,6 +31,9 @@ obj/db_mode.o: src/db_mode.h src/db_mode.cpp
 obj/drawing_mapper.o: src/drawing_mapper.h src/drawing_mapper.cpp 
 	g++ $(FLAGS) -c src/drawing_mapper.cpp -o obj/drawing_mapper.o
 
+obj/painter_mapper.o: src/painter_mapper.h src/painter_mapper.cpp
+	g++ $(FLAGS) -c src/painter_mapper.cpp -o obj/painter_mapper.o
+
 dir:
 	mkdir -p bin obj resource
 
