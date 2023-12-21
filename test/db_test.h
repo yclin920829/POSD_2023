@@ -4,7 +4,7 @@
 #include <iostream>
 #include <list>
 #include "../src/unit_of_work.h"
-#include "../src/drawing_mapper.h"
+#include "../src/sqlite_drawing_mapper.h"
 #include "../src/drawing.h"
 #include "../src/triangle.h"
 #include "../src/shape.h"
@@ -18,7 +18,7 @@ protected:
         create_painter_table();
         populate_drawings();
         populate_painters();
-        dm = DrawingMapper::instance();
+        dm = SQLiteDrawingMapper::instance();
         dm->cleanCache();
         pm = PainterMapper::instance();
         pm->cleanCache();
@@ -118,7 +118,7 @@ protected:
     sqlite3 * db;
     sqlite3 * db_p;
     char * err_msg = nullptr;
-    DrawingMapper * dm;
+    SQLiteDrawingMapper * dm;
     PainterMapper * pm;
 };
 

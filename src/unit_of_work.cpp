@@ -1,5 +1,5 @@
 #include "unit_of_work.h"
-#include "drawing_mapper.h"
+#include "sqlite_drawing_mapper.h"
 #include "painter_mapper.h"
 #include "domain_object.h"
 #include <list>
@@ -92,7 +92,7 @@ void UnitOfWork::commit() {
             PainterMapper::instance()->update(p->id());
             _clean[p->id()] = p;
         } else if(Drawing * d = dynamic_cast<Drawing *>(dirty.second)){
-            DrawingMapper::instance()->update(d->id());
+            SQLiteDrawingMapper::instance()->update(d->id());
             _clean[d->id()] = d;
         }
     }
@@ -103,8 +103,8 @@ void UnitOfWork::commit() {
             PainterMapper::instance()->add(p);
             PainterMapper::instance()->find(p->id());
         } else if(Drawing * d = dynamic_cast<Drawing *>(newbie.second)){
-            DrawingMapper::instance()->add(d);
-            DrawingMapper::instance()->find(d->id());
+            SQLiteDrawingMapper::instance()->add(d);
+            SQLiteDrawingMapper::instance()->find(d->id());
         }
     }
     _new.clear();
@@ -113,7 +113,7 @@ void UnitOfWork::commit() {
         if(Painter * p = dynamic_cast<Painter *>(deleted.second)){
             PainterMapper::instance()->del(p->id());
         } else if(Drawing * d = dynamic_cast<Drawing *>(deleted.second)){
-            DrawingMapper::instance()->del(d->id());
+            SQLiteDrawingMapper::instance()->del(d->id());
         }
     }
     _deleted.clear();

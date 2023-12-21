@@ -14,7 +14,9 @@
 class SQLiteDrawingMapper: public SQLiteAbstractMapper {
 public:
 
-    ~DrawingMapper();
+    ~SQLiteDrawingMapper() {
+        delete _parser;
+    }
 
     void add(DomainObject * Drawing);
 
@@ -24,12 +26,12 @@ public:
 
     void del(std::string id);
 
-    static DrawingMapper* instance();
+    static SQLiteDrawingMapper* instance();
 
     void cleanCache();
 
 protected:
-    DrawingMapper();
+    SQLiteDrawingMapper();
 
     static int callback(void* notUsed, int argc, char** argv, char** colNames);
 
@@ -41,6 +43,6 @@ protected:
     std::string deleteByIdStmt(std::string id) const;
 
 private:
-    static DrawingMapper* _instance;
+    static SQLiteDrawingMapper* _instance;
     Parser * _parser;
 };
