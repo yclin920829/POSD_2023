@@ -24,3 +24,8 @@ clear:
 
 me: clear clean all
 	./bin/ut_all
+
+git : 
+	git add .
+	git commit -m "Commit for Test"
+	git push origin master

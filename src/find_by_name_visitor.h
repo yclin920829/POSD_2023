@@ -29,8 +29,7 @@ public:
 
         delete it;
     }
-
-    // TODO: not sure if this is correct
+    
     void visitLink(Link * link) override {
         link->getTarget()->accept(this);
     }
