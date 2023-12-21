@@ -75,7 +75,7 @@ SQLiteDrawingMapper::SQLiteDrawingMapper(): SQLiteAbstractMapper("resource/drawi
 }
 
 int SQLiteDrawingMapper::callback(void* notUsed, int argc, char** argv, char** colNames) {
-    Painter * painter = PainterMapper::instance()->find(argv[1]);
+    Painter * painter = SQLitePainterMapper::instance()->find(argv[1]);
     std::list<Shape *> shapes = SQLiteDrawingMapper::instance()->convertShapes(argv[2]);
     Drawing * drawing = new Drawing(argv[0], painter, shapes);
     SQLiteDrawingMapper::instance()->load(drawing);

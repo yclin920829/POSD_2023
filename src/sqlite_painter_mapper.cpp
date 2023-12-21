@@ -1,4 +1,4 @@
-#include "painter_mapper.h"
+#include "sqlite_painter_mapper.h"
 #include <string>
 #include <iostream>
 #include <sqlite3.h>
@@ -6,19 +6,19 @@
 #include "painter.h"
 #include "sqlite_abstract_mapper.h"
 
-PainterMapper* PainterMapper::_instance = nullptr;
+SQLitePainterMapper* SQLitePainterMapper::_instance = nullptr;
 
-Painter* PainterMapper::find(std::string id) {
-    return static_cast<Painter *>(abstractFind(id, PainterMapper::callback));
+Painter* SQLitePainterMapper::find(std::string id) {
+    return static_cast<Painter *>(abstractFind(id, SQLitePainterMapper::callback));
 }
 
 // add
-void PainterMapper::add(DomainObject * painter) {
+void SQLitePainterMapper::add(DomainObject * painter) {
     abstractAdd(painter);
 }
 
 // update
-void PainterMapper::update(std::string id) {
+void SQLitePainterMapper::update(std::string id) {
     DomainObject * painter = getDomainObject(id);
     if(painter)
         abstractUpdate(painter);
@@ -27,11 +27,11 @@ void PainterMapper::update(std::string id) {
 }
 
 // delete
-void PainterMapper::del(std::string id) {
+void SQLitePainterMapper::del(std::string id) {
     abstractDelete(id);
 }
 
-std::string PainterMapper::updateStmt(DomainObject * domainObject) const {
+std::string SQLitePainterMapper::updateStmt(DomainObject * domainObject) const {
     Painter * painter = static_cast<Painter *>(domainObject);
     std::string stmt ("UPDATE painter SET ");
     stmt += "name = '" + painter->name() + "' "
@@ -39,11 +39,11 @@ std::string PainterMapper::updateStmt(DomainObject * domainObject) const {
     return stmt;
 }
 
-std::string PainterMapper::findByIdStmt(std::string id) const {
+std::string SQLitePainterMapper::findByIdStmt(std::string id) const {
     return "SELECT * FROM painter WHERE ID = '" + id + "'";
 }
 
-std::string PainterMapper::addStmt(DomainObject * domainObject) const {
+std::string SQLitePainterMapper::addStmt(DomainObject * domainObject) const {
     Painter * painter = static_cast<Painter *>(domainObject);
     std::string stmt = "INSERT INTO painter values (";
     stmt += "'" + painter->id() + "', ";
@@ -51,27 +51,27 @@ std::string PainterMapper::addStmt(DomainObject * domainObject) const {
     return stmt;
 }
 
-std::string PainterMapper::deleteByIdStmt(std::string id) const {
+std::string SQLitePainterMapper::deleteByIdStmt(std::string id) const {
     return "DELETE FROM painter WHERE id = '" + id + "'";
 }
 
 
-PainterMapper* PainterMapper::instance() {
+SQLitePainterMapper* SQLitePainterMapper::instance() {
     if(_instance == nullptr) {
-        _instance = new PainterMapper();
+        _instance = new SQLitePainterMapper();
     }
     return _instance;
 }
 
-PainterMapper::PainterMapper(): SQLiteAbstractMapper("resource/painter.db") {
+SQLitePainterMapper::SQLitePainterMapper(): SQLiteAbstractMapper("resource/painter.db") {
 }
 
-int PainterMapper::callback(void* notUsed, int argc, char** argv, char** colNames) {
+int SQLitePainterMapper::callback(void* notUsed, int argc, char** argv, char** colNames) {
     Painter* painter = new Painter(argv[0], argv[1]);
-    PainterMapper::instance()->load(painter);
+    SQLitePainterMapper::instance()->load(painter);
     return 0;
 }
 
-void PainterMapper::cleanCache() {
+void SQLitePainterMapper::cleanCache() {
     SQLiteAbstractMapper::cleanCache();
 }

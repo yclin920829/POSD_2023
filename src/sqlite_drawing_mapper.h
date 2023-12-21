@@ -6,7 +6,7 @@
 
 #include "drawing.h"
 #include "sqlite_abstract_mapper.h"
-#include "painter_mapper.h"
+#include "sqlite_painter_mapper.h"
 #include "scanner.h"
 #include "builder.h"
 #include "parser.h"

@@ -20,7 +20,7 @@ protected:
         populate_painters();
         dm = SQLiteDrawingMapper::instance();
         dm->cleanCache();
-        pm = PainterMapper::instance();
+        pm = SQLitePainterMapper::instance();
         pm->cleanCache();
     }
 
@@ -119,7 +119,7 @@ protected:
     sqlite3 * db_p;
     char * err_msg = nullptr;
     SQLiteDrawingMapper * dm;
-    PainterMapper * pm;
+    SQLitePainterMapper * pm;
 };
 
 // ensure db setup teardown works alone
@@ -157,7 +157,7 @@ TEST_F(DBSuite, NewDrawingAndPainterThroughUoWAndFind) {
 TEST_F(DBSuite, CommitNewDrawingsWithOldPainter) {
     UnitOfWork *uow = UnitOfWork::instance();
 
-    Painter *painter = PainterMapper::instance()->find("p_0001");
+    Painter *painter = SQLitePainterMapper::instance()->find("p_0001");
     std::list<Shape *> shapes;
     shapes.push_back(new Triangle(2, 2, 2));
     Drawing *drawing = new Drawing("d_0010", painter, shapes);

@@ -1,6 +1,6 @@
 #include "unit_of_work.h"
 #include "sqlite_drawing_mapper.h"
-#include "painter_mapper.h"
+#include "sqlite_painter_mapper.h"
 #include "domain_object.h"
 #include <list>
 #include <iostream>
@@ -89,7 +89,7 @@ bool UnitOfWork::inDeleted(std::string id) const {
 void UnitOfWork::commit() {
     for(auto dirty : _dirty) {
         if(Painter * p = dynamic_cast<Painter *>(dirty.second)){
-            PainterMapper::instance()->update(p->id());
+            SQLitePainterMapper::instance()->update(p->id());
             _clean[p->id()] = p;
         } else if(Drawing * d = dynamic_cast<Drawing *>(dirty.second)){
             SQLiteDrawingMapper::instance()->update(d->id());
@@ -100,8 +100,8 @@ void UnitOfWork::commit() {
 
     for(auto newbie : _new) {
         if(Painter * p = dynamic_cast<Painter *>(newbie.second)){
-            PainterMapper::instance()->add(p);
-            PainterMapper::instance()->find(p->id());
+            SQLitePainterMapper::instance()->add(p);
+            SQLitePainterMapper::instance()->find(p->id());
         } else if(Drawing * d = dynamic_cast<Drawing *>(newbie.second)){
             SQLiteDrawingMapper::instance()->add(d);
             SQLiteDrawingMapper::instance()->find(d->id());
@@ -111,7 +111,7 @@ void UnitOfWork::commit() {
 
     for(auto deleted : _deleted) {
         if(Painter * p = dynamic_cast<Painter *>(deleted.second)){
-            PainterMapper::instance()->del(p->id());
+            SQLitePainterMapper::instance()->del(p->id());
         } else if(Drawing * d = dynamic_cast<Drawing *>(deleted.second)){
             SQLiteDrawingMapper::instance()->del(d->id());
         }

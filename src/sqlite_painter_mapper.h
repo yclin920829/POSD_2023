@@ -8,7 +8,7 @@
 #include "sqlite_abstract_mapper.h"
 
 
-class PainterMapper: public SQLiteAbstractMapper {
+class SQLitePainterMapper: public SQLiteAbstractMapper {
 public:
     
     void add(DomainObject * Painter);
@@ -19,12 +19,12 @@ public:
 
     void del(std::string id);
 
-    static PainterMapper* instance();
+    static SQLitePainterMapper* instance();
 
     void cleanCache();
 
 protected:
-    PainterMapper();
+    SQLitePainterMapper();
 
     static int callback(void* notUsed, int argc, char** argv, char** colNames);
 
@@ -34,5 +34,5 @@ protected:
     std::string deleteByIdStmt(std::string id) const;
     
 private:
-    static PainterMapper* _instance;
+    static SQLitePainterMapper* _instance;
 };
