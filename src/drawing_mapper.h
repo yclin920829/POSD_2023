@@ -13,8 +13,6 @@ class Parser;
 
 class DrawingMapper {
 public:
-
-    // ~DrawingMapper();
     
     void add(DomainObject * Drawing);
 
@@ -28,19 +26,4 @@ public:
 
     void cleanCache();
 
-// protected:
-//     DrawingMapper();
-
-//     static int callback(void* notUsed, int argc, char** argv, char** colNames);
-
-//     std::list<Shape *> convertShapes(char * shape_string);
-
-//     std::string addStmt(DomainObject * domainObject) const;
-//     std::string findByIdStmt(std::string id) const;
-//     std::string updateStmt(DomainObject * domainObject) const;
-//     std::string deleteByIdStmt(std::string id) const;
-
-// private:
-//     static DrawingMapper* _instance;
-//     Parser * _parser;
 };
