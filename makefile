@@ -11,7 +11,7 @@ TEST = test/ut.cpp test/compound_test.h test/db_test.h test/parser_test.h test/i
 all: dir u_test 
 
 u_test: clean_db $(SRC) $(TEST) $(OBJ)
-	g++ $(FLAGS) test/ut.cpp $(OBJ) -o bin/ut -lsqlite3 -lgtest -lpthread
+	g++ $(FLAGS) test/ut.cpp $(OBJ) -o bin/ut_all -lsqlite3 -lgtest -lpthread
 
 obj/shape_iterator.o: src/shape_iterator.h src/shape_iterator.cpp
 	g++ $(FLAGS) -c src/shape_iterator.cpp -o obj/shape_iterator.o
@@ -47,7 +47,7 @@ clear:
 	clear
 
 me: clear clean all
-	./bin/ut
+	./bin/ut_all
 
 git : 
 	git add .
