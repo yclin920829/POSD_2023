@@ -2,7 +2,7 @@
 
 FLAGS = -std=c++11 -Wfatal-errors -Wall
 
-OBJ = obj/shape_iterator.o obj/unit_of_work.o obj/sqlite_drawing_mapper.o obj/sqlite_painter_mapper.o obj/db_mode.o obj/drawing_mapper.o obj/painter_mapper.o
+OBJ = obj/shape_iterator.o obj/unit_of_work.o obj/sqlite_drawing_mapper.o obj/sqlite_painter_mapper.o obj/db_mode.o obj/drawing_mapper.o obj/painter_mapper.o obj/inmemory_drawing_mapper.o
 
 SRC = src/sqlite_abstract_mapper.h src/builder.h src/compound.h src/domain_object.h src/sqlite_drawing_mapper.h src/drawing.h src/find_visitor.h src/iterator_factory.h src/sqlite_painter_mapper.h src/painter.h src/scanner.h src/shape_iterator_factory.h src/shape_iterator.h src/shape_utils.h src/shape.h src/triangle.h src/unit_of_work.h src/visitor.h
 
@@ -33,6 +33,9 @@ obj/drawing_mapper.o: src/drawing_mapper.h src/drawing_mapper.cpp
 
 obj/painter_mapper.o: src/painter_mapper.h src/painter_mapper.cpp
 	g++ $(FLAGS) -c src/painter_mapper.cpp -o obj/painter_mapper.o
+
+obj/inmemory_drawing_mapper.o: src/inmemory_drawing_mapper.h src/inmemory_drawing_mapper.cpp
+	g++ $(FLAGS) -c src/inmemory_drawing_mapper.cpp -o obj/inmemory_drawing_mapper.o
 
 dir:
 	mkdir -p bin obj resource
