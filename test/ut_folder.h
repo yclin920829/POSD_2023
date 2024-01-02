@@ -77,4 +77,6 @@ TEST(Folder, rename_should_affect_recursively) {
     ASSERT_EQ("structure/new_home/Documents", document->path());
     ASSERT_EQ("structure/new_home/Documents/hello.txt", hello->path());
     ASSERT_EQ("structure/new_home/Documents/note.txt", note->path());
+
+    delete home;
 }

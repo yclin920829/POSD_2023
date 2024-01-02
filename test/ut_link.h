@@ -21,6 +21,9 @@ TEST(Link, LinkToFile) {
     std::list<string> result = link->findByName("file.txt");
     ASSERT_EQ(1, result.size());
     ASSERT_EQ(file->path(), *(result.begin()));
+
+    delete file;
+    delete link;
 }
 
 TEST(Link, LinkToFolder) {
@@ -47,4 +50,7 @@ TEST(Link, LinkToFolder) {
    std::list<string> result = link->findByName("hello.txt");
     ASSERT_EQ(1, result.size());
     ASSERT_EQ(hello->path(), *(result.begin()));
+
+    delete home;
+    delete link;
 }

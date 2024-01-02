@@ -25,4 +25,6 @@ TEST(File, rename) {
 
     ASSERT_EQ("new_file.txt", file->name());
     ASSERT_EQ("structure/new_file.txt", file->path());
+
+    delete file;
 }

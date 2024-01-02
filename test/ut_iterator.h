@@ -175,4 +175,7 @@ TEST_F(IteratorTest, LinkIterator) {
     Link * homeLink = new Link("structure/homeLink", home);
     Iterator * it = homeLink->createIterator();
     ASSERT_TRUE(it->isDone());
+
+    delete homeLink;
+    delete it;
 }
