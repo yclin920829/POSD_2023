@@ -135,7 +135,7 @@ TEST_F(VisitorTest, streamOutFile) {
     expected += "_____________________________________________\n";
     expected += "structure/home/my_profile\n";
     expected += "---------------------------------------------\n";
-    expected += "Profile\r\n";
+    expected += "Profile\n";
     expected += "Name: name\n";
     expected += "_____________________________________________\n";
 
